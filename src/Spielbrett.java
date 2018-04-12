@@ -15,7 +15,7 @@ public class Spielbrett {
         Init(name);
     }
 
-    public void Init(String name) throws IOException {
+    private void Init(String name) throws IOException {
         FileReader fr = new FileReader(name);
         BufferedReader br = new BufferedReader(fr);
         String text;
@@ -52,19 +52,382 @@ public class Spielbrett {
         fr.close();
     }
 
-    private boolean PruefeZug(int s, int x, int y) {
-        boolean faerben = false;
-        Spielfeld[x][y] = String.valueOf(s);
-        return true;
+    private void Faerben(int s, int x, int y, boolean[] dir) {
+        for(int i = 0; i < dir.length; i++) {
+            int newx, newy;
+            if(dir[i]) {
+                switch (i) {
+                    case 0:
+                        newx = x; newy = y-1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx; newy = newy-1;
+                        }
+                        break;
+                    case 1:
+                        newx = x+1; newy = y-1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx+1; newy = newy-1;
+                        }
+                        break;
+                    case 2:
+                        newx = x+1; newy = y;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx+1; newy = newy;
+                        }
+                        break;
+                    case 3:
+                        newx = x+1; newy = y+1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx+1; newy = newy+1;
+                        }
+                        break;
+                    case 4:
+                        newx = x; newy = y+1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx; newy = newy+1;
+                        }
+                        break;
+                    case 5:
+                        newx = x-1; newy = y+1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx-1; newy = newy+1;
+                        }
+                        break;
+                    case 6:
+                        newx = x-1; newy = y;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx-1; newy = newy;
+                        }
+                        break;
+                    case 7:
+                        newx = x-1; newy = y-1;
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
+                            Spielfeld[newx][newy] = Integer.toString(s);
+                            newx = newx-1; newy = newy-1;
+                        }
+                        break;
+                }
+            }
+        }
     }
 
-    public void Zug(int s, int x, int y) {
+    public boolean Zug(int s, int x, int y, String ustein) {
+        boolean faerben = false;
+        boolean[] dir = new boolean[8];
         if(x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
                 String a = Spielfeld[x][y];
                 switch (a) {
                     case "0":
-                        System.out.println("0");
+                        Spielfeld[x][y] = Integer.toString(s);
+                        int newx = x, newy = y-1, count = 0;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 0
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[0] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx; newy = newy-1;
+                                    }
+                                    break;
+                                    default:
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                        break;
+                            }
+                            count++;
+                        }
 
+                        count = 0;
+                        newx = x+1; newy = y-1;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 1
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[1] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx+1; newy = newy-1;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x+1; newy = y;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 2
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[2] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx+1; newy = newy;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x+1; newy = y+1;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 3
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[3] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx+1; newy = newy+1;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x; newy = y+1;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 4
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[4] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx; newy = newy+1;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x-1; newy = y+1;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 5
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[5] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx-1; newy = newy+1;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x-1; newy = y;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 6
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[6] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx-1; newy = newy;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
+
+                        count = 0;
+                        newx = x-1; newy = y-1;
+                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 7
+                            String value = Spielfeld[newx][newy];
+                            switch (value) {
+                                case "0":
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                                case "1":
+                                case "2":
+                                case "3":
+                                case "4":
+                                case "5":
+                                case "6":
+                                case "7":
+                                case "8":
+                                    if(s == (Integer.parseInt(value))) {
+                                        if (newx != x || newy != y) {
+                                            if(count > 0) {
+                                                faerben = true;
+                                                dir[7] = true;
+                                            }
+                                        }
+                                        newx = Breite;
+                                        newy = Hoehe;
+                                    } else {
+                                        newx = newx-1; newy = newy-1;
+                                    }
+                                    break;
+                                default:
+                                    newx = Breite;
+                                    newy = Hoehe;
+                                    break;
+                            }
+                            count++;
+                        }
                         break;
                     case "1":
                     case "2":
@@ -74,23 +437,20 @@ public class Spielbrett {
                     case "6":
                     case "7":
                     case "8":
-                        if (s != (Integer.parseInt(a))) {
-                            System.out.println("Anderer Spieler");
-                        } else {
-                            System.out.println("Gleicher Spieler");
+                    case "x":
+                        if(ustein.equals("Ja") || ustein.equals("ja")) {
+                            Spielfeld[x][y] = "0";
+                            faerben = Zug(s,x,y,"Ja");
                         }
                         break;
                     case "-":
-                        System.out.println("Leeres Feld");
                         break;
                     default:
-                        System.out.println("Anderes Feld");
                         break;
                 }
-                return;
         }
-        System.out.println("Falsche Eingabe!");
-
+        Faerben(s,x,y,dir);
+        return faerben;
     }
 
     public void setSpieler(int spieler) {
@@ -174,6 +534,10 @@ public class Spielbrett {
             sb.append(Transitionen.get(i));
         }
         return sb.toString();
+    }
+
+    public void PrintSpielfeld() {
+       System.out.println(ArrayToString());
     }
 
     @Override
