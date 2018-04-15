@@ -111,7 +111,31 @@ Eine zusätzliche Erweiterung wäre ein dreidimensionales Array, bei dem zu jede
 % ----------------------------------------------------------------------------------
 \section{Spielfeldbewertung}
 \subsection{Spielfeldbewertung: 1. Vorschlag}
-Beschreiben Sie wie in der zugehörigen Projektaufgabe gefordert eine erste Heuristik.
+%Beschreiben Sie wie in der zugehörigen Projektaufgabe gefordert eine erste Heuristik.
+Die Heuristik soll einen vorliegenden, beliebigen Spielstand für einen gegebenen Spieler bewerten. Das bedeutet, es soll ermittelt werden, ob dieser Zustand für den Spieler besonders gut oder schlecht ist. Somit können Züge später danach ausgesucht werden, ob eine Reihe von Zügen zu einer besonders guten Situation für einen Spieler oder auch zu einer besonders schlechten Situation für einen Gegenspieler führen kann.  
+
+Die grundlegende Idee der ersten Spielfeldbewertung ist, Spielfelder anhand ihrer 'Färbbarkeit' einzuschätzen. Als Hauptfaktor dient dazu wie schwer ein Feld vom Gegner umzufärben ist. Ist ein Feld z.B. nur noch von einer Seite einfärbbar, ist es sicherer als ein frei einfärbbares. Das bedeutet es bekommt eine bessere Bewertung. Wichtig ist außerdem die Beweglichkeit. Der Client soll das Spiel so lenken, dass er auf sicheren Steinen aufbauen kann, dabei aber nicht seine Mobilität, also die Anzahl an möglichen Zügen, verliert. In Summe führt das dazu, dass sich alle Spielsteine möglichst gegenseitig schützen.
+
+
+Um die Färbarkeit zu beurteilen, wird die Färbung in folgende vier Richtungen geprüft:
+
+1. horizontal - von links nach rechts oder umgekehrt \newline
+2. vertikal - von oben nach unten oder umgekehrt \newline
+3. von links oben nach rechts unten oder umgekehrt \newline
+4. von rechts oben nach links unten oder umgekehrt \newline
+	
+Beispiel 1: Liegt ein Stein in einer Ecke, so ist es weder horizontal, vertikal oder schräg möglich diesen Stein umzufärben. Somit ist dieses Feld zu 0/4 einfärbbar und damit sehr wichtig.\newline \includegraphics[height=2cm]{pics/beispiel1}
+
+Beispiel 2: Liegt ein Stein am rechten Rand, so ist es möglich den Stein vertikal umzufärben, aber nicht horizontal oder schräg. Somit ist dieses Feld zu 1/4 einfärbbar und somit wichtig.\newline
+\includegraphics[height=2cm]{pics/beispiel2}
+
+Beispiel 3: Liegt ein Stein innerhalb des Spielfeldes, so ist es möglich den Stein horizontal, vertikal und schräg einzufärben. Somit ist dieses Feld zu 4/4 einfärbbar und damit nicht so wichtig.\newline
+\includegraphics[height=2cm]{pics/beispiel3}
+\newpage
+Beispiel 4: Liegt ein Stein innerhalb des Spielfeldes und zusätzlich ist links oben (Transitionenrichtung 7) ein Stein der selben Farbe der zu 0/4 einfärbbar ist, dann ist der Stein von links oben nach rechts unten und umgekehrt nicht einfärbbar. Somit ist dieses Feld zu 3/4 einfärbbar und damit wichtiger als ein Feld wie in Beispiel 3.\newline
+\includegraphics[height=2cm]{pics/beispiel4}
+
+Mit dieser Bewertung kann sowohl die Situation um ein Einzelfeld herum, als auch Transitionen betrachtet werden. 
 
 \subsection{Spielfeldbewertung: 2. Vorschlag}
 Beschreiben Sie wie in der zugehörigen Projektaufgabe gefordert eine zweite Heuristik.
