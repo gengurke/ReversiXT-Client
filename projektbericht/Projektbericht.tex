@@ -51,17 +51,17 @@
 % ----------------------------------------------------------------------------------
 \section{Einleitung}
 
-%Leiten Sie in diesem Abschnitt in das Fach YIMB und das zu erstellende Projekt ein. Beschreiben Sie kurz die Fragestellung, die in diesem Wahlpflichtfach gelöst werden soll. Stellen Sie Ihr vorhandenes Vorwissen dar, das in dieser Veranstaltung für Sie von Nutzen sein könnte/ist/war, etc.
+%Leiten Sie in diesem Abschnitt in das Fach YIMB und das zu erstellende Projekt ein. %Beschreiben Sie kurz die Fragestellung, die in diesem Wahlpflichtfach gelöst werden %soll. Stellen Sie Ihr vorhandenes Vorwissen dar, das in dieser Veranstaltung für Sie %von Nutzen sein könnte/ist/war, etc.
 
 Dieses Projekt dreht sich um Reversi ein ca. 100 Jahre altes Brettspiel. Ursprünglich ist es ein Spiel bei dem zwei Spieler auf einem 8x8 großen Spielfeld um den Sieg fechten. Durch abwechselndes Legen von Spielsteinen versucht man so viel Fläche wie möglich zu besetzten. Der Kniff dabei ist, dass vom Gegner eingefärbte Felder durch geschicktes platzieren eigener Steine wieder invertiert werden können, daher auch der Name Reversi.
 
-Unsere Aufgabe in diesem Projekt ist es einen künstlichen Intelligenz Spieler Clienten zu programmieren. Dieser soll gegen andere KIs auf einem von einem Server gehostetem Spiel antreten. Grundvoraussetzung ist natürlich, dass die KI keine ungültigen Züge macht und einer von uns entwickelten Heuristik folgt. Diese Heuristik ist das Herzstück des Projekts. Sie ist maßgeblich dafür verantwortlich gute Zugentscheidungen zu treffen uns so das Spiel zu gewinnen.
+Unsere Aufgabe in diesem Projekt ist es einen künstlichen Intelligenz Spieler Clienten zu programmieren. Dieser soll gegen andere KIs auf einem von einem Server gehostetem Spiel antreten. Grundvoraussetzung ist natürlich, dass die KI keine ungültigen Züge macht und einer von uns entwickelten Heuristik folgt. Diese Heuristik ist das Herzstück des Projekts. Sie ist maßgeblich dafür verantwortlich gute Zugentscheidungen zu treffen und so das Spiel zu gewinnen.
 
 Um dieses Projekt erfolgreich bearbeiten zu können, müssen wir auf Vorwissen aus früheren Veranstaltungen und sonstigen Projekten zurückgreifen. Jedes Teammitglied hat natürlich einen anderen Werdegang und damit auch andere Erfahrung und Fähigkeiten. Diese werden in diesem Abschnitt nun im Zusammenhang zum Projekt erläutert.
 
-Unser Team besteht aus folgenden drei Mitgliedern:
+Das Team besteht aus folgenden Mitgliedern:
 
-Katharina Greim
+Katharina Greim hat in den ersten drei Semestern ihres Studiums Programmierkenntnisse in Java und C erlernt. In den Vorlesungen Mathematik 1 \& 2 und Algorithmen \& Datenstrukturen wurde das Lösen von abstrakten Problemen und Implementieren von verschiedenen Datenstrukturen oft geübt. Da Sie zusätzlich ein Tutorium hält, hat sie gelernt, individuell auf Menschen einzugehen und komplizierte Dinge leicht verständlich zu Erklären, was bei der Arbeit im Team sehr hilfreich sein wird. Außerdem hat sie bereits einige Erfahrungen mit \LaTeX\quad gesammelt. 
 
 Florian Klamer hat Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2, Algorithmen und Datenstrukturen die grundlegend für das Projekt sind. Neben dem Studium hilft er außerdem ehrenamtlich beim Connecta e.V. mit. Dort ist er im EDV Ressort mit der Betreuung des Intra-, Extranets, der Datenbank und der Webseite beschäftigt. Die dort erworbenen Fähigkeiten sind eher allgemeiner Natur (z.B. Git), können aber ebenso wichtig für das Projekt sein.
 
@@ -74,7 +74,8 @@ Tim Lechner
 % ----------------------------------------------------------------------------------
 \section{Allgemeine Informationen}
 \subsection{Team und Kommunikation}
-Beschreiben Sie in diesem Abschnitt Ihr Team. Welche Person hat welche Aufgaben wahrgenommen, wie wurden Aufgaben aufgeteilt und wie wurde kommuniziert, etc.
+%Beschreiben Sie in diesem Abschnitt Ihr Team. Welche Person hat welche Aufgaben %wahrgenommen, wie wurden Aufgaben aufgeteilt und wie wurde kommuniziert, etc.
+Alle aus dem Team befinden sich gerade im 4. Semester der allgemeinen Informatik. Daher kennen wir uns bereits aus den letzten Semestern uns sehen uns häufig in den Vorlesungen, wodurch ein Großteil der Kommunikation im Team bereits dort stattfindet. Zusätzlich stehen wir über Whats App und über das lokale Gruppen-Repository in Kontakt. 
 
 \subsection{Technische Daten}
 %Beschreiben Sie u.a.\ in welcher Programmiersprache und unter welchem Betriebssystem Sie entwickeln, welche IDEs Sie nutzen, welche zusätzlichen Tools bei Ihrer Projektentwicklung Einsatz gefunden haben, etc.
@@ -87,8 +88,22 @@ Die Rechner auf denen wir programmieren und testen sind vor allem drei bis vier 
 Dieser Projektbericht ist auf der TeX Plattform geschrieben. Hauptsächlich verwenden wir TeXstudio als Editor, testen aber auch andere wie TeXworks, um die beste Arbeitsumgebung zu finden.
 
 \subsection{Datenstruktur}
-Beschreiben Sie die Datenstruktur, die Sie zur Speicherung des Spielfeldes in Ihrem Client nutzen. Gehen Sie auf Besonderheiten ein und erklären Sie, wie diese funktionieren und was Sie sich davon erhoffen. Geben Sie falls möglich auch eine schematische Darstellung/ein Bild der Datenstruktur an.
+%Beschreiben Sie die Datenstruktur, die Sie zur Speicherung des Spielfeldes in Ihrem %Client nutzen. Gehen Sie auf Besonderheiten ein und erklären Sie, wie diese %funktionieren und was Sie sich davon erhoffen. Geben Sie falls möglich auch eine %schematische Darstellung/ein Bild der Datenstruktur an.
+Im ersten Versuch der Datenstruktur wurde die Anzahl der Spieler, Bomben, die Stärke usw. in Integer Variablen und das Spielfeld in einem String Array abgespeichert. Da diese Version viel Speicherplatz und Rechenzeit benötigt, wird sie ab sofort noch verbessert.
+Um die Datenstruktur zu verbessern, wollen wir folgende Punkte umsetzten:
+\newline
+1. Die Anzahl der Spieler, Überschreibsteine, Bomben sowie die Stärke der Bomben und die Spielfeldhöhe/-breite werden alle in Short Variablen gespeichert. 
 
+Da die Anzahl der Spieler auf 8 begrenzt ist und auch das Spielfeld eine maximale Größe von 50 x 50 haben kann, reicht die Short Variable vollkommen aus. Auch für die Anzahl und Stärke der Bomben und Anzahl der Überschreibsteine wird die Größe eines Shorts genügen.
+
+2. Das Spielfeld wird in einem zweidimensionalem Charakter Array gespeichert.
+
+Da im Spielfeld nur einzelne Zeichen stehen, ist es sinnvoll einen Charakter und keinen String zu verwenden. Außerdem bietet sich ein Array sehr gut an, da die Höhe und Breite bereits vor dem Einlesen des Spielfeldes bekannt ist und somit sehr gut auf die einzelnen Felder zugegriffen werden kann.
+Eine zusätzliche Erweiterung wäre ein dreidimensionales Array, bei dem zu jedem Spielfeld noch zusätzliche Informationen abgespeichert werden können, z.B. ob eine Transition an dieser Stelle vorhaben ist.
+
+3. Die Transitionen werden so in einer Datenstruktur abgespeichert, dass eine schnelle Suche nach einer bestimmten Transition möglich ist. 
+
+%TO DO geeignete Datenstruktur für Transitionen nachtragen  
 
 \newpage
 % ----------------------------------------------------------------------------------
