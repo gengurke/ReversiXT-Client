@@ -18,6 +18,9 @@ public class Main {
         String ustein = sc.next();
         sc.close();
 
+
+        Spiel.gueltigeZuege(Spiel.getHoehe(),Spiel.getBreite(),Spiel.getSpielfeld());
+
         if(Spiel.Zug(s,x,y, ustein)) {
             System.out.println("Gültiger Zug");
             Spiel.PrintSpielfeld();

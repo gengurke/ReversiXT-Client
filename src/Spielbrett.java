@@ -117,6 +117,24 @@ public class Spielbrett {
             }
         }
     }
+    public String[][][] gueltigeZuege(int Hoehe, int Breite, String[][][] Feld) {
+        String[][][ ]Spielfeld = Feld;
+        for(int i = 0; i<Hoehe;i++) {
+
+            for(int j = 0; j<Breite;i++) {
+                if (Zug(1,i,j,"Nein")) {
+                    Spielfeld[j][i][1] = "1";
+                }
+            }
+        }
+
+
+
+
+
+
+            return Spielfeld;
+    }
 
     public boolean Zug(int s, int x, int y, String ustein) {
         boolean faerben = false;
@@ -477,7 +495,7 @@ public class Spielbrett {
         Breite = breite;
     }
 
-    public void setSpielfeld(String[][] spielfeld) {
+    public void setSpielfeld(String[][][] spielfeld) {
         Spielfeld = spielfeld;
     }
 
@@ -509,7 +527,7 @@ public class Spielbrett {
         return Breite;
     }
 
-    public String[][] getSpielfeld() {
+    public String[][][] getSpielfeld() {
         return Spielfeld;
     }
 
