@@ -8,7 +8,7 @@ public class Spielbrett {
                 Staerke,
                 Hoehe,
                 Breite;
-    private String Spielfeld[][];
+    private String Spielfeld[][][];
     private ArrayList<Transition> Transitionen;
 
     public Spielbrett(String name) throws IOException{
@@ -35,12 +35,12 @@ public class Spielbrett {
         setHoehe(Integer.parseInt(array[0]));
         setBreite(Integer.parseInt(array[1]));
         //Spielfeld einlesen/speichern
-        Spielfeld = new String[Breite][Hoehe];
+        Spielfeld = new String[Breite][Hoehe][2];
         for(int zeile = 0; zeile < Hoehe; zeile++) {
             text = br.readLine();
             array = text.split(" ");
             for (int spalte = 0; spalte < Breite; spalte++) {
-                Spielfeld[spalte][zeile] = array[spalte];
+                Spielfeld[spalte][zeile][0] = array[spalte];
             }
         }
         //Transitionen einlesen/speichern
@@ -59,57 +59,57 @@ public class Spielbrett {
                 switch (i) {
                     case 0:
                         newx = x; newy = y-1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx; newy = newy-1;
                         }
                         break;
                     case 1:
                         newx = x+1; newy = y-1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy-1;
                         }
                         break;
                     case 2:
                         newx = x+1; newy = y;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy;
                         }
                         break;
                     case 3:
                         newx = x+1; newy = y+1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy+1;
                         }
                         break;
                     case 4:
                         newx = x; newy = y+1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx; newy = newy+1;
                         }
                         break;
                     case 5:
                         newx = x-1; newy = y+1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy+1;
                         }
                         break;
                     case 6:
                         newx = x-1; newy = y;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy;
                         }
                         break;
                     case 7:
                         newx = x-1; newy = y-1;
-                        while(!Integer.toString(s).equals(Spielfeld[newx][newy])) {
-                            Spielfeld[newx][newy] = Integer.toString(s);
+                        while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
+                            Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy-1;
                         }
                         break;
@@ -122,13 +122,13 @@ public class Spielbrett {
         boolean faerben = false;
         boolean[] dir = new boolean[8];
         if(x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
-                String a = Spielfeld[x][y];
+                String a = Spielfeld[x][y][0];
                 switch (a) {
                     case "0":
-                        Spielfeld[x][y] = Integer.toString(s);
+                        Spielfeld[x][y][0] = Integer.toString(s);
                         int newx = x, newy = y-1, count = 0;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 0
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -166,7 +166,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x+1; newy = y-1;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 1
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -204,7 +204,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x+1; newy = y;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 2
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -242,7 +242,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x+1; newy = y+1;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 3
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -280,7 +280,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x; newy = y+1;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 4
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -318,7 +318,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x-1; newy = y+1;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 5
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -356,7 +356,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x-1; newy = y;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 6
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -394,7 +394,7 @@ public class Spielbrett {
                         count = 0;
                         newx = x-1; newy = y-1;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 7
-                            String value = Spielfeld[newx][newy];
+                            String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
                                     newx = Breite;
@@ -439,7 +439,7 @@ public class Spielbrett {
                     case "8":
                     case "x":
                         if(ustein.equals("Ja") || ustein.equals("ja")) {
-                            Spielfeld[x][y] = "0";
+                            Spielfeld[x][y][0] = "0";
                             faerben = Zug(s,x,y,"Ja");
                         }
                         break;
@@ -521,7 +521,7 @@ public class Spielbrett {
         StringBuffer text = new StringBuffer();
         for(int i = 0; i < Hoehe; i++) {
             for(int j = 0; j < Breite; j++) {
-                text.append(Spielfeld[j][i] + " ");
+                text.append(Spielfeld[j][i][0] + " ");
             }
             text.append("\n");
         }
