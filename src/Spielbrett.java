@@ -10,6 +10,7 @@ public class Spielbrett {
                 Breite;
     private String Spielfeld[][][];
     private ArrayList<Transition> Transitionen;
+    private boolean dir[];
 
     public Spielbrett(String name) throws IOException{
         Init(name);
@@ -50,6 +51,7 @@ public class Spielbrett {
         }
 
         fr.close();
+        dir = new boolean[8];
     }
 
     private void Faerben(int s, int x, int y, boolean[] dir) {
@@ -146,6 +148,7 @@ public class Spielbrett {
                         Spielfeld[x][y][0] = Integer.toString(s);
                         int newx = x, newy = y-1, count = 0;
                         while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 0
+
                             String value = Spielfeld[newx][newy][0];
                             switch (value) {
                                 case "0":
@@ -426,9 +429,9 @@ public class Spielbrett {
                                 case "6":
                                 case "7":
                                 case "8":
-                                    if(s == (Integer.parseInt(value))) {
+                                    if (s == (Integer.parseInt(value))) {
                                         if (newx != x || newy != y) {
-                                            if(count > 0) {
+                                            if (count > 0) {
                                                 faerben = true;
                                                 dir[7] = true;
                                             }
@@ -436,7 +439,8 @@ public class Spielbrett {
                                         newx = Breite;
                                         newy = Hoehe;
                                     } else {
-                                        newx = newx-1; newy = newy-1;
+                                        newx = newx - 1;
+                                        newy = newy - 1;
                                     }
                                     break;
                                 default:
@@ -466,8 +470,8 @@ public class Spielbrett {
                     default:
                         break;
                 }
+            Spielfeld[x][y][0] = a;
         }
-        Faerben(s,x,y,dir);
         return faerben;
     }
 
