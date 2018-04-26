@@ -119,24 +119,28 @@ public class Spielbrett {
             }
         }
     }
-    public String[][][] gueltigeZuege(int Hoehe, int Breite, String[][][] Feld) {
-        String[][][ ]Spielfeld = Feld;
-        for(int i = 0; i<Hoehe;i++) {
+    public void gueltigeZuege() {
 
-            for(int j = 0; j<Breite;i++) {
-                if (Zug(1,i,j,"Nein")) {
-                    Spielfeld[j][i][1] = "1";
+        for (int i = 0; i < Hoehe; i++) {
+
+            for (int j = 0; j < Breite; j++) {
+
+                if (Zug(1, i, j, "Nein")) {
+                    Spielfeld[j][i][1] = "X";
+                } else {
+                    Spielfeld[j][i][1] = "0";
                 }
             }
         }
-
-
-
-
-
-
-            return Spielfeld;
     }
+
+
+
+
+
+
+
+
 
     public boolean Zug(int s, int x, int y, String ustein) {
         boolean faerben = false;
@@ -543,7 +547,10 @@ public class Spielbrett {
         StringBuffer text = new StringBuffer();
         for(int i = 0; i < Hoehe; i++) {
             for(int j = 0; j < Breite; j++) {
-                text.append(Spielfeld[j][i][0] + " ");
+
+                    text.append(Spielfeld[j][i][0] + " ");
+
+
             }
             text.append("\n");
         }
@@ -560,6 +567,17 @@ public class Spielbrett {
 
     public void PrintSpielfeld() {
        System.out.println(ArrayToString());
+    }
+
+    public void printArray() {
+        for (int i = 0; i < Hoehe; i++) {
+            System.out.println();
+            for (int j = 0; j < Breite; j++) {
+
+                System.out.print(Spielfeld[i][j][1]);
+                System.out.print(" ");
+            }
+        }
     }
 
     @Override
