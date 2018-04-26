@@ -12,28 +12,43 @@ public class Transition {
         next = null;
     }
 
-    public short getX1() {
-        return x1;
+    public short getNumber(short x, short y, short dir) {
+        if((x == x1) && (y == y1) && (dir == dir1)) {
+            return 1;
+        } else if((x == x2) && (y == y2) && (dir == dir2)) {
+            return 2;
+        }
+        return 0;
     }
 
-    public short getY1() {
-        return y1;
+    public short getX(short number) {
+        if(number == 1) {
+            return x1;
+        } else if(number == 2) {
+            return x2;
+        } else {
+            return 0;
+        }
     }
 
-    public short getDir1() {
-        return dir1;
+    public short getY(short number) {
+        if(number == 1) {
+            return y1;
+        } else if(number == 2) {
+            return y2;
+        } else {
+            return 0;
+        }
     }
 
-    public short getX2() {
-        return x2;
-    }
-
-    public short getY2() {
-        return y2;
-    }
-
-    public short getDir2() {
-        return dir2;
+    public short getDir(short number) {
+        if(number == 1) {
+            return dir1;
+        } else if(number == 2) {
+            return dir2;
+        } else {
+            return 0;
+        }
     }
 
     public Transition getNext() {
