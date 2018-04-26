@@ -94,10 +94,9 @@ public class Spielbrett {
      * @param s Spieler von 1-8
      * @param x X Koordinate
      * @param y Y Koordinate
-     * @param dir Richtungen in die gefärbt werden soll
      */
 
-    private void Faerben(int s, int x, int y, boolean[] dir) {
+    public void Faerben(int s, int x, int y) {
         for(int i = 0; i < dir.length; i++) {
             int newx, newy;
             if(dir[i]) {
@@ -183,6 +182,7 @@ public class Spielbrett {
                 }
             }
         }
+        printGueltigeZuege();
     }
 
 

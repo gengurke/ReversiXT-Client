@@ -11,6 +11,14 @@ public class Main {
         Spielbrett Spiel = new Spielbrett(Datname);
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
+
+
+
+        Spiel.gueltigeZuege();
+
+
+
+
         System.out.println("Spieler X Y Überschreibstein(Ja oder Nein)");
         int s = sc.nextInt();
         int x = sc.nextInt();
@@ -18,16 +26,14 @@ public class Main {
         String ustein = sc.next();
         sc.close();
 
+        Spiel.Zug(s,x,y,ustein);
+        Spiel.Faerben(s,x,y);
+        Spiel.PrintSpielfeld();
 
-        Spiel.gueltigeZuege();
 
 
-        /*if(Spiel.Zug(s,x,y, ustein)) {
-            System.out.println("Gültiger Zug");
-            Spiel.PrintSpielfeld();
-        } else {
-            System.out.println("Ungültiger Zug");
-        }*/
+
+
 
     }
 }
