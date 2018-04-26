@@ -19,15 +19,15 @@ public class Main {
         sc.close();
 
 
-        //Spiel.gueltigeZuege(Spiel.getHoehe(),Spiel.getBreite(),Spiel.getSpielfeld());
+        Spiel.gueltigeZuege();
 
 
-        if(Spiel.Zug(s,x,y, ustein)) {
+        /*if(Spiel.Zug(s,x,y, ustein)) {
             System.out.println("Gültiger Zug");
             Spiel.PrintSpielfeld();
         } else {
             System.out.println("Ungültiger Zug");
-        }
+        }*/
 
     }
 }

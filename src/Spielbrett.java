@@ -16,10 +16,6 @@ public class Spielbrett {
         Init(name);
     }
 
-    private void setTransitionen() {
-
-    }
-
     private void Init(String name) throws IOException {
         FileReader fr = new FileReader(name);
         BufferedReader br = new BufferedReader(fr);
@@ -182,11 +178,376 @@ public class Spielbrett {
     }
 
 
+    private boolean pruefeZug(int s, int x, int y, String ustein, int dir) {
+        int xstart = x, ystart = y;
+        int count = 0;
+        switch (dir) {
+            case 0:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 0
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[0] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x; y = y-1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 0);
+                                    short number = t.getNumber((short) x, (short) y, (short) 0);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
 
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 1:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 1
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[1] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x+1; y = y-1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 1);
+                                    short number = t.getNumber((short) x, (short) y, (short) 1);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
 
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 2:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 2
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[2] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x+1; y = y;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 2);
+                                    short number = t.getNumber((short) x, (short) y, (short) 2);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
 
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 3:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 3
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[3] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x+1; y = y+1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 3);
+                                    short number = t.getNumber((short) x, (short) y, (short) 3);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
 
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 4:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 4
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[4] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x; y = y+1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 4);
+                                    short number = t.getNumber((short) x, (short) y, (short) 4);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
 
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 5:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 5
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[5] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x-1; y = y+1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 5);
+                                    short number = t.getNumber((short) x, (short) y, (short) 5);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
+
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 6:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 6
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[6] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x-1; y = y;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 6);
+                                    short number = t.getNumber((short) x, (short) y, (short) 6);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
+
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+            case 7:
+                while(x < Breite && x >= 0 && y < Hoehe && y >= 0) { //Richtung 7
+                    String value = Spielfeld[x][y][0];
+                    switch (value) {
+                        case "0":
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                        case "1":
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                        case "7":
+                        case "8":
+                            if(s == (Integer.parseInt(value))) {
+                                if (xstart != x || ystart != y) {
+                                    if(count > 0) {
+                                        this.dir[7] = true;
+                                        return true;
+                                    }
+                                }
+                                x = Breite;
+                                y = Hoehe;
+                            } else {
+                                String temp = Spielfeld[x][y][2];
+                                if(Integer.parseInt(temp) == 0) {
+                                    x = x-1; y = y-1;
+                                } else {
+                                    Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 7);
+                                    short number = t.getNumber((short) x, (short) y, (short) 7);
+                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                }
+
+                            }
+                            break;
+                        default:
+                            x = Breite;
+                            y = Hoehe;
+                            break;
+                    }
+                    count++;
+                }
+                break;
+                default:
+                    break;
+
+        }
+        return false;
+    }
 
 
     public boolean Zug(int s, int x, int y, String ustein) {
@@ -197,310 +558,47 @@ public class Spielbrett {
                 switch (a) {
                     case "0":
                         Spielfeld[x][y][0] = Integer.toString(s);
-                        int newx = x, newy = y-1, count = 0;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 0
 
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[0] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx; newy = newy-1;
-                                    }
-                                    break;
-                                    default:
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                        break;
-                            }
-                            count++;
+                        int newx = x, newy = y-1;
+                        if(pruefeZug(s, newx, newy, ustein, 0)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x+1; newy = y-1;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 1
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[1] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx+1; newy = newy-1;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 1)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x+1; newy = y;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 2
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[2] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx+1; newy = newy;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 2)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x+1; newy = y+1;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 3
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[3] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx+1; newy = newy+1;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 3)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x; newy = y+1;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 4
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[4] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx; newy = newy+1;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 4)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x-1; newy = y+1;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 5
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[5] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx-1; newy = newy+1;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 5)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x-1; newy = y;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 6
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if(s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if(count > 0) {
-                                                faerben = true;
-                                                dir[6] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx-1; newy = newy;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 6)) {
+                            faerben = true;
                         }
 
-                        count = 0;
                         newx = x-1; newy = y-1;
-                        while(newx < Breite && newx >= 0 && newy < Hoehe && newy >= 0) { //Richtung 7
-                            String value = Spielfeld[newx][newy][0];
-                            switch (value) {
-                                case "0":
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                                case "1":
-                                case "2":
-                                case "3":
-                                case "4":
-                                case "5":
-                                case "6":
-                                case "7":
-                                case "8":
-                                    if (s == (Integer.parseInt(value))) {
-                                        if (newx != x || newy != y) {
-                                            if (count > 0) {
-                                                faerben = true;
-                                                dir[7] = true;
-                                            }
-                                        }
-                                        newx = Breite;
-                                        newy = Hoehe;
-                                    } else {
-                                        newx = newx - 1;
-                                        newy = newy - 1;
-                                    }
-                                    break;
-                                default:
-                                    newx = Breite;
-                                    newy = Hoehe;
-                                    break;
-                            }
-                            count++;
+                        if(pruefeZug(s, newx, newy, ustein, 7)) {
+                            faerben = true;
                         }
+
                         break;
                     case "1":
                     case "2":

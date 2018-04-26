@@ -29,12 +29,11 @@ public class TransitionenListe {
         Transition temp = head;
 
         while(temp != null) {
-            if((temp.getDir1() == dir) && (temp.getX1() == x) && (temp.getY1() == y)){
+            if(temp.getNumber(x, y, dir) != 0){
                 return temp;
-            } else if((temp.getDir2() == dir) && (temp.getX2() == x) && (temp.getY2() == y)) {
-                return temp;
+            } else {
+                temp = temp.getNext();
             }
-            temp = temp.getNext();
         }
         return  null;
     }
