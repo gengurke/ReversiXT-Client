@@ -23,9 +23,9 @@ public class Transition {
 
     public short getX(short number) {
         if(number == 1) {
-            return x1;
-        } else if(number == 2) {
             return x2;
+        } else if(number == 2) {
+            return x1;
         } else {
             return 0;
         }
@@ -33,9 +33,9 @@ public class Transition {
 
     public short getY(short number) {
         if(number == 1) {
-            return y1;
-        } else if(number == 2) {
             return y2;
+        } else if(number == 2) {
+            return y1;
         } else {
             return 0;
         }
@@ -43,12 +43,49 @@ public class Transition {
 
     public short getDir(short number) {
         if(number == 1) {
-            return dir1;
+            switch (dir2) {
+                case 0:
+                    return 4;
+                case 1:
+                    return 5;
+                case 2:
+                    return 6;
+                case 3:
+                    return 7;
+                case 4:
+                    return 0;
+                case 5:
+                    return 1;
+                case 6:
+                    return 2;
+                case 7:
+                    return 3;
+                default:
+                    break;
+            }
         } else if(number == 2) {
-            return dir2;
-        } else {
-            return 0;
+            switch (dir1) {
+                case 0:
+                    return 4;
+                case 1:
+                    return 5;
+                case 2:
+                    return 6;
+                case 3:
+                    return 7;
+                case 4:
+                    return 0;
+                case 5:
+                    return 1;
+                case 6:
+                    return 2;
+                case 7:
+                    return 3;
+                default:
+                    break;
+            }
         }
+        return 0;
     }
 
     public Transition getNext() {

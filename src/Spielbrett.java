@@ -59,10 +59,10 @@ public class Spielbrett {
             r2 = Short.parseShort(textarray[6]);*/
         }
 
-        Transitionen = new TransitionenListe[templiste.size()];
-        int counter = 0;
+        Transitionen = new TransitionenListe[templiste.size()+1];
+        int counter = 1;
         for (int i = 0; i < templiste.size(); i++) {
-            Transitionen[i] = new TransitionenListe();
+            Transitionen[i+1] = new TransitionenListe();
             String[] textarray = templiste.get(i).split(" ");
             short x1,y1,r1,x2,y2,r2;
             Transition t;
@@ -77,6 +77,7 @@ public class Spielbrett {
             t = new Transition(x1, y1, r1, x2, y2, r2);
             if( Integer.parseInt(Spielfeld[x2][y2][2]) == 0) {
                 Transitionen[counter].insert(t);
+                Spielfeld[x1][y1][2] = String.valueOf(counter);
                 Spielfeld[x2][y2][2] = String.valueOf(counter++);
             } else {
                 int value = Integer.valueOf(Spielfeld[x2][y2][2]);
@@ -92,66 +93,57 @@ public class Spielbrett {
      * Färbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
      * Färbt bis gleicher Stein wie von Spieler erreicht ist
      * @param s Spieler von 1-8
-     * @param x X Koordinate
-     * @param y Y Koordinate
+     * @param newx X Koordinate
+     * @param newy Y Koordinate
      */
 
-    public void Faerben(int s, int x, int y) {
+    public void Faerben(int s, int newx, int newy) {
         for(int i = 0; i < dir.length; i++) {
-            int newx, newy;
             if(dir[i]) {
                 switch (i) {
                     case 0:
-                        newx = x; newy = y-1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx; newy = newy-1;
                         }
                         break;
                     case 1:
-                        newx = x+1; newy = y-1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy-1;
                         }
                         break;
                     case 2:
-                        newx = x+1; newy = y;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy;
                         }
                         break;
                     case 3:
-                        newx = x+1; newy = y+1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx+1; newy = newy+1;
                         }
                         break;
                     case 4:
-                        newx = x; newy = y+1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx; newy = newy+1;
                         }
                         break;
                     case 5:
-                        newx = x-1; newy = y+1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy+1;
                         }
                         break;
                     case 6:
-                        newx = x-1; newy = y;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy;
                         }
                         break;
                     case 7:
-                        newx = x-1; newy = y-1;
                         while(!Integer.toString(s).equals(Spielfeld[newx][newy][0])) {
                             Spielfeld[newx][newy][0] = Integer.toString(s);
                             newx = newx-1; newy = newy-1;
@@ -165,20 +157,20 @@ public class Spielbrett {
     public void gueltigeZuege() {
         String uestein;
 
-        for (int i = 0; i < Hoehe; i++) {
+        for (int zeile = 0; zeile < Hoehe; zeile++) {
 
-            for (int j = 0; j < Breite; j++) {
+            for (int spalte = 0; spalte < Breite; spalte++) {
 
-                if(Spielfeld[j][i][0] != "-" ||Spielfeld[j][i][0] !="0"||Ueberschreibsteine > 0||Spielfeld[j][i][0] !="c"){
+                if(Spielfeld[spalte][zeile][0] != "-" ||Spielfeld[spalte][zeile][0] !="0"||Ueberschreibsteine > 0||Spielfeld[spalte][zeile][0] !="c"){
                     uestein = "Nein";
                 }else{
                     uestein = "Ja";
                 }
 
-                if (Zug(1, i, j, uestein)) {
-                    Spielfeld[j][i][1] = "X";
+                if (Zug(1, spalte, zeile, uestein)) {
+                    Spielfeld[spalte][zeile][1] = "X";
                 } else {
-                    Spielfeld[j][i][1] = "0";
+                    Spielfeld[spalte][zeile][1] = "0";
                 }
             }
         }
@@ -187,7 +179,7 @@ public class Spielbrett {
 
 
     private boolean pruefeZug(int s, int x, int y, String ustein, int dir) {
-        int xstart = x, ystart = y;
+        int xstart = x, ystart = y; //TODO BUG!
         int count = 0;
         switch (dir) {
             case 0:
@@ -221,8 +213,12 @@ public class Spielbrett {
                                     x = x; y = y-1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 0);
-                                    short number = t.getNumber((short) x, (short) y, (short) 0);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 0);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x; y = y-1;
+                                    }
                                 }
 
                             }
@@ -266,8 +262,12 @@ public class Spielbrett {
                                     x = x+1; y = y-1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 1);
-                                    short number = t.getNumber((short) x, (short) y, (short) 1);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 1);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x+1; y = y-1;
+                                    }
                                 }
 
                             }
@@ -311,8 +311,12 @@ public class Spielbrett {
                                     x = x+1; y = y;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 2);
-                                    short number = t.getNumber((short) x, (short) y, (short) 2);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 2);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x+1; y = y;
+                                    }
                                 }
 
                             }
@@ -356,8 +360,12 @@ public class Spielbrett {
                                     x = x+1; y = y+1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 3);
-                                    short number = t.getNumber((short) x, (short) y, (short) 3);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 3);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x+1; y = y+1;
+                                    }
                                 }
 
                             }
@@ -401,8 +409,12 @@ public class Spielbrett {
                                     x = x; y = y+1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 4);
-                                    short number = t.getNumber((short) x, (short) y, (short) 4);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 4);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x; y = y+1;
+                                    }
                                 }
 
                             }
@@ -446,8 +458,12 @@ public class Spielbrett {
                                     x = x-1; y = y+1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 5);
-                                    short number = t.getNumber((short) x, (short) y, (short) 5);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 5);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x-1; y = y+1;
+                                    }
                                 }
 
                             }
@@ -491,8 +507,12 @@ public class Spielbrett {
                                     x = x-1; y = y;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 6);
-                                    short number = t.getNumber((short) x, (short) y, (short) 6);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 6);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x-1; y = y;
+                                    }
                                 }
 
                             }
@@ -536,8 +556,12 @@ public class Spielbrett {
                                     x = x-1; y = y-1;
                                 } else {
                                     Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 7);
-                                    short number = t.getNumber((short) x, (short) y, (short) 7);
-                                    return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    if(t != null) {
+                                        short number = t.getNumber((short) x, (short) y, (short) 7);
+                                        return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getDir(number));
+                                    } else {
+                                        x = x-1; y = y-1;
+                                    }
                                 }
 
                             }
@@ -559,8 +583,8 @@ public class Spielbrett {
 
 
     public boolean Zug(int s, int x, int y, String ustein) {
+        dir = new boolean[8];
         boolean faerben = false;
-        boolean[] dir = new boolean[8];
         if(x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
                 String a = Spielfeld[x][y][0];
                 switch (a) {
@@ -712,7 +736,7 @@ public class Spielbrett {
     //gibt
     private String transitionenToString() {
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < Transitionen.length; i++) {
+        for(int i = 1; i < Transitionen.length; i++) {
             sb.append(Transitionen[i].toString());
         }
         return sb.toString();
@@ -723,11 +747,11 @@ public class Spielbrett {
     }
 
     public void printGueltigeZuege() {
-        for (int i = 0; i < Hoehe; i++) {
+        for (int zeile = 0; zeile < Hoehe; zeile++) {
             System.out.println();
-            for (int j = 0; j < Breite; j++) {
-                if(Spielfeld[j][i][1] == "X") {
-                    System.out.println(i + " " + j);
+            for (int spalte = 0; spalte < Breite; spalte++) {
+                if(Spielfeld[spalte][zeile][1] == "X") {
+                    System.out.println(spalte + " " + zeile);
 
                 }
             }

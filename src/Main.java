@@ -6,7 +6,7 @@ public class Main {
         //Einlesen des Dateinamens
         Scanner sc = new Scanner(System.in);
         String Datname = sc.next();
-        Datname = "maps/" + Datname + ".txt";
+        Datname = "maps/" + Datname + ".map";
         //Erzeugen des Spielbretts
         Spielbrett Spiel = new Spielbrett(Datname);
         //Ausgabe des Spielbretts

@@ -35,7 +35,7 @@ public class TransitionenListe {
                 temp = temp.getNext();
             }
         }
-        return  null;
+        return  temp;
     }
 
     @Override
