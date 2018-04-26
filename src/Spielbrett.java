@@ -166,13 +166,21 @@ public class Spielbrett {
             }
         }
     }
+
     public void gueltigeZuege() {
+        String uestein;
 
         for (int i = 0; i < Hoehe; i++) {
 
             for (int j = 0; j < Breite; j++) {
 
-                if (Zug(1, i, j, "Nein")) {
+                if(Spielfeld[j][i][0] != "-" ||Spielfeld[j][i][0] !="0"||Ueberschreibsteine > 0||Spielfeld[j][i][0] !="c"){
+                    uestein = "Nein";
+                }else{
+                    uestein = "Ja";
+                }
+
+                if (Zug(1, i, j, uestein)) {
                     Spielfeld[j][i][1] = "X";
                 } else {
                     Spielfeld[j][i][1] = "0";
@@ -616,15 +624,17 @@ public class Spielbrett {
        System.out.println(spielfeldToString());
     }
 
-    public void printArray() {
+    public void printGueltigeZuege() {
         for (int i = 0; i < Hoehe; i++) {
             System.out.println();
             for (int j = 0; j < Breite; j++) {
+                if(Spielfeld[j][i][1] == "X") {
+                    System.out.println(i + " " + j);
 
-                System.out.print(Spielfeld[i][j][1]);
-                System.out.print(" ");
+                }
             }
         }
+        System.out.println("test");
     }
 
     @Override
