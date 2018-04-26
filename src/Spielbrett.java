@@ -9,11 +9,15 @@ public class Spielbrett {
                 Hoehe,
                 Breite;
     private String Spielfeld[][][];
-    private ArrayList<Transition> Transitionen;
+    private TransitionenListe[] Transitionen;
     private boolean dir[];
 
     public Spielbrett(String name) throws IOException{
         Init(name);
+    }
+
+    private void setTransitionen() {
+
     }
 
     private void Init(String name) throws IOException {
@@ -36,23 +40,66 @@ public class Spielbrett {
         setHoehe(Integer.parseInt(array[0]));
         setBreite(Integer.parseInt(array[1]));
         //Spielfeld einlesen/speichern
-        Spielfeld = new String[Breite][Hoehe][2];
+        Spielfeld = new String[Breite][Hoehe][3];
         for(int zeile = 0; zeile < Hoehe; zeile++) {
             text = br.readLine();
             array = text.split(" ");
             for (int spalte = 0; spalte < Breite; spalte++) {
                 Spielfeld[spalte][zeile][0] = array[spalte];
+                Spielfeld[spalte][zeile][2] = "0";
             }
         }
         //Transitionen einlesen/speichern
-        Transitionen = new ArrayList<>();
-        while((text = br.readLine()) != null) {
-            Transitionen.add(new Transition(text));
+        ArrayList<String> templiste = new ArrayList<>();
+        while((text = br.readLine()) != null){
+            templiste.add(text);
+            /*String[] textarray = text.split(" ");
+            short x1,y1,r1,x2,y2,r2;
+            x1 = Short.parseShort(textarray[0]);
+            y1 = Short.parseShort(textarray[1]);
+            r1 = Short.parseShort(textarray[2]);
+            x2 = Short.parseShort(textarray[4]);
+            y2 = Short.parseShort(textarray[5]);
+            r2 = Short.parseShort(textarray[6]);*/
+        }
+
+        Transitionen = new TransitionenListe[templiste.size()];
+        int counter = 0;
+        for (int i = 0; i < templiste.size(); i++) {
+            Transitionen[i] = new TransitionenListe();
+            String[] textarray = templiste.get(i).split(" ");
+            short x1,y1,r1,x2,y2,r2;
+            Transition t;
+
+            x1 = Short.parseShort(textarray[0]);
+            y1 = Short.parseShort(textarray[1]);
+            r1 = Short.parseShort(textarray[2]);
+            x2 = Short.parseShort(textarray[4]);
+            y2 = Short.parseShort(textarray[5]);
+            r2 = Short.parseShort(textarray[6]);
+
+            t = new Transition(x1, y1, r1, x2, y2, r2);
+            if( Integer.parseInt(Spielfeld[x2][y2][2]) == 0) {
+                Transitionen[counter].insert(t);
+                Spielfeld[x2][y2][2] = String.valueOf(counter++);
+            } else {
+                int value = Integer.valueOf(Spielfeld[x2][y2][2]);
+                Transitionen[value].insert(t);
+            }
         }
 
         fr.close();
         dir = new boolean[8];
     }
+
+    /**
+     * Färbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
+     * Färbt bis gleicher Stein wie von Spieler erreicht ist
+     * @param s Spieler von 1-8
+     * @param x X Koordinate
+     * @param y Y Koordinate
+     * @param dir Richtungen in die gefärbt werden soll
+     */
 
     private void Faerben(int s, int x, int y, boolean[] dir) {
         for(int i = 0; i < dir.length; i++) {
@@ -507,7 +554,7 @@ public class Spielbrett {
         Spielfeld = spielfeld;
     }
 
-    public void setTransitionen(ArrayList<Transition> transitionen) {
+    public void setTransitionen(TransitionenListe[] transitionen) {
         Transitionen = transitionen;
     }
 
@@ -539,11 +586,11 @@ public class Spielbrett {
         return Spielfeld;
     }
 
-    public ArrayList<Transition> getTransitionen() {
+    public TransitionenListe[] getTransitionen() {
         return Transitionen;
     }
     //gibt Spielfeld als String zurück
-    private String ArrayToString() {
+    private String spielfeldToString() {
         StringBuffer text = new StringBuffer();
         for(int i = 0; i < Hoehe; i++) {
             for(int j = 0; j < Breite; j++) {
@@ -557,16 +604,16 @@ public class Spielbrett {
         return text.toString();
     }
     //gibt
-    private String ArrayListToString() {
+    private String transitionenToString() {
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < Transitionen.size(); i++) {
-            sb.append(Transitionen.get(i));
+        for(int i = 0; i < Transitionen.length; i++) {
+            sb.append(Transitionen[i].toString());
         }
         return sb.toString();
     }
 
     public void PrintSpielfeld() {
-       System.out.println(ArrayToString());
+       System.out.println(spielfeldToString());
     }
 
     public void printArray() {
@@ -583,6 +630,6 @@ public class Spielbrett {
     @Override
     public String toString() {
         return "Spieler: "+Spieler+" Steine: "+Ueberschreibsteine+" Bomben: "+Bomben+" Staerke: "+Staerke+" Hoehe: "+Hoehe+" Breite: "+Breite
-                + "\n\n" + ArrayToString() + "\n" +"Transitionen:\n"+ArrayListToString();
+                + "\n\n" + spielfeldToString() + "\n" +"Transitionen:\n"+transitionenToString();
     }
 }
