@@ -1,5 +1,5 @@
 public class Transition {
-    private short x1, y1, dir1, x2, y2, dir2;
+    public short x1, y1, dir1, x2, y2, dir2;
     private Transition next;
 
     public Transition(short x1, short y1, short dir1, short x2, short y2, short dir2) {
@@ -41,9 +41,8 @@ public class Transition {
         }
     }
 
-    public short getDir(short number) {
-        if(number == 1) {
-            switch (dir2) {
+    public short getOppDir(short dir) {
+            switch (dir) {
                 case 0:
                     return 4;
                 case 1:
@@ -63,29 +62,7 @@ public class Transition {
                 default:
                     break;
             }
-        } else if(number == 2) {
-            switch (dir1) {
-                case 0:
-                    return 4;
-                case 1:
-                    return 5;
-                case 2:
-                    return 6;
-                case 3:
-                    return 7;
-                case 4:
-                    return 0;
-                case 5:
-                    return 1;
-                case 6:
-                    return 2;
-                case 7:
-                    return 3;
-                default:
-                    break;
-            }
-        }
-        return 0;
+            return -1;
     }
 
     public Transition getNext() {

@@ -94,9 +94,9 @@ public class Heuristik {
                 //Check untenrechts
                 if (x == breite - 1 && y == hoehe - 1 && temparray[x][y][2] != '3') { // Ecke unten rechts:
                     temparray[x][y][4] = 1;
-                } else if () { // rechte Spalte:
+                } /*else if () { // rechte Spalte:
 
-                }
+                }*/
                 // rechte Spalte:
                 // untere Zeile:
                 // Nichtrand Steine:
@@ -111,7 +111,7 @@ public class Heuristik {
                     brettsumme -= 1;
                 }
 
-                if ()
+                //if ()
 
 
             }
@@ -121,7 +121,7 @@ public class Heuristik {
     }
 
     private boolean checkNachOben() {
-
+        return true;
     }
 
     int getSpielbewertung() {
