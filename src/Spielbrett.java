@@ -104,7 +104,7 @@ public class Spielbrett {
                     tausch = scanner.nextInt();
                 }
             } else if(Spielfeld[x][y][0].equals("b")) {
-                System.out.println("Bonus Stein: Bombe(1) oder Überschreibstein(2)?");
+                System.out.println("Bonus Stein: Bombe(1) oder Ueberschreibstein(2)?");
                 bonus = scanner.nextInt();
                 if(bonus == 1) {
                     Bomben++;
@@ -157,21 +157,21 @@ public class Spielbrett {
 
                     PrintSpielfeld();
                 } else {
-                    System.out.println("Ungültiger Zug!");
+                    System.out.println("Ungueltiger Zug!");
                 }
 
             } else {
-                System.out.println("Ungültiger Zug!");
+                System.out.println("Ungueltiger Zug!");
             }
         } else {
-            System.out.println("Ungültiger Zug!");
+            System.out.println("Ungueltiger Zug!");
         }
     }
 
 
     /**
-     * Färbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
-     * Färbt bis gleicher Stein wie von Spieler erreicht ist
+     * Faerbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
+     * Faerbt bis gleicher Stein wie von Spieler erreicht ist
      * @param s Spieler von 1-8
      * @param x X Koordinate
      * @param y Y Koordinate
@@ -943,7 +943,7 @@ public class Spielbrett {
     public TransitionenListe[] getTransitionen() {
         return Transitionen;
     }
-    //gibt Spielfeld als String zurück
+    //gibt Spielfeld als String zurueck
     private String spielfeldToString() {
         StringBuffer text = new StringBuffer();
         for(int i = 0; i < Hoehe; i++) {
@@ -971,7 +971,7 @@ public class Spielbrett {
     }
 
     public void printGueltigeZuege() {
-        System.out.println("Mögliche Züge:");
+        System.out.println("Moegliche Zuege:");
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
                 if(Spielfeld[spalte][zeile][1] == "X") {
