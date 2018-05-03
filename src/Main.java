@@ -18,10 +18,12 @@ public class Main {
         //int s = sc.nextInt();
         int x = sc.nextInt();
         int y = sc.nextInt();
-        String ustein = "Nein";
+        boolean ustein = false;
         if(Spiel.getUeberschreibsteine() > 0) {
             System.out.println("Überschreibstein (Ja/Nein)");
-            ustein = sc.next();
+            if(sc.next().equals("Ja")) {
+                ustein = true;
+            }
         }
 
         Spiel.ganzerZug(1,x,y, ustein);
