@@ -8,7 +8,7 @@ public class Spielbrett {
                 Staerke,
                 Hoehe,
                 Breite;
-    private String Spielfeld[][][];
+    private char Spielfeld[][][];
     private TransitionenListe[] Transitionen;
     private boolean dir[], faerben[][];
     private short aktX = 0, aktY = 0, aktDir = 0;
@@ -72,13 +72,13 @@ public class Spielbrett {
         setHoehe(Integer.parseInt(array[0]));
         setBreite(Integer.parseInt(array[1]));
         //Spielfeld einlesen/speichern
-        Spielfeld = new String[Breite][Hoehe][3];
+        Spielfeld = new char[Breite][Hoehe][3];
         for(int zeile = 0; zeile < Hoehe; zeile++) {
             text = br.readLine();
             array = text.split(" ");
             for (int spalte = 0; spalte < Breite; spalte++) {
-                Spielfeld[spalte][zeile][0] = array[spalte];
-                Spielfeld[spalte][zeile][2] = "0";
+                Spielfeld[spalte][zeile][0] = array[spalte].charAt(0);
+                Spielfeld[spalte][zeile][2] = 0;
             }
         }
         //Transitionen einlesen/speichern
@@ -103,18 +103,18 @@ public class Spielbrett {
             r2 = Short.parseShort(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
-            if(Integer.parseInt(Spielfeld[x1][y1][2]) != 0){
-                int value = Integer.valueOf(Spielfeld[x1][y1][2]);
+            if(Spielfeld[x1][y1][2] != 0){
+                char value = Spielfeld[x1][y1][2];
                 Transitionen[value].insert(t);
-                Spielfeld[x2][y2][2] = String.valueOf(value);
-            } else if (Integer.parseInt(Spielfeld[x2][y2][2]) != 0) {
-                int value = Integer.valueOf(Spielfeld[x2][y2][2]);
+                Spielfeld[x2][y2][2] = value;
+            } else if (Spielfeld[x2][y2][2] != 0) {
+                char value = Spielfeld[x2][y2][2];
                 Transitionen[value].insert(t);
-                Spielfeld[x1][y1][2] = String.valueOf(value);
+                Spielfeld[x1][y1][2] = value;
             } else {
                 Transitionen[counter].insert(t);
-                Spielfeld[x1][y1][2] = String.valueOf(counter);
-                Spielfeld[x2][y2][2] = String.valueOf(counter++);
+                Spielfeld[x1][y1][2] = (char) counter;              //der Wert von counter wir zu char gecastet und ins Spielfeld geschrieben
+                Spielfeld[x2][y2][2] = (char) counter++;            //da es mehr als 9 Transitionen geben kann und es bei chars nur bis Ziffer 9 geht
             }
         }
 
@@ -129,7 +129,7 @@ public class Spielbrett {
             int tausch = 0, bonus = 0;
             boolean choice = false, inversion = false;
             Scanner scanner = new Scanner(System.in);
-            if(Spielfeld[x][y][0].equals("c")) {
+            if(Spielfeld[x][y][0] == 'c') {
                 choice = true;
                 System.out.println("Choice Stein: Bitte Nummer des Spielers eingeben, mit dem getauscht werden soll.");
                 tausch = scanner.nextInt();
@@ -137,21 +137,21 @@ public class Spielbrett {
                     System.out.println("Falsche Eingabe! (Nummer von 1 bis "+Spieler);
                     tausch = scanner.nextInt();
                 }
-            } else if(Spielfeld[x][y][0].equals("b")) {
-                System.out.println("Bonus Stein: Bombe(1) oder Überschreibstein(2)?");
+            } else if(Spielfeld[x][y][0] == 'b') {
+                System.out.println("Bonus Stein: Bombe(1) oder Ueberschreibstein(2)?");
                 bonus = scanner.nextInt();
                 if(bonus == 1) {
                     Bomben++;
                 } else if(bonus == 2) {
                     Ueberschreibsteine++;
                 }
-            } else if(Spielfeld[x][y][0].equals("i")) {
+            } else if(Spielfeld[x][y][0] == 'i') {
                 inversion = true;
             }
 
             scanner.close();
 
-            if(Spielfeld[x][y][1].equals("X")) {
+            if(Spielfeld[x][y][1] == 'X') {
                 if(Zug(s, x, y, ustein)) {
                     Faerben(s, x, y, ustein);
 
@@ -160,9 +160,9 @@ public class Spielbrett {
                             for (int spalte = 0; spalte < Breite; spalte++) {
                                 for (int zeile = 0; zeile < Hoehe; zeile++) {
                                     if (Integer.toString(s).equals(Spielfeld[spalte][zeile][0])) {
-                                        Spielfeld[spalte][zeile][0] = Integer.toString(tausch);
-                                    } else if (Integer.toString(tausch).equals(Spielfeld[spalte][zeile][0])) {
-                                        Spielfeld[spalte][zeile][0] = Integer.toString(s);
+                                        Spielfeld[spalte][zeile][0] = Integer.toString(tausch).charAt(0);
+                                    } else if (Integer.toString(tausch).charAt(0) == (Spielfeld[spalte][zeile][0])) {
+                                        Spielfeld[spalte][zeile][0] = Integer.toString(s).charAt(0);
                                     }
                                 }
                             }
@@ -171,17 +171,17 @@ public class Spielbrett {
                         for (int spalte = 0; spalte < Breite; spalte++) {
                             for (int zeile = 0; zeile < Hoehe; zeile++) {
                                 switch (Spielfeld[spalte][zeile][0]) {
-                                    case "0":
-                                    case "-":
-                                    case "b":
-                                    case "c":
-                                    case "i":
-                                    case "x":
+                                    case '0':
+                                    case '-':
+                                    case 'b':
+                                    case 'c':
+                                    case 'i':
+                                    case 'x':
                                         break;
                                     default:
-                                        int i = Integer.parseInt(Spielfeld[spalte][zeile][0]);
+                                        int i = Character.valueOf(Spielfeld[spalte][zeile][0]);
                                         if(i > 0 && i <= Spieler) {
-                                            Spielfeld[spalte][zeile][0] = Integer.toString(i%Spieler + 1);
+                                            Spielfeld[spalte][zeile][0] = Integer.toString(i%Spieler + 1).charAt(0);
                                         }
                                         break;
                                 }
@@ -191,17 +191,16 @@ public class Spielbrett {
 
                     PrintSpielfeld();
                 } else {
-                    System.out.println("Ungültiger Zug!");
+                    System.out.println("Ungueltiger Zug!");
                 }
 
             } else {
-                System.out.println("Ungültiger Zug!");
+                System.out.println("Ungueltiger Zug!");
             }
         } else {
-            System.out.println("Ungültiger Zug!");
+            System.out.println("Ungueltiger Zug!");
         }
     }
-
 
     /**
      * Färbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
@@ -213,13 +212,13 @@ public class Spielbrett {
 
     public void Faerben(int s, int x, int y, boolean ustein) {
         if(ustein) {
-            Spielfeld[x][y][0] = Integer.toString(0);
+            Spielfeld[x][y][0] = '0';
         }
         Faerben(s, x, y, dir);
         for (int spalte = 0; spalte < Breite; spalte++) {
             for (int zeile = 0; zeile < Hoehe; zeile++) {
                 if(faerben[spalte][zeile]) {
-                    Spielfeld[spalte][zeile][0] = Integer.toString(s);
+                    Spielfeld[spalte][zeile][0] = Integer.toString(s).charAt(0);
                 }
             }
         }
@@ -227,7 +226,7 @@ public class Spielbrett {
     }
 
     private void Faerben(int s, int x, int y, boolean[] direction) {
-        if(Integer.toString(s).equals(Spielfeld[x][y][0])) {
+        if(s == Character.getNumericValue(Spielfeld[x][y][0])) {
             return;
         } else {
             int newx, newy;
@@ -236,18 +235,18 @@ public class Spielbrett {
                     newx = x;
                     newy = y;
                     faerben[x][y] = true;
-                    String TEMP = Spielfeld[newx][newy][2];
-                    if (Integer.parseInt(TEMP) != 0) {
-                        Transition T = Transitionen[Integer.parseInt(TEMP)].search((short) x, (short) y, (short) i);
-                        if (T != null) {
-                            short number = T.getNumber((short) x, (short) y, (short) i);
+                    char temp = Spielfeld[newx][newy][2];
+                    if (temp != 0) {
+                        Transition t = Transitionen[temp].search((short) x, (short) y, (short) i);
+                        if (t != null) {
+                            short number = t.getNumber((short) x, (short) y, (short) i);
                             boolean[] d = new boolean[8];
                             if (number == 1) {
-                                d[T.getOppDir(T.dir2)] = true;
+                                d[t.getOppDir(t.dir2)] = true;
                             } else {
-                                d[T.getOppDir(T.dir1)] = true;
+                                d[t.getOppDir(t.dir1)] = true;
                             }
-                            Faerben(s, T.getX(number), T.getY(number), d);
+                            Faerben(s, t.getX(number), t.getY(number), d);
                             continue;
                         }
                     }
@@ -269,16 +268,16 @@ public class Spielbrett {
 
             for (int spalte = 0; spalte < Breite; spalte++) {
 
-                if(Ueberschreibsteine > 0 || Spielfeld[spalte][zeile].equals("b")){
+                if(Ueberschreibsteine > 0 || (Spielfeld[spalte][zeile][0] == 'b')){
                     uestein = true;
                 }else{
                     uestein = false;
                 }
 
                 if (Zug(1, spalte, zeile, uestein)) {
-                    Spielfeld[spalte][zeile][1] = "X";
+                    Spielfeld[spalte][zeile][1] = 'X';
                 } else {
-                    Spielfeld[spalte][zeile][1] = "0";
+                    Spielfeld[spalte][zeile][1] = '0';
                 }
             }
         }
@@ -287,25 +286,26 @@ public class Spielbrett {
 
     private boolean pruefeZug(int s, int x, int y, boolean ustein, int dir) {
         while(x < Breite && x >= 0 && y < Hoehe && y >= 0) {
-            String value = Spielfeld[x][y][0];
+            char value = Spielfeld[x][y][0];
             switch (value) {
-                case "0":
-                case "b":
-                case "c":
-                case "i":
+                case '0':
+                case 'b':
+                case 'c':
+                case 'i':
+                case '-':
                     x = Breite;
                     y = Hoehe;
                     break;
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                case "6":
-                case "7":
-                case "8":
-                case "x":
-                    if(s == (Integer.parseInt(value))) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case 'x':
+                    if(s == Character.getNumericValue(value)) {
                         if (aktX != x || aktY != y) {
                             if(count > 0) {
                                 this.dir[aktDir] = true;
@@ -315,14 +315,14 @@ public class Spielbrett {
                         x = Breite;
                         y = Hoehe;
                     } else {
-                        String temp = Spielfeld[x][y][2];
-                        if(Integer.parseInt(temp) == 0) {
+                        char temp = Spielfeld[x][y][2];
+                        if(temp == 0) {
                             x = getNewX(x, dir);
                             y = getNewY(y, dir);
                         } else {
-                            Transition t = Transitionen[Integer.parseInt(temp)].search((short) x, (short) y,(short) 0);
+                            Transition t = Transitionen[temp].search((short) x, (short) y,(short) dir);
                             if(t != null) {
-                                short number = t.getNumber((short) x, (short) y, (short) 0);
+                                short number = t.getNumber((short) x, (short) y, (short) dir);
                                 if(number == 1) {
                                     return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getOppDir(t.dir2));
                                 } else {
@@ -333,7 +333,6 @@ public class Spielbrett {
                                 y = getNewY(y, dir);
                             }
                         }
-
                     }
                     break;
                 default:
@@ -353,14 +352,13 @@ public class Spielbrett {
         aktX = (short) x;
         aktY = (short) y;
         if(x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
-                String a = Spielfeld[x][y][0];
-                String t = Spielfeld[x][y][2];
+                char a = Spielfeld[x][y][0];
                 switch (a) {
-                    case "0":
-                    case "b":
-                    case "c":
-                    case "i":
-                        Spielfeld[x][y][0] = Integer.toString(s);
+                    case '0':
+                    case 'b':
+                    case 'c':
+                    case 'i':
+                        Spielfeld[x][y][0] = Integer.toString(s).charAt(0);
                         int newx, newy;
 
                         for(int i = 0; i < 8; i++) {
@@ -373,9 +371,11 @@ public class Spielbrett {
                             }
                         }
 
-                        if(Integer.parseInt(t) != 0) {
+                        char t = Spielfeld[x][y][2];
+
+                        if(t != 0) {
                             for(int i = 0; i < 8; i++) {
-                                Transition trans = Transitionen[Integer.parseInt(t)].search((short) x, (short) y, (short) i);
+                                Transition trans = Transitionen[t].search((short) x, (short) y, (short) i);
                                 if(trans != null) {
                                     short number = trans.getNumber((short) x, (short) y, (short) i);
                                     short newdir;
@@ -397,17 +397,17 @@ public class Spielbrett {
                         }
 
                         break;
-                    case "1":
-                    case "2":
-                    case "3":
-                    case "4":
-                    case "5":
-                    case "6":
-                    case "7":
-                    case "8":
-                    case "x":
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case 'x':
                         if(ustein) {
-                            Spielfeld[x][y][0] = "0";
+                            Spielfeld[x][y][0] = '0';
                             if(--Ueberschreibsteine > 0) {
                                 faerben = Zug(s,x,y,true);
                             } else {
@@ -417,7 +417,7 @@ public class Spielbrett {
                             faerben = false;
                         }
                         break;
-                    case "-":
+                    case '-':
                         break;
                     default:
                         break;
@@ -452,7 +452,7 @@ public class Spielbrett {
         Breite = breite;
     }
 
-    public void setSpielfeld(String[][][] spielfeld) {
+    public void setSpielfeld(char[][][] spielfeld) {
         Spielfeld = spielfeld;
     }
 
@@ -484,7 +484,7 @@ public class Spielbrett {
         return Breite;
     }
 
-    public String[][][] getSpielfeld() {
+    public char[][][] getSpielfeld() {
         return Spielfeld;
     }
 
@@ -505,7 +505,7 @@ public class Spielbrett {
         }
         return text.toString();
     }
-    //gibt
+
     private String transitionenToString() {
         StringBuffer sb = new StringBuffer();
         for(int i = 1; i < Transitionen.length; i++) {
@@ -522,7 +522,7 @@ public class Spielbrett {
         System.out.println("Mögliche Züge:");
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
-                if(Spielfeld[spalte][zeile][1] == "X") {
+                if(Spielfeld[spalte][zeile][1] == 'X') {
                     System.out.println("("+spalte + "," + zeile+")");
 
                 }
