@@ -20,7 +20,7 @@ public class Main {
         int y = sc.nextInt();
         boolean ustein = false;
         if(Spiel.getUeberschreibsteine() > 0) {
-            System.out.println("Überschreibstein (Ja/Nein)");
+            System.out.println("Ueberschreibstein (Ja/Nein)");
             if(sc.next().equals("Ja")) {
                 ustein = true;
             }

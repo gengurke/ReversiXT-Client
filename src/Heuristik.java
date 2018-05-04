@@ -16,13 +16,13 @@ public class Heuristik {
 
     /**
      * Begriffe:
-     * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Überschreibsteine, Bomben usw.
+     * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
      * Zelle = einzelnes Feld auf dem Spielfeld
      * Spielfeld = Summer aller Zellen.
      * <p>
      * Level der 3.Dimension
      * 0 = Feld
-     * 1 = gültige Züge
+     * 1 = gueltige Zuege
      * 2 = Transition Ja/Nein
      * 3 = oben
      * 4 = obenrechts
@@ -44,7 +44,7 @@ public class Heuristik {
         //REFACTOR AB HIER _____________________________________________________________________________________________________
 
         //Check oben
-        if (y == 0 && temparray[x][y][2 /*TODO Level checken und zahl für richtung*/] != '0') { // Oberste Zeile: wenn oberste Zeile und keine transi nach oben --> sicher.
+        if (y == 0 && temparray[x][y][2 /*TODO Level checken und zahl fuer richtung*/] != '0') { // Oberste Zeile: wenn oberste Zeile und keine transi nach oben --> sicher.
             temparray[x][y][3] = 1;
         } else if (temparray[x][y][2] != '0' && temparray[x][y - 1][3] == '1') { //Nichtrandsteine: schaut ob das feld nach oben eine transition hat und ob das obere feld nach oben sicher ist.
             temparray[x][y][3] = 1;
@@ -85,12 +85,12 @@ public class Heuristik {
         //Check untenlinks
         //Check links
         //Check obenlinks
-        //rechnet für jeden Gegnerstein -1
+        //rechnet fuer jeden Gegnerstein -1
         if (eintrag != 1 && eintrag != ' ' && eintrag != '-') {
             brettsumme -= 1;
         }
 
-    return 2; //TODO platzhalter ändern
+    return 2; //TODO platzhalter aendern
 //REFACTOR BIS HIER _____________________________________________________________________________________________________
     }
 
@@ -104,7 +104,7 @@ public class Heuristik {
         checkUntenLinks(x, y);
         checkLinks(x, y);
         checkObenLinks(x, y);
-        return 1 /*todo - magic number ändern*/;
+        return 1 /*todo - magic number aendern*/;
     }
 
     private boolean checkOben(int x, int y) {

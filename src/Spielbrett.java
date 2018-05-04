@@ -203,8 +203,8 @@ public class Spielbrett {
     }
 
     /**
-     * Färbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
-     * Färbt bis gleicher Stein wie von Spieler erreicht ist
+     * Faerbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
+     * Faerbt bis gleicher Stein wie von Spieler erreicht ist
      * @param s Spieler von 1-8
      * @param x X Koordinate
      * @param y Y Koordinate
@@ -491,7 +491,7 @@ public class Spielbrett {
     public TransitionenListe[] getTransitionen() {
         return Transitionen;
     }
-    //gibt Spielfeld als String zurück
+    //gibt Spielfeld als String zurueck
     private String spielfeldToString() {
         StringBuffer text = new StringBuffer();
         for(int i = 0; i < Hoehe; i++) {
@@ -519,7 +519,7 @@ public class Spielbrett {
     }
 
     public void printGueltigeZuege() {
-        System.out.println("Mögliche Züge:");
+        System.out.println("Moegliche Zuege:");
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
                 if(Spielfeld[spalte][zeile][1] == 'X') {
