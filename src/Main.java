@@ -6,24 +6,28 @@ public class Main {
         //Einlesen des Dateinamens
         Scanner sc = new Scanner(System.in);
         String Datname = sc.next();
-        Datname = "maps/" + Datname + ".txt";
+        Datname = "maps/" + Datname + ".map";
         //Erzeugen des Spielbretts
         Spielbrett Spiel = new Spielbrett(Datname);
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
-        System.out.println("Spieler X Y Überschreibstein(Ja oder Nein)");
-        int s = sc.nextInt();
+
+        Spiel.gueltigeZuege();
+
+        System.out.println("Zug: X Y ");
+        //int s = sc.nextInt();
         int x = sc.nextInt();
         int y = sc.nextInt();
-        String ustein = sc.next();
-        sc.close();
-
-        if(Spiel.Zug(s,x,y, ustein)) {
-            System.out.println("Gültiger Zug");
-            Spiel.PrintSpielfeld();
-        } else {
-            System.out.println("Ungültiger Zug");
+        boolean ustein = false;
+        if(Spiel.getUeberschreibsteine() > 0) {
+            System.out.println("Ueberschreibstein (Ja/Nein)");
+            if(sc.next().equals("Ja")) {
+                ustein = true;
+            }
         }
+
+        Spiel.ganzerZug(1,x,y, ustein);
+        sc.close();
 
     }
 }
