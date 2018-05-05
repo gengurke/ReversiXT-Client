@@ -19,14 +19,16 @@ public class Main {
         int x = sc.nextInt();
         int y = sc.nextInt();
         boolean ustein = false;
-        if(Spiel.getUeberschreibsteine() > 0) {
+        if (Spiel.getUeberschreibsteine() > 0) {
             System.out.println("Ueberschreibstein (Ja/Nein)");
-            if(sc.next().equals("Ja")) {
+
+            if (sc.next().equals("Ja")) {
                 ustein = true;
             }
+
         }
 
-        Spiel.ganzerZug(1,x,y, ustein);
+        Spiel.ganzerZug(1, x, y, ustein);
         sc.close();
 
     }

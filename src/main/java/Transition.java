@@ -13,18 +13,18 @@ public class Transition {
     }
 
     public short getNumber(short x, short y, short dir) {
-        if((x == x1) && (y == y1) && (dir == dir1)) {
+        if ((x == x1) && (y == y1) && (dir == dir1)) {
             return 1;
-        } else if((x == x2) && (y == y2) && (dir == dir2)) {
+        } else if ((x == x2) && (y == y2) && (dir == dir2)) {
             return 2;
         }
         return 0;
     }
 
     public short getX(short number) {
-        if(number == 1) {
+        if (number == 1) {
             return x2;
-        } else if(number == 2) {
+        } else if (number == 2) {
             return x1;
         } else {
             return 0;
@@ -32,9 +32,9 @@ public class Transition {
     }
 
     public short getY(short number) {
-        if(number == 1) {
+        if (number == 1) {
             return y2;
-        } else if(number == 2) {
+        } else if (number == 2) {
             return y1;
         } else {
             return 0;
@@ -42,27 +42,27 @@ public class Transition {
     }
 
     public short getOppDir(short dir) {
-            switch (dir) {
-                case 0:
-                    return 4;
-                case 1:
-                    return 5;
-                case 2:
-                    return 6;
-                case 3:
-                    return 7;
-                case 4:
-                    return 0;
-                case 5:
-                    return 1;
-                case 6:
-                    return 2;
-                case 7:
-                    return 3;
-                default:
-                    break;
-            }
-            return -1;
+        switch (dir) {
+            case 0:
+                return 4;
+            case 1:
+                return 5;
+            case 2:
+                return 6;
+            case 3:
+                return 7;
+            case 4:
+                return 0;
+            case 5:
+                return 1;
+            case 6:
+                return 2;
+            case 7:
+                return 3;
+            default:
+                break;
+        }
+        return -1;
     }
 
     public Transition getNext() {
@@ -74,6 +74,6 @@ public class Transition {
     }
 
     public String toString() {
-        return "("+x1+","+y1+") "+dir1+" <-> ("+x2+","+y2+") "+dir2;
+        return "(" + x1 + "," + y1 + ") " + dir1 + " <-> (" + x2 + "," + y2 + ") " + dir2;
     }
 }

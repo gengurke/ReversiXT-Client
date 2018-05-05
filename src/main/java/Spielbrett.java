@@ -3,18 +3,18 @@ import java.util.*;
 
 public class Spielbrett {
     private int Spieler,
-                Ueberschreibsteine,
-                Bomben,
-                Staerke,
-                Hoehe,
-                Breite;
+            Ueberschreibsteine,
+            Bomben,
+            Staerke,
+            Hoehe,
+            Breite;
     private char Spielfeld[][][];
     private TransitionenListe[] Transitionen;
     private boolean dir[], faerben[][];
     private short aktX = 0, aktY = 0, aktDir = 0;
     private int count = 0;
 
-    public Spielbrett(String name) throws IOException{
+    public Spielbrett(String name) throws IOException {
         Init(name);
     }
 
@@ -73,7 +73,7 @@ public class Spielbrett {
         setBreite(Integer.parseInt(array[1]));
         //Spielfeld einlesen/speichern
         Spielfeld = new char[Breite][Hoehe][3];
-        for(int zeile = 0; zeile < Hoehe; zeile++) {
+        for (int zeile = 0; zeile < Hoehe; zeile++) {
             text = br.readLine();
             array = text.split(" ");
             for (int spalte = 0; spalte < Breite; spalte++) {
@@ -83,16 +83,16 @@ public class Spielbrett {
         }
         //Transitionen einlesen/speichern
         ArrayList<String> templiste = new ArrayList<>();
-        while((text = br.readLine()) != null){
+        while ((text = br.readLine()) != null) {
             templiste.add(text);
         }
 
-        Transitionen = new TransitionenListe[templiste.size()+1];
+        Transitionen = new TransitionenListe[templiste.size() + 1];
         int counter = 1;
         for (int i = 0; i < templiste.size(); i++) {
-            Transitionen[i+1] = new TransitionenListe();
+            Transitionen[i + 1] = new TransitionenListe();
             String[] textarray = templiste.get(i).split(" ");
-            short x1,y1,r1,x2,y2,r2;
+            short x1, y1, r1, x2, y2, r2;
             Transition t;
 
             x1 = Short.parseShort(textarray[0]);
@@ -103,7 +103,7 @@ public class Spielbrett {
             r2 = Short.parseShort(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
-            if(Spielfeld[x1][y1][2] != 0){
+            if (Spielfeld[x1][y1][2] != 0) {
                 char value = Spielfeld[x1][y1][2];
                 Transitionen[value].insert(t);
                 Spielfeld[x2][y2][2] = value;
@@ -125,37 +125,39 @@ public class Spielbrett {
     }
 
     public void ganzerZug(int s, int x, int y, boolean ustein) {
-        if(x >= 0 && y >= 0 && x < Breite && y < Hoehe) {
+        if (x >= 0 && y >= 0 && x < Breite && y < Hoehe) {
             int tausch = 0, bonus = 0;
             boolean choice = false, inversion = false;
             Scanner scanner = new Scanner(System.in);
-            if(Spielfeld[x][y][0] == 'c') {
+            if (Spielfeld[x][y][0] == 'c') {
                 choice = true;
                 System.out.println("Choice Stein: Bitte Nummer des Spielers eingeben, mit dem getauscht werden soll.");
                 tausch = scanner.nextInt();
-                if(tausch <= 0 || tausch > Spieler) {
-                    System.out.println("Falsche Eingabe! (Nummer von 1 bis "+Spieler);
+                if (tausch <= 0 || tausch > Spieler) {
+                    System.out.println("Falsche Eingabe! (Nummer von 1 bis " + Spieler);
                     tausch = scanner.nextInt();
                 }
-            } else if(Spielfeld[x][y][0] == 'b') {
+
+            } else if (Spielfeld[x][y][0] == 'b') {
+
                 System.out.println("Bonus Stein: Bombe(1) oder Ueberschreibstein(2)?");
                 bonus = scanner.nextInt();
-                if(bonus == 1) {
+                if (bonus == 1) {
                     Bomben++;
-                } else if(bonus == 2) {
+                } else if (bonus == 2) {
                     Ueberschreibsteine++;
                 }
-            } else if(Spielfeld[x][y][0] == 'i') {
+            } else if (Spielfeld[x][y][0] == 'i') {
                 inversion = true;
             }
 
             scanner.close();
 
-            if(Spielfeld[x][y][1] == 'X') {
-                if(Zug(s, x, y, ustein)) {
+            if (Spielfeld[x][y][1] == 'X') {
+                if (Zug(s, x, y, ustein)) {
                     Faerben(s, x, y, ustein);
 
-                    if(choice) {
+                    if (choice) {
                         if (s != tausch) {
                             for (int spalte = 0; spalte < Breite; spalte++) {
                                 for (int zeile = 0; zeile < Hoehe; zeile++) {
@@ -167,7 +169,7 @@ public class Spielbrett {
                                 }
                             }
                         }
-                    } else if(inversion) {
+                    } else if (inversion) {
                         for (int spalte = 0; spalte < Breite; spalte++) {
                             for (int zeile = 0; zeile < Hoehe; zeile++) {
                                 switch (Spielfeld[spalte][zeile][0]) {
@@ -180,8 +182,8 @@ public class Spielbrett {
                                         break;
                                     default:
                                         int i = Character.valueOf(Spielfeld[spalte][zeile][0]);
-                                        if(i > 0 && i <= Spieler) {
-                                            Spielfeld[spalte][zeile][0] = Integer.toString(i%Spieler + 1).charAt(0);
+                                        if (i > 0 && i <= Spieler) {
+                                            Spielfeld[spalte][zeile][0] = Integer.toString(i % Spieler + 1).charAt(0);
                                         }
                                         break;
                                 }
@@ -205,19 +207,20 @@ public class Spielbrett {
     /**
      * Faerbt vom Punkt (X,Y) aus in die Richtungen die im Array auf true gesetzt sind
      * Faerbt bis gleicher Stein wie von Spieler erreicht ist
+     *
      * @param s Spieler von 1-8
      * @param x X Koordinate
      * @param y Y Koordinate
      */
 
     public void Faerben(int s, int x, int y, boolean ustein) {
-        if(ustein) {
+        if (ustein) {
             Spielfeld[x][y][0] = '0';
         }
         Faerben(s, x, y, dir);
         for (int spalte = 0; spalte < Breite; spalte++) {
             for (int zeile = 0; zeile < Hoehe; zeile++) {
-                if(faerben[spalte][zeile]) {
+                if (faerben[spalte][zeile]) {
                     Spielfeld[spalte][zeile][0] = Integer.toString(s).charAt(0);
                 }
             }
@@ -226,7 +229,7 @@ public class Spielbrett {
     }
 
     private void Faerben(int s, int x, int y, boolean[] direction) {
-        if(s == Character.getNumericValue(Spielfeld[x][y][0])) {
+        if (s == Character.getNumericValue(Spielfeld[x][y][0])) {
             return;
         } else {
             int newx, newy;
@@ -268,9 +271,9 @@ public class Spielbrett {
 
             for (int spalte = 0; spalte < Breite; spalte++) {
 
-                if(Ueberschreibsteine > 0 || (Spielfeld[spalte][zeile][0] == 'b')){
+                if (Ueberschreibsteine > 0 || (Spielfeld[spalte][zeile][0] == 'b')) {
                     uestein = true;
-                }else{
+                } else {
                     uestein = false;
                 }
 
@@ -285,7 +288,7 @@ public class Spielbrett {
     }
 
     private boolean pruefeZug(int s, int x, int y, boolean ustein, int dir) {
-        while(x < Breite && x >= 0 && y < Hoehe && y >= 0) {
+        while (x < Breite && x >= 0 && y < Hoehe && y >= 0) {
             char value = Spielfeld[x][y][0];
             switch (value) {
                 case '0':
@@ -305,9 +308,9 @@ public class Spielbrett {
                 case '7':
                 case '8':
                 case 'x':
-                    if(s == Character.getNumericValue(value)) {
+                    if (s == Character.getNumericValue(value)) {
                         if (aktX != x || aktY != y) {
-                            if(count > 0) {
+                            if (count > 0) {
                                 this.dir[aktDir] = true;
                                 return true;
                             }
@@ -316,14 +319,14 @@ public class Spielbrett {
                         y = Hoehe;
                     } else {
                         char temp = Spielfeld[x][y][2];
-                        if(temp == 0) {
+                        if (temp == 0) {
                             x = getNewX(x, dir);
                             y = getNewY(y, dir);
                         } else {
-                            Transition t = Transitionen[temp].search((short) x, (short) y,(short) dir);
-                            if(t != null) {
+                            Transition t = Transitionen[temp].search((short) x, (short) y, (short) dir);
+                            if (t != null) {
                                 short number = t.getNumber((short) x, (short) y, (short) dir);
-                                if(number == 1) {
+                                if (number == 1) {
                                     return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getOppDir(t.dir2));
                                 } else {
                                     return pruefeZug(s, t.getX(number), t.getY(number), ustein, t.getOppDir(t.dir1));
@@ -345,84 +348,84 @@ public class Spielbrett {
         return false;
     }
 
-    public boolean Zug(int s, int x, int y, boolean ustein)  {
+    public boolean Zug(int s, int x, int y, boolean ustein) {
         int anzahlsteine = Ueberschreibsteine;
         dir = new boolean[8];
         boolean faerben = false;
         aktX = (short) x;
         aktY = (short) y;
-        if(x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
-                char a = Spielfeld[x][y][0];
-                switch (a) {
-                    case '0':
-                    case 'b':
-                    case 'c':
-                    case 'i':
-                        Spielfeld[x][y][0] = Integer.toString(s).charAt(0);
-                        int newx, newy;
+        if (x >= 0 && y >= 0 && x < Breite && y < Hoehe && s > 0 && s <= Spieler) {
+            char a = Spielfeld[x][y][0];
+            switch (a) {
+                case '0':
+                case 'b':
+                case 'c':
+                case 'i':
+                    Spielfeld[x][y][0] = Integer.toString(s).charAt(0);
+                    int newx, newy;
 
-                        for(int i = 0; i < 8; i++) {
-                            count = 0;
-                            newx = getNewX(x, i);
-                            newy = getNewY(y, i);
-                            aktDir = (short) i;
-                            if(pruefeZug(s, newx, newy, ustein, aktDir)) {
-                                faerben = true;
-                            }
+                    for (int i = 0; i < 8; i++) {
+                        count = 0;
+                        newx = getNewX(x, i);
+                        newy = getNewY(y, i);
+                        aktDir = (short) i;
+                        if (pruefeZug(s, newx, newy, ustein, aktDir)) {
+                            faerben = true;
                         }
+                    }
 
-                        char t = Spielfeld[x][y][2];
+                    char t = Spielfeld[x][y][2];
 
-                        if(t != 0) {
-                            for(int i = 0; i < 8; i++) {
-                                Transition trans = Transitionen[t].search((short) x, (short) y, (short) i);
-                                if(trans != null) {
-                                    short number = trans.getNumber((short) x, (short) y, (short) i);
-                                    short newdir;
-                                    if(number == 1) {
-                                        newdir = trans.getOppDir(trans.dir2);
-                                    } else {
-                                        newdir = trans.getOppDir(trans.dir1);
-                                    }
-                                    if(number == 1) {
-                                        aktDir = trans.dir1;
-                                    } else {
-                                        aktDir = trans.dir2;
-                                    }
-                                    if (pruefeZug(s, trans.getX(number), trans.getY(number), ustein, newdir)) {
-                                        faerben = true;
-                                    }
+                    if (t != 0) {
+                        for (int i = 0; i < 8; i++) {
+                            Transition trans = Transitionen[t].search((short) x, (short) y, (short) i);
+                            if (trans != null) {
+                                short number = trans.getNumber((short) x, (short) y, (short) i);
+                                short newdir;
+                                if (number == 1) {
+                                    newdir = trans.getOppDir(trans.dir2);
+                                } else {
+                                    newdir = trans.getOppDir(trans.dir1);
+                                }
+                                if (number == 1) {
+                                    aktDir = trans.dir1;
+                                } else {
+                                    aktDir = trans.dir2;
+                                }
+                                if (pruefeZug(s, trans.getX(number), trans.getY(number), ustein, newdir)) {
+                                    faerben = true;
                                 }
                             }
                         }
+                    }
 
-                        break;
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case 'x':
-                        if(ustein) {
-                            Spielfeld[x][y][0] = '0';
-                            if(--Ueberschreibsteine > 0) {
-                                faerben = Zug(s,x,y,true);
-                            } else {
-                                faerben = Zug(s,x,y,false);
-                            }
+                    break;
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case 'x':
+                    if (ustein) {
+                        Spielfeld[x][y][0] = '0';
+                        if (--Ueberschreibsteine > 0) {
+                            faerben = Zug(s, x, y, true);
                         } else {
-                            faerben = false;
+                            faerben = Zug(s, x, y, false);
                         }
-                        break;
-                    case '-':
-                        break;
-                    default:
-                        break;
-                }
-                Spielfeld[x][y][0] = a;
+                    } else {
+                        faerben = false;
+                    }
+                    break;
+                case '-':
+                    break;
+                default:
+                    break;
+            }
+            Spielfeld[x][y][0] = a;
         }
         Ueberschreibsteine = anzahlsteine;
         return faerben;
@@ -491,13 +494,14 @@ public class Spielbrett {
     public TransitionenListe[] getTransitionen() {
         return Transitionen;
     }
+
     //gibt Spielfeld als String zurueck
     private String spielfeldToString() {
         StringBuffer text = new StringBuffer();
-        for(int i = 0; i < Hoehe; i++) {
-            for(int j = 0; j < Breite; j++) {
+        for (int i = 0; i < Hoehe; i++) {
+            for (int j = 0; j < Breite; j++) {
 
-                    text.append(Spielfeld[j][i][0] + " ");
+                text.append(Spielfeld[j][i][0] + " ");
 
 
             }
@@ -508,22 +512,22 @@ public class Spielbrett {
 
     private String transitionenToString() {
         StringBuffer sb = new StringBuffer();
-        for(int i = 1; i < Transitionen.length; i++) {
+        for (int i = 1; i < Transitionen.length; i++) {
             sb.append(Transitionen[i].toString());
         }
         return sb.toString();
     }
 
     public void PrintSpielfeld() {
-       System.out.println(spielfeldToString());
+        System.out.println(spielfeldToString());
     }
 
     public void printGueltigeZuege() {
         System.out.println("Moegliche Zuege:");
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
-                if(Spielfeld[spalte][zeile][1] == 'X') {
-                    System.out.println("("+spalte + "," + zeile+")");
+                if (Spielfeld[spalte][zeile][1] == 'X') {
+                    System.out.println("(" + spalte + "," + zeile + ")");
 
                 }
             }
@@ -532,7 +536,7 @@ public class Spielbrett {
 
     @Override
     public String toString() {
-        return "Spieler: "+Spieler+" Steine: "+Ueberschreibsteine+" Bomben: "+Bomben+" Staerke: "+Staerke+" Hoehe: "+Hoehe+" Breite: "+Breite
-                + "\n\n" + spielfeldToString() + "\n" +"Transitionen:\n"+transitionenToString();
+        return "Spieler: " + Spieler + " Steine: " + Ueberschreibsteine + " Bomben: " + Bomben + " Staerke: " + Staerke + " Hoehe: " + Hoehe + " Breite: " + Breite
+                + "\n\n" + spielfeldToString() + "\n" + "Transitionen:\n" + transitionenToString();
     }
 }
