@@ -34,17 +34,18 @@ public class Main {
         //int s = sc.nextInt();
         int x = sc.nextInt();
         int y = sc.nextInt();
-        //String ustein = sc.next();
+        boolean ustein = false;
+        if (Spiel.getUeberschreibsteine() > 0) {
+            System.out.println("Ueberschreibstein (Ja/Nein)");
+
+            if (sc.next().equals("Ja")) {
+                ustein = true;
+            }
+
+        }
+
+        Spiel.ganzerZug(1, x, y, ustein);
         sc.close();
-
-        Spiel.Zug(1,x,y,"Nein");
-        Spiel.Faerben(1,x,y);
-        Spiel.PrintSpielfeld();
-
-
-
-
-
 
 
 

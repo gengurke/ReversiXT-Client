@@ -6,7 +6,7 @@ public class TransitionenListe {
     }
 
     public boolean isEmpty() {
-        if(head != null) {
+        if (head != null) {
             return false;
         }
         return true;
@@ -17,9 +17,9 @@ public class TransitionenListe {
     }
 
     private Transition insert(Transition in, Transition temp) {
-        if(temp == null) {
+        if (temp == null) {
             return in;
-        } else{
+        } else {
             temp.setNext(insert(in, temp.getNext()));
             return temp;
         }
@@ -28,21 +28,21 @@ public class TransitionenListe {
     public Transition search(short x, short y, short dir) {
         Transition temp = head;
 
-        while(temp != null) {
-            if(temp.getNumber(x, y, dir) != 0){
+        while (temp != null) {
+            if (temp.getNumber(x, y, dir) != 0) {
                 return temp;
             } else {
                 temp = temp.getNext();
             }
         }
-        return  temp;
+        return temp;
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         Transition temp = head;
-        while(temp != null) {
+        while (temp != null) {
             sb.append(temp.toString());
             sb.append("\n");
             temp = temp.getNext();
