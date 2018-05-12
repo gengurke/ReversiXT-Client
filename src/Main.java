@@ -7,7 +7,7 @@ public class Main {
       Client client = new Client();
       try {
 
-          client.netzwerk(5555);
+          client.netzwerk(7777);
       }catch(IOException e) {
           System.out.println("no connection");
         }
