@@ -1,9 +1,35 @@
+/**
+ * Begriffe:
+ * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
+ * Zelle = einzelnes Feld auf dem Spielfeld
+ * Spielfeld = Summer aller Zellen.
+ * <p>
+ * Level der 3.Dimension
+ * 0 = Feld
+ * 1 = gueltige Zuege
+ * 2 = Transition Ja/Nein
+ * 3 = Wert des Feldes (Heuristik)
+ * 4 = oben
+ * 5 = obenrechts
+ * 6 = rechts
+ * 7 = untenrechts
+ * 8 = unten
+ * 9 = untenlinks
+ * 10 = links
+ * 11 = obenlinks
+ */
 public class Heuristik {
 
-    short breite, hoehe, brettsumme;
-    short level;
+    //Spielkonstanten
+    final byte LEVEL = 11;
+    final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der Richtungen erst ab dem 4. Level des Arrays beginnt
+
+    //Spielvariablen
     Spielbrett spiel;
-    char[][][] array = new char[breite][hoehe][3];
+    short breite, hoehe, brettsumme;
+
+    char[][][] array = new char[breite][hoehe][LEVEL];
+    short[][][] shortarray = new short[breite][hoehe][LEVEL];
 
 
     public Heuristik(Spielbrett spiel) {
@@ -11,155 +37,124 @@ public class Heuristik {
         hoehe = (short) spiel.getHoehe();
         breite = (short) spiel.getBreite();
 
-        spielbewerungBerechnen();
+        //TODO - Nur zum TESTEN -------------------------
+        TrivialeHeuristik();
+        this.brettsumme = spielfeldWertBerechnenTest();
+        //TODO ------------------------------------------
     }
 
     /**
-     * Begriffe:
-     * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
-     * Zelle = einzelnes Feld auf dem Spielfeld
-     * Spielfeld = Summer aller Zellen.
-     * <p>
-     * Level der 3.Dimension
-     * 0 = Feld
-     * 1 = gueltige Zuege
-     * 2 = Transition Ja/Nein
-     * 3 = oben
-     * 4 = obenrechts
-     * 5 = rechts
-     * 6 = untenrechts
-     * 7 = unten
-     * 8 = untenlinks
-     * 9 = links
-     * 10 = obenlinks
-     * ...
+     * Summiert alle Zellen auf. TODO nach test entfernen
+     *
+     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
      */
-    short spielbewerungBerechnen() {
+    short spielfeldWertBerechnenTest() {
         short spielwert = 0;
-        short x = 0, y = 0;
-        //char eshortrag = array[x][y][0];
-
-
-        for (y = 0; y <= this.hoehe; y++) {
-            for (x = 0; x <= this.breite; x++) {
-                spielwert += checkZelle(x, y);
+        for (short x = 0; x < breite; x++) {
+            for (short y = 0; y < hoehe; y++) {
+                spielwert += Character.getNumericValue(array[x][y][4]);
             }
         }
         return spielwert;
     }
 
-    private short checkZelle(short x, short y) {
-        short summe = 0;
-        byte sicherheit = 0;
 
+    /**
+     * Summiert alle Zellen auf.
+     *
+     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
+     */
+    short spielfeldWertBerechnen() {
+        short spielwert = 0;
+        for (short x = 0; x < breite; x++) {
+            for (short y = 0; y < hoehe; y++) {
 
-
-
-
-        /*Wert fuer Sicherheit fuer jedes Achtel*/
-        short wertAchtel = 25;
-
-        checkOben(x, y);
-        checkObenRechts(x, y);
-        checkRechts(x, y);
-        checkUntenRechts(x, y);
-        checkUnten(x, y);
-        checkUntenLinks(x, y);
-        checkLinks(x, y);
-        checkObenLinks(x, y);
-
-
-        //geht alle Richtungen durch und addiert fuer jede Sichere Richtung +1
-        for (short i = 0; i < 8; i++) {
-            if (array[x][y][i + 3] == '1') {
-                sicherheit++;
+                spielwert += Character.getNumericValue(array[x][y][4]);
             }
         }
+        return spielwert;
+    }
 
-        summe += sicherheit * wertAchtel;
+    /**
+     * Geht jedes Feld durch und ueberprueft sie auf Kriterien wie Sicherheit oder Mobilitaet.
+     * Die Ergebnisse der einzelnen Zellen werden zu Heuristik Wert (Array Level 4) hinzuaddiert.
+     */
+    void spielfeldBewerten() {
 
-        return summe;
+        /* ================================ SICHERHEIT ================================ */
+        /* ============================================================================ */
+        checkAlleZellenAufSicherheit();
+
+        /* ============================================================================ */
+        /* ============================================================================ */
+
+
+        /* ================================ MOBILITAET ================================ */
+        /* ============================================================================ */
+
+
+        /* ============================================================================ */
+        /* ============================================================================ */
+
+        /* ================================ SICHERHEIT ================================ */
+        /* ============================================================================ */
+
+
+        /* ============================================================================ */
+        /* ============================================================================ */
 
     }
 
-    private void checkOben(short x, short y) {
-        // Transition nach oben:
-        if (array[x][y][2] != 0) {
-            // TransitionenListe[] transitionen = spiel.getTransitionen();
-            // transitionen[1].search((short) x, (short) y, (short) 1);
 
-            // Oberste Zeile: wenn oberste Zeile und keine transi nach oben --> sicher.
-        } else if (y == 0 && array[x][y][2] == '0') {
-            array[x][y][3] = '1';
-            //Nichtrandsteine: schaut ob das feld nach oben eine transition hat und ob das obere feld nach oben sicher ist.
-        } else if (array[x][y][2] == '0' && array[x][y - 1][3] == '1') {
-            array[x][y][3] = 1;
-        } else {
-            array[x][y][3] = 0;
+    /**
+     * Todo - Test
+     */
+    private void TrivialeHeuristik() {
+        for (short x = 0; x < breite; x++) {
+            for (short y = 0; y < hoehe; y++) {
+                if (array[x][y][0] == '1') {
+                    array[x][y][4] = '5';
+                }
+            }
         }
     }
 
-    private void checkObenRechts(short x, short y) {
-        if (x == breite - 1 && y == 0 && array[x][y][2] != '1') { // Ecke oben rechts:
-            array[x][y][4] = 1;
-        } else if (y == 0 && array[x][y][2] != '1') { // Oberste Zeile: wenn oberste Zeile und keine transi nach obenrechts --> sicher.
-            array[x][y][4] = 1;
-        } else if (array[x][y][2] != '1' && array[x + 1][y - 1][4] == '1') { //Nichtrandsteine:
-            array[x][y][4] = 1;
-        } else {
-            array[x][y][4] = 0;
-        }
+    private void berechneZelleSicherheit(short x, short y) {
 
-
-    }
-
-    private void checkRechts(short x, short y) {
-        if (istRand(x, y, Richtungen.RECHTS) == 1) {
-            Transition transition = getTransition(x,y,Richtungen.RECHTS);
+        //geht alle Richtungen durch und addiert fuer jede Sichere Richtung +25
+        for (short i = 0; i < 8; i++) {
+            if (array[x][y][i + RICHTUNGSSHIFT] == '1') {
+                array[x][y][4] += 25;
+            }
         }
     }
 
-    private void checkUntenRechts(short x, short y) {
 
-    }
-
-    private void checkUnten(short x, short y) {
-
-        if ((y == spiel.getHoehe() - 1 && array[x][y][2] == 0) || (array[x][y + 1][1] == '-' && array[x][y][2] == 0)) {
-            array[x][y][7] = 1;
-            //Wenn das untere Feld nach unten sicher ist ist auch dieses Feld sicher
-        } else if (array[x][y + 1][1] == '-') {
-            array[x][y][7] = 1;
-
-            /*Wenn das untere Feld nach unten nicht sicher ist, ist auch dieses Feld nicht sicher*/
-        } else if (array[x][y + 1][7] == '0') {
-            array[x][y][7] = 0;
-
-            /*Wenn nach unten noch nicht berechnet wurde*/
-        } else if (array[x][y][7 + 1] == '-') {
-
-        } else {
-            /*ERROR Feld wurde nicht rchtig initialisiert*/
+    private void checkAlleZellenAufSicherheit() {
+        for (short x = 0; x < breite; x++) {
+            for (short y = 0; y < hoehe; y++) {
+                for (int dir = 0; dir < 8; dir++) {
+                    checkZelleAufSicherheit(x, y, Richtungen.values()[dir]);
+                }
+            }
         }
     }
 
-    private void checkUntenLinks(short x, short y) {
+    private void checkZelleAufSicherheit(short x, short y, Richtungen dir) {
+        if (istRand(x, y, dir)) {
+            Transition transition = getTransition(x, y, dir);
+            short nr = transition.getNumber(x, y, (short) dir.ordinal());
 
-    }
+            //transition.getX();
+            //TODO Kathi Fragen
 
-    private void checkLinks(short x, short y) {
-
-    }
-
-    private void checkObenLinks(short x, short y) {
-        if (x == breite - 1 && y == 0 && array[x][y][2] != '1') { // Ecke oben rechts:
-            array[x][y][4] = 1;
-        } else if (y == 0 && array[x][y][2] != '1') { // Oberste Zeile: wenn oberste Zeile und keine transi nach obenrechts --> sicher.
-            array[x][y][4] = 1;
-        } else if (array[x][y][2] != '1' && array[x + 1][y - 1][4] == '1') { //Nichtrandsteine:
-            array[x][y][4] = 1;
+            //TODO Checken ob hinter der transition das eigene feld wieder liegt
+        } else if (istEigeneFarbe(x, y, dir) && istSicher(x, y, dir)) {
+            array[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '1';
+        } else if (istEigeneFarbe(x, y, dir)) {
+            checkZelleAufSicherheit(x, y, dir);
         } else {
-            array[x][y][4] = 0;
+            array[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '0';
         }
     }
 
@@ -171,83 +166,51 @@ public class Heuristik {
      * @param dir
      * @return Liefert True oder False ob rand da ist oder nicht
      */
-    private short istRand(short x, short y, Richtungen dir) {
+    private boolean istRand(short x, short y, Richtungen dir) {
         switch (dir) {
             case OBEN:
                 if (y == 0) {
-                    return 1;
-                } else if (array[x][y - 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x][y - 1][0] == '-';
 
 
             case OBENRECHTS:
                 if (y == 0 && x == spiel.getBreite() - 1) {
-                    return 1;
-                } else if (array[x + 1][y - 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x + 1][y - 1][0] == '-';
 
             case RECHTS:
                 if (x == spiel.getBreite() - 1) {
-                    return 1;
-                } else if (array[x + 1][y][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x + 1][y][0] == '-';
 
             case UNTENRECHTS:
                 if (y == spiel.getHoehe() - 1 && x == spiel.getBreite() - 1) {
-                    return 1;
-                } else if (array[x + 1][y + 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x + 1][y + 1][0] == '-';
 
             case UNTEN:
                 if (y == spiel.getHoehe() - 1) {
-                    return 1;
-                } else if (array[x][y + 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x][y + 1][0] == '-';
 
             case UNTENLINKS:
                 if (y == spiel.getHoehe() - 1 && x == 0) {
-                    return 1;
-                } else if (array[x - 1][y + 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x - 1][y + 1][0] == '-';
 
             case LINKS:
                 if (x == 0) {
-                    return 1;
-                } else if (array[x - 1][y][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x - 1][y][0] == '-';
 
             case OBENLINKS:
                 if (y == 0 && x == 0) {
-                    return 1;
-                } else if (array[x - 1][y - 1][0] == '-') {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                    return true;
+                } else return array[x - 1][y - 1][0] == '-';
 
             default:
-                return 0;
+                return false;
         }
     }
 
@@ -274,23 +237,116 @@ public class Heuristik {
 
     private Transition getTransition(short x, short y, Richtungen dir) {
         TransitionenListe[] transitionen = spiel.getTransitionen();
-        Transition transition = transition = transitionen[array[x][y][2]].search(x, y, (short) dir.ordinal());
 
         if (hatTransition(x, y, dir)) {
-            return transition;
+            return transitionen[array[x][y][2]].search(x, y, (short) dir.ordinal());
         } else {
             return null;
         }
     }
 
-    private boolean istEigeneZelle(){
+    private boolean istEigeneZelle() {
 
         return false;
     }
 
-    private boolean istSchonAngeschaut(){
+    private boolean istNichtAngeschautOderUnsicher(short x, short y, Richtungen dir) {
+        switch (dir) {
+            case OBEN:
+                return array[x][y][3] != '1';
 
-        return  false;
+            case OBENRECHTS:
+                return array[x + 1][y - 1][4] != '1';
+
+            case RECHTS:
+                return array[x + 1][y][5] != '1';
+
+            case UNTENRECHTS:
+                return array[x + 1][y + 1][6] != '1';
+
+            case UNTEN:
+                return array[x][y + 1][7] != '1';
+
+            case UNTENLINKS:
+                return array[x - 1][y + 1][8] != '1';
+
+            case LINKS:
+                return array[x - 1][y][9] != '1';
+
+            case OBENLINKS:
+                return array[x - 1][y - 1][10] != '1';
+            default:
+                return false;
+        }
+    }
+
+    private boolean istSicher(short x, short y, Richtungen dir) {
+        switch (dir) {
+            case OBEN:
+                return array[x][y][3] == '1';
+
+            case OBENRECHTS:
+                return array[x + 1][y - 1][4] == '1';
+
+            case RECHTS:
+                return array[x + 1][y][5] == '1';
+
+            case UNTENRECHTS:
+                return array[x + 1][y + 1][6] == '1';
+
+            case UNTEN:
+                return array[x][y + 1][7] == '1';
+
+            case UNTENLINKS:
+                return array[x - 1][y + 1][8] == '1';
+
+            case LINKS:
+                return array[x - 1][y][9] == '1';
+
+            case OBENLINKS:
+                return array[x - 1][y - 1][10] == '1';
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Gibt an ob das Feld in die Richtung die eigene Farbe hat. Kuemmert sich nicht darum ob das Feld Rand oder Aenliches ist!!!
+     *
+     * @param x
+     * @param y
+     * @param dir
+     * @return
+     */
+    private boolean istEigeneFarbe(short x, short y, Richtungen dir) {
+        switch (dir) {
+
+            case OBEN:
+                return array[x][y - 1][0] == '1';
+
+            case OBENRECHTS:
+                return array[x + 1][y - 1][0] == '1';
+
+            case RECHTS:
+                return array[x + 1][y][0] == '1';
+
+            case UNTENRECHTS:
+                return array[x + 1][y + 1][0] == '1';
+
+            case UNTEN:
+                return array[x][y + 1][0] == '1';
+
+            case UNTENLINKS:
+                return array[x - 1][y + 1][0] == '1';
+
+            case LINKS:
+                return array[x - 1][y][0] == '1';
+
+            case OBENLINKS:
+                return array[x - 1][y - 1][0] == '1';
+            default:
+                return false;
+        }
     }
 
     short getSpielbewertung() {
