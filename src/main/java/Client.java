@@ -3,9 +3,10 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class Client {
-    Spielbrett Spiel;
-    byte Spielernummer;
-    boolean isRunning;
+    private Spielbrett Spiel;
+    private byte Spielernummer;
+    private boolean isRunning;
+    private boolean bomben;
    // short[] zug= new short[3];
 
 
@@ -64,6 +65,7 @@ public class Client {
         nachricht = new char[laenge];
         byte message[] = new byte[laenge];
         socketInputStream.readNBytes(message,0,laenge);
+
         for(int i = 0; i <laenge;i++){
             nachricht[i] = (char)message[i];
         }
@@ -78,29 +80,30 @@ public class Client {
                 break;
             case 4:
 
-                Spiel.gueltigeZuege(Spielernummer);
+
                 //Todo Sinnvolle Zugauswahl
                 char[][][] Spielfeld = Spiel.getSpielfeld();
-                for (short zeile = 0; zeile < Spiel.getHoehe(); zeile++) {
-                    for (short spalte = 0; spalte < Spiel.getBreite(); spalte++) {
+                Spiel.gueltigeZuege(Spielernummer);
+                for (short y = 0; y < Spiel.getHoehe(); y++) {
+                    for (short x = 0; x < Spiel.getBreite(); x++) {
                         short[] zug = new short[3];
-                        if (Spielfeld[zeile][spalte][1] == 'X') {
+                        if (Spielfeld[x][y][1] == 'X') {
 
-                            zug[0] = zeile;
-                            zug[1] = spalte;
+                            zug[0] = x;
+                            zug[1] = y;
                             zug[2] = 0; //Implementierung fuer Sonderfelder fehlt
                             sendeZug(zug, socket);
                            // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
-                           break;
+                           return "";
                         }
                         ;
-                        if (Spielfeld[spalte][zeile][1] == 'U') {
-                            zug[0] = zeile;
-                            zug[1] = spalte;
+                        if (Spielfeld[x][y][1] == 'U') {
+                            zug[0] = x;
+                            zug[1] = y;
                             zug[2] = 0; //Implementierung fuer Sonderfelder fehlt
                             sendeZug(zug, socket);
                             //Spiel.ganzerZug(Spielernummer, zug[1], zug[0], true);
-
+                            return"";
                         }
                     }
                 } break;
@@ -129,6 +132,11 @@ public class Client {
                break;
             case 7:
                 System.exit(-1);
+            case 8:
+                bomben = true;
+            case 9:
+                isRunning = false;
+
 
 
 
