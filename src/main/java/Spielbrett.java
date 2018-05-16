@@ -52,9 +52,9 @@ public class Spielbrett {
         return -1;
     }
 
-    private void Init(String name) throws IOException {
-        FileReader fr = new FileReader(name);
-        BufferedReader br = new BufferedReader(fr);
+    private void Init(String nachricht) throws IOException {
+        Reader inputString = new StringReader(nachricht);
+        BufferedReader br = new BufferedReader(inputString);
         String text;
         //Spieler und Ueberschreibsteine einlesen/speichern
         text = br.readLine();
@@ -118,11 +118,12 @@ public class Spielbrett {
             }
         }
 
-        fr.close();
+
         dir = new boolean[8];
         faerben = new boolean[Breite][Hoehe];
 
     }
+
 
     public void ganzerZug(int s, int x, int y, boolean ustein) {
         if (x >= 0 && y >= 0 && x < Breite && y < Hoehe) {
@@ -153,8 +154,8 @@ public class Spielbrett {
 
             scanner.close();
 
-            if (Spielfeld[x][y][1] == 'X') {
-                if (Zug(s, x, y, ustein)) {
+//            if (Spielfeld[x][y][1] == 'X') {
+                Zug(s, x, y, ustein);
                     Faerben(s, x, y, ustein);
 
                     if (choice) {
@@ -192,15 +193,15 @@ public class Spielbrett {
                     }
 
                     PrintSpielfeld();
-                } else {
-                    System.out.println("Ungueltiger Zug!");
-                }
+            //    } else {
+            //        System.out.println("Ungueltiger Zug!1");
+            //    }
 
-            } else {
-                System.out.println("Ungueltiger Zug!");
-            }
+          //  } else {
+            //    System.out.println("Ungueltiger Zug!2");
+           // }
         } else {
-            System.out.println("Ungueltiger Zug!");
+            System.out.println("Ungueltiger Zug!3");
         }
     }
 
@@ -264,7 +265,7 @@ public class Spielbrett {
         }
     }
 
-    public void gueltigeZuege() {
+    public void gueltigeZuege(int s) {
         boolean uestein;
 
         for (int zeile = 0; zeile < Hoehe; zeile++) {
@@ -277,12 +278,18 @@ public class Spielbrett {
                     uestein = false;
                 }
 
-                if (Zug(1, spalte, zeile, uestein)) {
-                    Spielfeld[spalte][zeile][1] = 'X';
-                } else {
-                    Spielfeld[spalte][zeile][1] = '0';
+
+                    if (Zug(s, spalte, zeile, uestein)) {
+                        if(uestein) {
+                            Spielfeld[spalte][zeile][1] = 'X';
+                        }else {
+                            Spielfeld[spalte][zeile][1] = 'U';
+                        }
+                    } else {
+                        Spielfeld[spalte][zeile][1] = '0';
+                    }
                 }
-            }
+
         }
         printGueltigeZuege();
     }

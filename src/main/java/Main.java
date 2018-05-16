@@ -18,6 +18,8 @@ public class Main {
 
         System.out.println("test");
 
+/*
+
 
         //Einlesen des Dateinamens
         Scanner sc = new Scanner(System.in);
@@ -28,7 +30,7 @@ public class Main {
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
-        Spiel.gueltigeZuege();
+        //Spiel.gueltigeZuege();
 
         System.out.println("Zug: X Y ");
         //int s = sc.nextInt();
@@ -47,7 +49,7 @@ public class Main {
         Spiel.ganzerZug(1, x, y, ustein);
         sc.close();
 
-
+*/
 
     }
 
