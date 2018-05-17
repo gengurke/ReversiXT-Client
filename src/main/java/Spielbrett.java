@@ -124,28 +124,50 @@ public class Spielbrett {
 
     }
 
+    public void bombZug(int x, int y){
+        Spielfeld[x][y][0]= '-';
+        PrintSpielfeld();
 
-    public void ganzerZug(int s, int x, int y, boolean ustein) {
+    }
+    public void gueltigeBombZuege(){
+        for (int zeile = 0; zeile < Hoehe; zeile++) {
+
+            for (int spalte = 0; spalte < Breite; spalte++) {
+                if(Spielfeld[spalte][zeile][0] != '-') {
+                    Spielfeld[spalte][zeile][1] = 'B';
+                }else{
+                    Spielfeld[spalte][zeile][1] = '0';                }
+
+            }
+        }
+
+    }
+
+
+
+    public void ganzerZug(int s, int x, int y, boolean ustein, byte sonderstein) {
         if (x >= 0 && y >= 0 && x < Breite && y < Hoehe) {
             int tausch = 0, bonus = 0;
             boolean choice = false, inversion = false;
             Scanner scanner = new Scanner(System.in);
             if (Spielfeld[x][y][0] == 'c') {
                 choice = true;
-                System.out.println("Choice Stein: Bitte Nummer des Spielers eingeben, mit dem getauscht werden soll.");
-                tausch = scanner.nextInt();
-                if (tausch <= 0 || tausch > Spieler) {
-                    System.out.println("Falsche Eingabe! (Nummer von 1 bis " + Spieler);
-                    tausch = scanner.nextInt();
-                }
+               // System.out.println("Choice Stein: Bitte Nummer des Spielers eingeben, mit dem getauscht werden soll.");
+               // tausch = scanner.nextInt();
+                tausch = sonderstein;
+              //  if (tausch <= 0 || tausch > Spieler) {
+                    //System.out.println("Falsche Eingabe! (Nummer von 1 bis " + Spieler);
+                   // tausch = scanner.nextInt();
+           //     }
 
             } else if (Spielfeld[x][y][0] == 'b') {
 
-                System.out.println("Bonus Stein: Bombe(1) oder Ueberschreibstein(2)?");
-                bonus = scanner.nextInt();
-                if (bonus == 1) {
+                //System.out.println("Bonus Stein: Bombe(1) oder Ueberschreibstein(2)?");
+                // bonus = scanner.nextInt();
+                bonus = sonderstein;
+                if (bonus == 20) {
                     Bomben++;
-                } else if (bonus == 2) {
+                } else if (bonus == 21) {
                     Ueberschreibsteine++;
                 }
             } else if (Spielfeld[x][y][0] == 'i') {
@@ -154,9 +176,9 @@ public class Spielbrett {
 
             scanner.close();
 
-//            if (Spielfeld[x][y][1] == 'X') {
+           // if (Spielfeld[x][y][1] == 'X') {
                 Zug(s, x, y, ustein);
-                    Faerben(s, x, y, ustein);
+                Faerben(s, x, y, ustein);
 
                     if (choice) {
                         if (s != tausch) {
@@ -288,9 +310,18 @@ public class Spielbrett {
                     } else {
                         Spielfeld[spalte][zeile][1] = '0';
                     }
+                //TODO vernuenftige Implementierung
+                if(Spielfeld[spalte][zeile][0] == 'x' && Ueberschreibsteine > 0){
+                    Spielfeld[spalte][zeile][1] = 'U';
+
+                }
                 }
 
+
+
         }
+
+
         printGueltigeZuege();
     }
 

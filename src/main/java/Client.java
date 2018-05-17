@@ -79,34 +79,72 @@ public class Client {
                 Spielernummer = (byte) nachricht[0];
                 break;
             case 4:
-
-
-                //Todo Sinnvolle Zugauswahl
                 char[][][] Spielfeld = Spiel.getSpielfeld();
-                Spiel.gueltigeZuege(Spielernummer);
-                for (short y = 0; y < Spiel.getHoehe(); y++) {
-                    for (short x = 0; x < Spiel.getBreite(); x++) {
-                        short[] zug = new short[3];
-                        if (Spielfeld[x][y][1] == 'X') {
+                if(bomben){
+                    Spiel.gueltigeBombZuege();
+                    //Todo Sinnvolle Zugauswahl
 
-                            zug[0] = x;
-                            zug[1] = y;
-                            zug[2] = 0; //Implementierung fuer Sonderfelder fehlt
-                            sendeZug(zug, socket);
-                           // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
-                           return "";
-                        }
-                        ;
-                        if (Spielfeld[x][y][1] == 'U') {
-                            zug[0] = x;
-                            zug[1] = y;
-                            zug[2] = 0; //Implementierung fuer Sonderfelder fehlt
-                            sendeZug(zug, socket);
-                            //Spiel.ganzerZug(Spielernummer, zug[1], zug[0], true);
-                            return"";
+                    for (short y = 0; y < Spiel.getHoehe(); y++) {
+                        for (short x = 0; x < Spiel.getBreite(); x++) {
+                            short[] zug = new short[3];
+                            if (Spielfeld[x][y][1] == 'B') {
+                                zug[0] = x;
+                                zug[1] = y;
+                                sendeZug(zug, socket);
+                                return "";
+                            }
                         }
                     }
-                } break;
+
+
+                }else {
+
+
+                    //Todo Sinnvolle Zugauswahl
+
+                    Spiel.gueltigeZuege(Spielernummer);
+                    for (short y = 0; y < Spiel.getHoehe(); y++) {
+                        for (short x = 0; x < Spiel.getBreite(); x++) {
+                            short[] zug = new short[3];
+                            if (Spielfeld[x][y][1] == 'X') {
+
+                                zug[0] = x;
+                                zug[1] = y;
+                                if (Spielfeld[x][y][0] == 'c') {
+                                    if (Spielernummer == 1) {
+                                        zug[2] = 2;
+                                        Spielernummer = 2;
+                                    } else {
+                                        zug[2] = 1;
+                                        Spielernummer = 1;
+                                    }
+
+                                } else if (Spielfeld[x][y][0] == 'b') {
+                                    zug[2] = 21;
+                                } else {
+                                    zug[2] = 0;
+                                }
+
+                                sendeZug(zug, socket);
+                                // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
+                                return "";
+                            }
+
+                            //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig machen
+                            if (Spielfeld[x][y][1] == 'U') {
+                                zug[0] = x;
+                                zug[1] = y;
+                                zug[2] = 0; //sonderfeld bei Ueberschreibstein nicht moeglich
+                                sendeZug(zug, socket);
+                                //Spiel.ganzerZug(Spielernummer, zug[1], zug[0], true);
+                                return "";
+                            }
+
+
+                        }
+                    }
+                }
+                break;
 
             case 6:
                 boolean ustein = false;
@@ -120,10 +158,16 @@ public class Client {
                 Spielfeld = Spiel.getSpielfeld();
                if(Spielfeld[x][y][0] != '0'){
                    ustein = true;
-
                }
+               if(sonderfeld == spieler){
+                   Spielernummer = sonderfeld;
+            }
+            if(bomben){
+                   Spiel.bombZug(x,y);
+            }else {
 
-                Spiel.ganzerZug(spieler,x,y,ustein);
+                Spiel.ganzerZug(spieler, x, y, ustein, sonderfeld);
+            }
                if (ustein && (spieler == Spielernummer)){
 
                    Spiel.setUeberschreibsteine(Spiel.getUeberschreibsteine()-1);
@@ -134,8 +178,11 @@ public class Client {
                 System.exit(-1);
             case 8:
                 bomben = true;
+                break;
             case 9:
+                System.out.println("Ende");
                 isRunning = false;
+                break;
 
 
 
