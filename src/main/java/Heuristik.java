@@ -109,7 +109,7 @@ public class Heuristik {
     /**
      * Todo - Test
      */
-    private void TrivialeHeuristik() {
+    void TrivialeHeuristik() {
         for (short x = 0; x < breite; x++) {
             for (short y = 0; y < hoehe; y++) {
                 if (array[x][y][0] == '1') {
@@ -142,13 +142,35 @@ public class Heuristik {
 
     private void checkZelleAufSicherheit(short x, short y, Richtungen dir) {
         if (istRand(x, y, dir)) {
+            
             Transition transition = getTransition(x, y, dir);
             short nr = transition.getNumber(x, y, (short) dir.ordinal());
 
-            //transition.getX();
-            //TODO Kathi Fragen
+            //Schauen ob es Transition gibt. Wenn nicht => sicher. Sonst => Zelle hinter Transition pruefen
+            if (nr == 0) {
+                array[x][y][dir.ordinal()] = '1';
+            } else {
+                short anderesEndeX, anderesEndeY, anderesEndeDir;
 
-            //TODO Checken ob hinter der transition das eigene feld wieder liegt
+                //Je nachdem welches Transitionsende es ist x und y zuweisen
+                if (nr == 1) {
+                    anderesEndeX = transition.getX((short) 2);
+                    anderesEndeY = transition.getY((short) 2);
+                    anderesEndeDir = transition.dir2;
+                } else {
+                    anderesEndeX = transition.getX((short) 1);
+                    anderesEndeY = transition.getX((short) 1);
+                    anderesEndeDir = transition.dir1;
+                }
+
+                //Auf eigene Zelle pruefen sonst Zelle hinter Transition pruefen
+                if (!istEigeneZelle(anderesEndeX, anderesEndeY, x, y)) {
+                    array[x][y][dir.ordinal()] = '1';
+                } else {
+                    checkZelleAufSicherheit(anderesEndeX, anderesEndeY, Richtungen.values()[anderesEndeDir]);
+                }
+
+            }
         } else if (istEigeneFarbe(x, y, dir) && istSicher(x, y, dir)) {
             array[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '1';
         } else if (istEigeneFarbe(x, y, dir)) {
@@ -245,9 +267,12 @@ public class Heuristik {
         }
     }
 
-    private boolean istEigeneZelle() {
-
-        return false;
+    private boolean istEigeneZelle(short anderesX, short anderesY, short x, short y) {
+        if (x == anderesX && y == anderesY) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private boolean istNichtAngeschautOderUnsicher(short x, short y, Richtungen dir) {
