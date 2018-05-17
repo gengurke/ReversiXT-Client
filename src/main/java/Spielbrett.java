@@ -431,6 +431,62 @@ public class Spielbrett {
         return faerben;
     }
 
+    public void sucheZug(int tiefe, int s) {
+        int max = Integer.MIN_VALUE, x = -1, y= -1;
+        Spielbrett spiel = this;
+        spiel.gueltigeZuege();
+        for(int spalte = 0; spalte < spiel.Breite; spalte++) {
+            for(int zeile = 0; zeile < spiel.Hoehe; zeile++){
+                if(spiel.Spielfeld[spalte][zeile][1] == 'X') {
+                    spiel.Zug(s, spalte, zeile, spiel.hatUeberschreibsteine());
+                    spiel.Faerben((s+1)%spiel.Spieler, spalte, zeile, spiel.hatUeberschreibsteine());
+                    int wert = sucheZug(tiefe-1, s, (s+1)%spiel.Spieler, spiel);
+                    if(max < wert) {
+                        max = wert;
+                        x = spalte;
+                        y = zeile;
+                    }
+                }
+                spiel = this;
+            }
+        }
+        System.out.println("Zug: ("+x+","+y+")");
+    }
+
+    private int sucheZug(int tiefe, int s, int aktS, Spielbrett spiel) {
+        if(tiefe == 0) {
+            Heuristik h = new Heuristik(spiel);
+            return h.getSpielbewertung();
+        } else {
+            int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+            Spielbrett temp = spiel;
+            spiel.gueltigeZuege();
+            for(int spalte = 0; spalte < spiel.Breite; spalte++) {
+                for(int zeile = 0; zeile < spiel.Hoehe; zeile++){
+                    if(spiel.Spielfeld[spalte][zeile][1] == 'X') {
+                        spiel.Zug(aktS, spalte, zeile, spiel.hatUeberschreibsteine());
+                        if(s == aktS) {
+                            int wert = spiel.sucheZug(tiefe - 1, s, (s + 1) % spiel.Spieler, spiel);
+                            if (max < wert) {
+                                max = wert;
+                            }
+                            spiel = temp;
+                            return max;
+                        } else {
+                            int wert = spiel.sucheZug(tiefe - 1, s, (s + 1) % spiel.Spieler, spiel);
+                            if (min > wert) {
+                                min = wert;
+                            }
+                            spiel = temp;
+                            return min;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     public void setSpieler(int spieler) {
         Spieler = spieler;
     }
@@ -469,6 +525,14 @@ public class Spielbrett {
 
     public int getUeberschreibsteine() {
         return Ueberschreibsteine;
+    }
+
+    public boolean hatUeberschreibsteine() {
+        if(Ueberschreibsteine > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int getBomben() {
