@@ -1,4 +1,5 @@
-/**
+/*
+*
  * Begriffe:
  * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
  * Zelle = einzelnes Feld auf dem Spielfeld
@@ -17,12 +18,10 @@
  * 9 = untenlinks
  * 10 = links
  * 11 = obenlinks
- *//*
-
-public class Heuristik {
+public class Heuristik_1 {
 
     //Spielkonstanten
-    final byte LEVEL = 11;
+    final byte LEVEL = 12;
     final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der Richtungen erst ab dem 4. Level des Arrays beginnt
 
     //Spielvariablen
@@ -30,236 +29,193 @@ public class Heuristik {
     short brettsumme;
     int breite, hoehe;
     char[][][] spielfeld;
-    //short[][][] shortarray = new short[breite][hoehe][LEVEL];
+    short[][][] spielfeldSHORT;
 
 
-    public Heuristik(Spielbrett spiel) {
+    public Heuristik_1(Spielbrett spiel) {
         this.spiel = spiel;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
         spielfeld = spiel.getSpielfeld();
 
+        spielfeldSHORT = new short[breite][hoehe][LEVEL];
+        spielfeldINIT();
+
         spielfeldBewerten();
         //TODO - Nur zum TESTEN -------------------------
-        */
-/*TrivialeHeuristik();*//*
 
         this.brettsumme = spielfeldWertBerechnenTest();
         //TODO ------------------------------------------
     }
 
-    */
-/**
+    void spielfeldINIT() {
+
+        for (int y = 0; y < hoehe; y++) {
+            for (int x = 0; x < breite; x++) {
+                spielfeldSHORT[x][y][0] = 0;
+                spielfeldSHORT[x][y][7] = 0;
+            }
+        }
+    }
+
+
+*
      * Summiert alle Zellen auf. TODO nach test entfernen
      *
      * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
-     *//*
+
 
     short spielfeldWertBerechnenTest() {
         short spielwert = 0;
         for (int x = 0; x < breite; x++) {
             for (int y = 0; y < hoehe; y++) {
-                spielwert += Character.getNumericValue(spielfeld[x][y][4]);
+                //spielwert += Character.getNumericValue(spielfeld[x][y][4]);
+                spielwert += spielfeldSHORT[x][y][0];
             }
         }
         return spielwert;
     }
 
-    */
-/**
+*
      * Summiert alle Zellen auf.
      *
      * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
-     *//*
+
 
     short spielfeldWertBerechnen() {
         short spielwert = 0;
         for (short x = 0; x < breite; x++) {
             for (short y = 0; y < hoehe; y++) {
-
-                spielwert += Character.getNumericValue(spielfeld[x][y][4]);
+                spielwert += spielfeldSHORT[x][y][0];
+                //spielwert += Character.getNumericValue(spielfeld[x][y][4]);
             }
         }
         return spielwert;
     }
 
-    */
-/**
+    private boolean istEcke(short x, short y) {
+        if ((x == 0) && (y == 0)) {
+            return true;
+        } else if ((x == 0) && (y == hoehe - 1)) {
+            return true;
+        } else if ((y == 0) && (x == breite - 1)) {
+            return true;
+        } else if ((y == hoehe - 1) && (x == breite - 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+*
      * Geht jedes Feld durch und ueberprueft sie auf Kriterien wie Sicherheit oder Mobilitaet.
      * Die Ergebnisse der einzelnen Zellen werden zu Heuristik Wert (Array Level 4) hinzuaddiert.
-     *//*
+
 
     void spielfeldBewerten() {
 
-        */
-/* ================================ SICHERHEIT ================================ *//*
+ ================================ SICHERHEIT ================================
 
-        */
-/* ============================================================================ *//*
-
-        checkAlleZellenAufSicherheit();
-
-        */
-/* ============================================================================ *//*
-
-        */
-/* ============================================================================ *//*
+ ============================================================================
 
 
 
-        */
-/* ================================ MOBILITAET ================================ *//*
+        TrivialeHeuristik();
 
-        */
-/* ============================================================================ *//*
+ ============================================================================
 
-
-
-        */
-/* ============================================================================ *//*
-
-        */
-/* ============================================================================ *//*
-
-
-        */
-/* ================================ SICHERHEIT ================================ *//*
-
-        */
-/* ============================================================================ *//*
+ ============================================================================
 
 
 
-        */
-/* ============================================================================ *//*
+ ================================ MOBILITAET ================================
 
-        */
-/* ============================================================================ *//*
+ ============================================================================
+
+
+
+ ============================================================================
+
+ ============================================================================
+
+
+ ================================ SICHERHEIT ================================
+
+ ============================================================================
+
+
+
+ ============================================================================
+
+ ============================================================================
 
 
     }
 
-    */
-/**
+*
      * Todo - Test
-     *//*
+
 
     void TrivialeHeuristik() {
-        for (int x = 0; x < breite; x++) {
-            for (int y = 0; y < hoehe; y++) {
-                spielfeld[x][y][4] = spielfeld[x][y][0];
-                if (spielfeld[x][y][0] == '1') {
-                    spielfeld[x][y][4] = '5';
+        for (short y = 0; y < hoehe; y++) {
+            for (short x = 0; x < breite; x++) {
+
+                switch (spielfeld[x][y][0]) {
+                    case '1':
+                        if (istEcke(x, y)) {
+                            spielfeldSHORT[x][y][0] = 100;
+
+                        } else if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                            spielfeldSHORT[x][y][0] = 9;
+                        } else {
+                            spielfeldSHORT[x][y][0] = 1;
+                        }
+
+                        break;
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                        if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                            spielfeldSHORT[x][y][0] = -5;
+                        } else {
+                            spielfeldSHORT[x][y][0] = -1;
+                        }
+
+                        break;
+                    case '0':
+                        spielfeldSHORT[x][y][0] = 0;
+                        break;
+                    case 'b':
+                        spielfeldSHORT[x][y][0] = 2;
+                        break;
+                    case 'c':
+                        spielfeldSHORT[x][y][0] = -5;
+                        break;
+                    case 'i':
+                        spielfeldSHORT[x][y][0] = -8;
+                        break;
+                    default:
+                        spielfeldSHORT[x][y][0] = 0;
+                        break;
+
                 }
             }
         }
     }
 
-    private void berechneZelleSicherheit(short x, short y) {
 
-        //geht alle Richtungen durch und addiert fuer jede Sichere Richtung +25
-        for (short i = 0; i < 8; i++) {
-            if (spielfeld[x][y][i + RICHTUNGSSHIFT] == '1') {
-                spielfeld[x][y][4] += 25;
-            }
-        }
-    }
-
-    private void checkAlleZellenAufSicherheit() {
-        for (short x = 0; x < breite; x++) {
-            for (short y = 0; y < hoehe; y++) {
-                for (int dir = 0; dir < 8; dir++) {
-                    checkZelleAufSicherheit(x, y, Richtungen.values()[dir]);
-                }
-            }
-        }
-    }
-
-    private void checkZelleAufSicherheit(short x, short y, Richtungen dir) {
-        if (istRand(x, y, dir)) {
-
-            Transition transition = getTransition(x, y, dir);
-
-
-            //Schauen ob es Transition gibt. Wenn nicht => sicher. Sonst => Zelle hinter Transition pruefen
-            if (transition == null) {
-                spielfeld[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '1';
-
-            } else {
-                short nr = transition.getNumber(x, y, (short) dir.ordinal());
-                short anderesEndeX, anderesEndeY, anderesEndeDir;
-
-                //Je nachdem welches Transitionsende es ist x und y zuweisen
-                if (nr == 1) {
-                    anderesEndeX = transition.getX((short) 2);
-                    anderesEndeY = transition.getY((short) 2);
-                    anderesEndeDir = transition.dir2;
-                } else {
-                    anderesEndeX = transition.getX((short) 1);
-                    anderesEndeY = transition.getX((short) 1);
-                    anderesEndeDir = transition.dir1;
-                }
-
-                //Auf eigene Zelle pruefen sonst Zelle hinter Transition pruefen
-                if (!istEigeneZelle(anderesEndeX, anderesEndeY, x, y)) {
-                    spielfeld[x][y][dir.ordinal()] = '1';
-                } else {
-                    checkZelleAufSicherheit(anderesEndeX, anderesEndeY, Richtungen.values()[anderesEndeDir]);
-                }
-
-            }
-        } else if (istEigeneFarbe(x, y, dir) && istSicher(x, y, dir)) {
-            spielfeld[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '1';
-        } else if (istEigeneFarbe(x, y, dir)) {
-            checkZelleAufSicherheit(getNewX(x, (short) dir.ordinal()), getNewY(y, (short) dir.ordinal()), dir);
-        } else {
-            spielfeld[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '0';
-        }
-    }
-
-    private short getNewX(short x, short dir) {
-        switch (dir) {
-            case 0:
-            case 4:
-                return x;
-            case 1:
-            case 2:
-            case 3:
-                return ++x;
-            case 5:
-            case 6:
-            case 7:
-                return --x;
-        }
-        return -1;
-    }
-
-    private short getNewY(short y, short dir) {
-        switch (dir) {
-            case 2:
-            case 6:
-                return y;
-            case 3:
-            case 4:
-            case 5:
-                return ++y;
-            case 7:
-            case 0:
-            case 1:
-                return --y;
-        }
-        return -1;
-    }
-
-    */
-/**
+*
      * Schaut ob in die Richtung der Ran ist oder ein "Rand" Feld
      *
      * @param x
      * @param y
      * @param dir
      * @return Liefert True oder False ob rand da ist oder nicht
-     *//*
+
 
     private boolean istRand(short x, short y, Richtungen dir) {
         switch (dir) {
@@ -306,47 +262,6 @@ public class Heuristik {
 
             default:
                 return false;
-        }
-    }
-
-    */
-/**
-     * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
-     *
-     * @param x   X Koordinate
-     * @param y   Y Koordinate
-     * @param dir Richtung der potentiellen Transition
-     * @return Liefert True oder False wenn Transition da ist oder nicht
-     *//*
-
-    private boolean hatTransition(short x, short y, Richtungen dir) {
-        TransitionenListe[] transitionen = spiel.getTransitionen();
-        Transition transition = new Transition((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);//TODO - Default Construktor erstellen?
-
-        if (transitionen[spielfeld[x][y][2]].isEmpty()) {
-            return false;
-        } else if ((transition = transitionen[spielfeld[x][y][2]].search(x, y, (short) dir.ordinal())) != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private Transition getTransition(short x, short y, Richtungen dir) {
-        TransitionenListe[] transitionen = spiel.getTransitionen();
-
-        if (hatTransition(x, y, dir)) {
-            return transitionen[spielfeld[x][y][2]].search(x, y, (short) dir.ordinal());
-        } else {
-            return null;
-        }
-    }
-
-    private boolean istEigeneZelle(short anderesX, short anderesY, short x, short y) {
-        if (x == anderesX && y == anderesY) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -410,15 +325,14 @@ public class Heuristik {
         }
     }
 
-    */
-/**
+*
      * Gibt an ob das Feld in die Richtung die eigene Farbe hat. Kuemmert sich nicht darum ob das Feld Rand oder Aenliches ist!!!
      *
      * @param x
      * @param y
      * @param dir
      * @return
-     *//*
+
 
     private boolean istEigeneFarbe(short x, short y, Richtungen dir) {
         switch (dir) {
@@ -456,8 +370,7 @@ public class Heuristik {
     }
 
 
-    */
-/* Ausgabe *//*
+ Ausgabe
 
 
     public short getBrettsumme() {
@@ -475,13 +388,57 @@ public class Heuristik {
         for (int i = 0; i < hoehe; i++) {
             for (int j = 0; j < breite; j++) {
 
-                text.append(spielfeld[j][i][4] + " ");
-
-
+                if (spielfeldSHORT[j][i][0] < 0) {
+                    text.append(String.valueOf(" " + spielfeldSHORT[j][i][0]));
+                } else {
+                    text.append(String.valueOf("  " + spielfeldSHORT[j][i][0]));
+                }
             }
             text.append("\n");
         }
-        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
+        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n" + "\n" + "Legende:\n" + "\n" + "Eigener Stein an Kante: 10\n" + "Fremder Stein an Kante: -10\n" + "Choise- und Inversionsstein: -8\n" + "Bonusstein: 2\n";
+
+    }
+
+    private void TrivialeHeuristik() {
+        for (short y = 0; y < hoehe; y++) {
+            for (short x = 0; x < breite; x++) {
+
+                switch (spielfeld[x][y][0]) {
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '0':
+                    case 'x':
+                        if (istEcke(x, y)) {
+                            spielfeldSHORT[x][y][0] = 50;
+
+                        } else if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                            spielfeldSHORT[x][y][0] = 10;
+                        } else {
+                            spielfeldSHORT[x][y][0] = 1;
+                        }
+                        break;
+                    case 'b':
+                        spielfeldSHORT[x][y][0] = 5;
+                        break;
+                    case 'c':
+                        spielfeldSHORT[x][y][0] = -5;
+                        break;
+                    case 'i':
+                        spielfeldSHORT[x][y][0] = -8;
+                        break;
+                    default:
+                        spielfeldSHORT[x][y][0] = 0;
+                        break;
+                }
+            }
+        }
     }
 }
 */

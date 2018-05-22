@@ -72,7 +72,7 @@ public class Spielbrett {
         setHoehe(Integer.parseInt(array[0]));
         setBreite(Integer.parseInt(array[1]));
         //Spielfeld einlesen/speichern
-        Spielfeld = new char[Breite][Hoehe][3];
+        Spielfeld = new char[Breite][Hoehe][12];
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             text = br.readLine();
             array = text.split(" ");
@@ -89,6 +89,7 @@ public class Spielbrett {
 
         Transitionen = new TransitionenListe[templiste.size() + 1];
         int counter = 1;
+        Transitionen[0] = new TransitionenListe();
         for (int i = 0; i < templiste.size(); i++) {
             Transitionen[i + 1] = new TransitionenListe();
             String[] textarray = templiste.get(i).split(" ");
