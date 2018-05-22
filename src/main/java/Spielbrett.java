@@ -456,7 +456,7 @@ public class Spielbrett {
 
     private int sucheZug(int tiefe, int s, int aktS, Spielbrett spiel) {
         if(tiefe == 0) {
-            Heuristik h = new Heuristik(spiel);
+            StatischeHeuristik h = new StatischeHeuristik(spiel);
             return h.getSpielbewertung();
         } else {
             int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;

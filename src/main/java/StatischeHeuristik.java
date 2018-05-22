@@ -40,7 +40,9 @@ public class StatischeHeuristik {
         sicherheit = new int[breite][hoehe][9];
 
         statischFeldwertBerechnen();
+        mobilitaetBerechnen();
         spielbrettSummeBerechnen();
+
     }
 
     void spielbrettSummeBerechnen() {
@@ -88,6 +90,16 @@ public class StatischeHeuristik {
                         sicherheit[x][y][8] += 0;
                         break;
 
+                }
+            }
+        }
+    }
+
+    void mobilitaetBerechnen() {
+        for (int y = 0; y < hoehe; y++) {
+            for (int x = 0; x < breite; x++) {
+                if (spielfeld[x][y][1] == 'X') {
+                    sicherheit[x][y][8] += 20;
                 }
             }
         }
@@ -165,7 +177,7 @@ public class StatischeHeuristik {
         return -1;
     }
 
-    public int getWert() {
+    public int getSpielbewertung() {
         return brettsumme;
     }
 
@@ -195,7 +207,7 @@ public class StatischeHeuristik {
             }
             text.append("\n");
         }
-        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n" + "\n" + "Legende:\n" + "\n" + "Eigener Stein an Kante: 10\n" + "Fremder Stein an Kante: -10\n" + "Choise- und Inversionsstein: -8\n" + "Bonusstein: 2\n";
+        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
 
     }
 }

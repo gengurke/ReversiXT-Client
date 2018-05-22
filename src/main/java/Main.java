@@ -11,9 +11,13 @@ public class Main {
         Spielbrett Spiel = new Spielbrett(Datname);
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
+
+        //gültige Züge
+        Spiel.gueltigeZuege();
+
+        //Heuristik
         StatischeHeuristik heuristik = new StatischeHeuristik(Spiel);
         System.out.println(heuristik);
-        Spiel.gueltigeZuege();
 
         System.out.println("Zug: X Y ");
         //int s = sc.nextInt();
