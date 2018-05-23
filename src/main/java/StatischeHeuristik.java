@@ -39,7 +39,8 @@ public class StatischeHeuristik {
 
         sicherheit = new int[breite][hoehe][9];
 
-        statischFeldwertBerechnen();
+        statischFeldwertBerechnenZumAusgeben();
+        //statischFeldwertBerechnen();
         mobilitaetBerechnen();
         spielbrettSummeBerechnen();
 
@@ -53,7 +54,27 @@ public class StatischeHeuristik {
         }
     }
 
-    void statischFeldwertBerechnen() {
+    /**
+     * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
+     *
+     * @param x   X Koordinate
+     * @param y   Y Koordinate
+     * @param dir Richtung der potentiellen Transition
+     * @return Liefert True oder False wenn Transition da ist oder nicht
+     */
+
+    private boolean hatTransition(int x, int y, Richtungen dir) {
+        TransitionenListe[] transitionen = spiel.getTransitionen();
+        Transition transition;
+
+        if ((transition = transitionen[spielfeld[x][y][2]].search((short) x, (short) y, (short) dir.ordinal())) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void statischFeldwertBerechnenZumAusgeben() {
 
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
@@ -70,21 +91,81 @@ public class StatischeHeuristik {
                     case 'x':
                         for (Richtungen dir : Richtungen.values()) {
                             if (istRand(x, y, dir)) {
-                                sicherheit[x][y][dir.ordinal()] = 1;
-                                sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
-                                sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
-                                sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                if (!hatTransition(x, y, dir)) {
+                                    sicherheit[x][y][dir.ordinal()] = 1;
+                                    sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
+                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                }
                             }
                         }
                         break;
                     case 'b':
-                        sicherheit[x][y][8] += 20;
+                        //sicherheit[x][y][8] += 20;
                         break;
                     case 'c':
-                        sicherheit[x][y][8] += 20;
+                        //sicherheit[x][y][8] += 20;
                         break;
                     case 'i':
-                        sicherheit[x][y][8] += -100;
+                        //sicherheit[x][y][8] += -100;
+                        break;
+                    default:
+                        sicherheit[x][y][8] += 0;
+                        break;
+
+                }
+            }
+        }
+    }
+
+    void statischFeldwertBerechnen() {
+
+        for (int y = 0; y < hoehe; y++) {
+            for (int x = 0; x < breite; x++) {
+                switch (spielfeld[x][y][0]) {
+                    case '1':
+                        sicherheit[x][y][8] += 10;
+                        for (Richtungen dir : Richtungen.values()) {
+                            if (istRand(x, y, dir)) {
+                                if (!hatTransition(x, y, dir)) {
+                                    sicherheit[x][y][dir.ordinal()] = 1;
+                                    sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
+                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                }
+                            }
+                        }
+                        break;
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                        sicherheit[x][y][8] -= 10;
+                        for (Richtungen dir : Richtungen.values()) {
+                            if (istRand(x, y, dir)) {
+                                if (!hatTransition(x, y, dir)) {
+                                    sicherheit[x][y][dir.ordinal()] = -1;
+                                    sicherheit[x][y][getOppDir(dir.ordinal())] = -1;
+                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                }
+                            }
+                        }
+                        break;
+                    case '0':
+                    case 'x':
+                        break;
+                    case 'b':
+                        //sicherheit[x][y][8] += 20;
+                        break;
+                    case 'c':
+                        //sicherheit[x][y][8] += 20;
+                        break;
+                    case 'i':
+                        //sicherheit[x][y][8] += -100;
                         break;
                     default:
                         sicherheit[x][y][8] += 0;
@@ -99,7 +180,7 @@ public class StatischeHeuristik {
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
                 if (spielfeld[x][y][1] == 'X') {
-                    sicherheit[x][y][8] += 20;
+                    sicherheit[x][y][8] += 50;
                 }
             }
         }
@@ -193,8 +274,10 @@ public class StatischeHeuristik {
             for (int x = 0; x < breite; x++) {
 
                 //Formattierung
-                if (sicherheit[x][y][8] < 0) {
+                if (sicherheit[x][y][8] <= -100) {
                     text.append(String.valueOf(" " + sicherheit[x][y][8]));
+                } else if (sicherheit[x][y][8] <= -10) {
+                    text.append(String.valueOf("  " + sicherheit[x][y][8]));
                 } else if (sicherheit[x][y][8] >= 1000) {
                     text.append(String.valueOf(" " + sicherheit[x][y][8]));
                 } else if (sicherheit[x][y][8] >= 100) {
