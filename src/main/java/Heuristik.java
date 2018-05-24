@@ -11,7 +11,8 @@
  * 2 = Transition Ja/Nein
  * 3 = Wert des Feldes (Heuristik)
  * <p>
- * Level Shicherheistarray
+ *
+ * Level Sicherheistarray
  * <p>
  * 0 = Oben
  * 1 = obenRechts
@@ -39,8 +40,8 @@ public class Heuristik {
 
         sicherheit = new int[breite][hoehe][9];
 
-        statischFeldwertBerechnenZumAusgeben();
-        //statischFeldwertBerechnen();
+        //statischFeldwertBerechnenZumAusgeben();
+        statischFeldwertBerechnen();
         mobilitaetBerechnen();
         spielbrettSummeBerechnen();
 
@@ -55,6 +56,23 @@ public class Heuristik {
     }
 
     /**
+     * Wenn man im Suchbaum am Ende angekommen ist und alle Felder zaehlen muss
+     *
+     * @return Summe eigener Steine
+     */
+    public int trivialeHeuristik() {
+        int summe = 0;
+        for (int y = 0; y < hoehe; y++) {
+            for (int x = 0; x < breite; x++) {
+                if (this.spielfeld[x][y][0] == '1') {
+                    summe += 1;
+                }
+            }
+        }
+        return summe;
+    }
+
+    /**
      * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
      *
      * @param x   X Koordinate
@@ -62,7 +80,6 @@ public class Heuristik {
      * @param dir Richtung der potentiellen Transition
      * @return Liefert True oder False wenn Transition da ist oder nicht
      */
-
     private boolean hatTransition(int x, int y, Richtungen dir) {
         TransitionenListe[] transitionen = spiel.getTransitionen();
         Transition transition;
@@ -130,6 +147,7 @@ public class Heuristik {
                                 if (!hatTransition(x, y, dir)) {
                                     sicherheit[x][y][dir.ordinal()] = 1;
                                     sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
+                                    /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
                                     sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
                                     sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
                                 }
