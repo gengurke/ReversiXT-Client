@@ -3,17 +3,14 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-      System.out.println("test");
-      Client client = new Client();
-      try {
+        System.out.println("test");
+        Client client = new Client();
+        try {
 
-          client.netzwerk(7777);
-      }catch(IOException e) {
-          System.out.println("no connection");
+            client.netzwerk(7777);
+        } catch (IOException e) {
+            System.out.println("no connection");
         }
-
-
-
 
 
         System.out.println("test");
@@ -30,7 +27,12 @@ public class Main {
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
-        //Spiel.gueltigeZuege();
+        //gültige Züge
+        Spiel.gueltigeZuege();
+
+        //Heuristik
+        Heuristik heuristik = new Heuristik(Spiel);
+        System.out.println(heuristik);
 
         System.out.println("Zug: X Y ");
         //int s = sc.nextInt();
@@ -52,7 +54,6 @@ public class Main {
 */
 
     }
-
 
 
 }

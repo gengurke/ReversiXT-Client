@@ -5,7 +5,11 @@ projektbericht/*.pdf
 .idea/
 .idea/misc.xml
 
-
+#Gradle
+.gradletasknamecache
+.gradle/
+build/
+bin/
 
 ### Windows template
 # Windows thumbnail cache files
