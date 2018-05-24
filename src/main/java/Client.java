@@ -56,7 +56,7 @@ public class Client {
 
         //ArrayList <Byte> nachricht = new ArrayList<>();
 
-        socketInputStream.readNBytes(stream,0,5);
+        socketInputStream.read(stream,0,5);
 
 
         byte art = stream[0];
@@ -64,7 +64,7 @@ public class Client {
         char nachricht[] ;
         nachricht = new char[laenge];
         byte message[] = new byte[laenge];
-        socketInputStream.readNBytes(message,0,laenge);
+        socketInputStream.read(message,0,laenge);
 
         for(int i = 0; i <laenge;i++){
             nachricht[i] = (char)message[i];
