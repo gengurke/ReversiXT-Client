@@ -16,7 +16,7 @@ public class Main {
         Spiel.gueltigeZuege();
 
         //Heuristik
-        StatischeHeuristik heuristik = new StatischeHeuristik(Spiel);
+        Heuristik heuristik = new Heuristik(Spiel);
         System.out.println(heuristik);
 
         System.out.println("Zug: X Y ");
