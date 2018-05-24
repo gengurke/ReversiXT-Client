@@ -34,6 +34,10 @@ public class Client {
         schreibeNachricht(socket, zuSendendeNachricht);
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
+        //TODO - Heursitik ausgabe
+        Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
+        System.out.println(heuristik);
+
         while(isRunning) {
             empfangeNachricht(socket);
         }
@@ -195,6 +199,7 @@ public class Client {
         return "";
 
     }
+
     public void sendeZug(short[] zug,java.net.Socket socket)throws IOException{
         byte laenge = 5;
         byte nachricht[];
