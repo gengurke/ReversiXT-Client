@@ -2,12 +2,39 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
+
     public static void main(String[] args) throws IOException {
+         int port = 7777;
+         String ip = "127.0.0.1";
+
+
         System.out.println("test");
-        Client client = new Client();
+
+
+        for (int i = 0; i < args.length; i++) {
+           if(args[i].equals("-i")){
+             ip  = args[i+1];
+            }
+            if(args[i].equals("-p")){
+              port  = Integer.parseInt(args[i+1]);
+            }
+            if(args[i].equals("-h")){
+                System.out.println("-i ip");
+                System.out.println("-p port");
+                System.out.println("-h help");
+
+
+            }
+
+
+
+
+        }
+            Client client = new Client();
 
         try {
-            client.netzwerk(7777);
+            client.netzwerk(port,ip);
         } catch (IOException e) {
             System.out.println("no connection");
         }

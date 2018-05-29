@@ -139,6 +139,12 @@ public class Spielbrett {
 
     public void bombZug(int x, int y) {
         Spielfeld[x][y][0] = '-';
+        for(int i = 0; i < Staerke; i++){
+            //Todo Transitionen und
+            Spielfeld[x-i][y][0] = '-';
+            Spielfeld[x+i][y+i][0] = '-';
+            Spielfeld[x][y-i][0] = '-';
+        }
         PrintSpielfeld();
 
     }

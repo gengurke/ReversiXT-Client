@@ -7,6 +7,7 @@ public class Client {
     private byte Spielernummer;
     private boolean isRunning;
     private boolean bomben;
+
    // short[] zug= new short[3];
 
 
@@ -15,9 +16,9 @@ public class Client {
     }
 
 
-    public void netzwerk(int p) throws IOException {
-        String ip = "127.0.0.1"; // localhost
-        int port = p;
+    public void netzwerk(int port, String ip) throws IOException {
+
+
         java.net.Socket socket = new java.net.Socket(ip, port); // verbindet sich mit Server
         byte Gruppennummer = 7;
         isRunning = true;
