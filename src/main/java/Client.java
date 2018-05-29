@@ -102,52 +102,17 @@ public class Client {
                     }
 
 
-                }else {
-
-
+                } else {
                     //Todo Sinnvolle Zugauswahl
-
-                    Spiel.gueltigeZuege(Spielernummer);
-                    for (short y = 0; y < Spiel.getHoehe(); y++) {
-                        for (short x = 0; x < Spiel.getBreite(); x++) {
-                            short[] zug = new short[3];
-                            if (Spielfeld[x][y][1] == 'X') {
-
-                                zug[0] = x;
-                                zug[1] = y;
-                                if (Spielfeld[x][y][0] == 'c') {
-                                    if (Spielernummer == 1) {
-                                        zug[2] = 2;
-                                        Spielernummer = 2;
-                                    } else {
-                                        zug[2] = 1;
-                                        Spielernummer = 1;
-                                    }
-
-                                } else if (Spielfeld[x][y][0] == 'b') {
-                                    zug[2] = 21;
-                                } else {
-                                    zug[2] = 0;
-                                }
-
-                                sendeZug(zug, socket);
-                                // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
-                                return "";
-                            }
-
-                            //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig machen
-                            if (Spielfeld[x][y][1] == 'U') {
-                                zug[0] = x;
-                                zug[1] = y;
-                                zug[2] = 0; //sonderfeld bei Ueberschreibstein nicht moeglich
-                                sendeZug(zug, socket);
-                                //Spiel.ganzerZug(Spielernummer, zug[1], zug[0], true);
-                                return "";
-                            }
-
-
-                        }
-                    }
+                    short[] zug = new short[3];
+                    zug = Spiel.sucheZug(2, Spielernummer);
+                    //if(zug[0] != -1 && zug[1] != -1) {
+                        sendeZug(zug, socket);
+                    //}
+                    //sendeZug(zug, socket);
+                    // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
+                    return "";
+                    //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig mache
                 }
                 break;
 
@@ -171,7 +136,7 @@ public class Client {
                    Spiel.bombZug(x,y);
             }else {
 
-                Spiel.ganzerZug(spieler, x, y, ustein, sonderfeld);
+                Spiel.ganzerZug(spieler, x, y, ustein);
             }
                if (ustein && (spieler == Spielernummer)){
 
