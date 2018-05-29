@@ -11,7 +11,7 @@
  * 2 = Transition Ja/Nein
  * 3 = Wert des Feldes (Heuristik)
  * <p>
- *
+ * <p>
  * Level Sicherheistarray
  * <p>
  * 0 = Oben
@@ -28,12 +28,13 @@ public class Heuristik {
     //Spielvariablen
     Spielbrett spiel;
     int brettsumme;
-    int breite, hoehe;
+    int breite, hoehe, spieler;
     char[][][] spielfeld;
     int[][][] sicherheit;
 
-    public Heuristik(Spielbrett spiel) {
+    public Heuristik(Spielbrett spiel, int spieler) {
         this.spiel = spiel;
+        this.spieler = spieler;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
         spielfeld = spiel.getSpielfeld();
@@ -44,7 +45,7 @@ public class Heuristik {
         statischFeldwertBerechnen();
         mobilitaetBerechnen();
         spielbrettSummeBerechnen();
-
+        System.out.println(heuristikToString());
     }
 
     void spielbrettSummeBerechnen() {
@@ -54,6 +55,7 @@ public class Heuristik {
             }
         }
     }
+
 
     /**
      * Wenn man im Suchbaum am Ende angekommen ist und alle Felder zaehlen muss
@@ -141,19 +143,6 @@ public class Heuristik {
             for (int x = 0; x < breite; x++) {
                 switch (spielfeld[x][y][0]) {
                     case '1':
-                        sicherheit[x][y][8] += 10;
-                        for (Richtungen dir : Richtungen.values()) {
-                            if (istRand(x, y, dir)) {
-                                if (!hatTransition(x, y, dir)) {
-                                    sicherheit[x][y][dir.ordinal()] = 1;
-                                    sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
-                                    /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
-                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
-                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
-                                }
-                            }
-                        }
-                        break;
                     case '2':
                     case '3':
                     case '4':
@@ -161,14 +150,29 @@ public class Heuristik {
                     case '6':
                     case '7':
                     case '8':
-                        sicherheit[x][y][8] -= 10;
-                        for (Richtungen dir : Richtungen.values()) {
-                            if (istRand(x, y, dir)) {
-                                if (!hatTransition(x, y, dir)) {
-                                    sicherheit[x][y][dir.ordinal()] = -1;
-                                    sicherheit[x][y][getOppDir(dir.ordinal())] = -1;
-                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
-                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                        if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
+                            sicherheit[x][y][8] += 10;
+                            for (Richtungen dir : Richtungen.values()) {
+                                if (istRand(x, y, dir)) {
+                                    if (!hatTransition(x, y, dir)) {
+                                        sicherheit[x][y][dir.ordinal()] = 1;
+                                        sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
+                                        /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
+                                        sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                        sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                    }
+                                }
+                            }
+                        } else {
+                            sicherheit[x][y][8] -= 10;
+                            for (Richtungen dir : Richtungen.values()) {
+                                if (istRand(x, y, dir)) {
+                                    if (!hatTransition(x, y, dir)) {
+                                        sicherheit[x][y][dir.ordinal()] = -1;
+                                        sicherheit[x][y][getOppDir(dir.ordinal())] = -1;
+                                        sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                        sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                    }
                                 }
                             }
                         }

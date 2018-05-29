@@ -576,7 +576,7 @@ public class Spielbrett {
                 }
             }*/
 
-            Heuristik h = new Heuristik(spiel);
+            Heuristik h = new Heuristik(spiel, s);
             return h.getSpielbewertung();
 
         } else {
