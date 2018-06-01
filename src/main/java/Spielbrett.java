@@ -458,24 +458,28 @@ public class Spielbrett {
     public short[] sucheZug(int tiefe, int s) {
         int max = Integer.MIN_VALUE, x = -1, y = -1, anzahlsteine = getUeberschreibsteine();
         short[] zug = new short[3];
-        Spielbrett spiel = new Spielbrett(this.getSpieler(), this.getUeberschreibsteine(), this.getBomben(), this.getStaerke(), this.getHoehe(), this.getBreite(), this.kopiereSpielfeld(), this.getTransitionen());
-        spiel.gueltigeZuege(s);
-        spiel.printGueltigeZuege();
-        for (int spalte = 0; spalte < spiel.Breite; spalte++) {
-            for (int zeile = 0; zeile < spiel.Hoehe; zeile++) {
-                if (spiel.Spielfeld[spalte][zeile][1] == 'X') {
-                    char[][][] temp = spiel.kopiereSpielfeld();
-                    spiel.ganzerZug(s, spalte, zeile);
-                    zustaende++;
-                    int wert = sucheZug(tiefe - 1, s, s % spiel.Spieler + 1, spiel);
-                    if (max < wert) {
-                        max = wert;
-                        x = spalte;
-                        y = zeile;
+        if(tiefe > 0) {
+            Spielbrett spiel = new Spielbrett(this.getSpieler(), this.getUeberschreibsteine(), this.getBomben(), this.getStaerke(), this.getHoehe(), this.getBreite(), this.kopiereSpielfeld(), this.getTransitionen());
+            spiel.gueltigeZuege(s);
+            //spiel.printGueltigeZuege();
+            for (int spalte = 0; spalte < spiel.Breite; spalte++) {
+                for (int zeile = 0; zeile < spiel.Hoehe; zeile++) {
+                    if (spiel.Spielfeld[spalte][zeile][1] == 'X') {
+                        char[][][] temp = spiel.kopiereSpielfeld();
+                        spiel.ganzerZug(s, spalte, zeile);
+                        zustaende++;
+                        int wert = sucheZug(tiefe - 1, s, s % spiel.Spieler + 1, spiel);
+                        if (max < wert) {
+                            max = wert;
+                            x = spalte;
+                            y = zeile;
+                        }
+                        spiel.Spielfeld = temp;
+                        setUeberschreibsteine(anzahlsteine);
+                        spiel.setUeberschreibsteine(anzahlsteine);
+                        System.out.println("Zustände pro Zug: " + zustaende);
+                        zustaende = 0;
                     }
-                    spiel.Spielfeld = temp;
-                    setUeberschreibsteine(anzahlsteine);
-                    spiel.setUeberschreibsteine(anzahlsteine);
                 }
             }
         }
@@ -485,6 +489,8 @@ public class Spielbrett {
             zug[1] = -1;
         } else {
             //System.out.println("Zug: (" + x + "," + y + ")");
+            //System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine());
+            //PrintSpielfeld();
             zug[0] = (short) x;
             zug[1] = (short) y;
             zug[2] = (short) sonderstein;
@@ -537,7 +543,7 @@ public class Spielbrett {
             }
             if (min == Integer.MAX_VALUE && max == Integer.MIN_VALUE) {
                 spiel = temp;
-                zustaende++;
+                //zustaende++;
                 return spiel.sucheZug(tiefe - 1, s, (aktS) % spiel.Spieler + 1, spiel);
 
             } else if (min != Integer.MAX_VALUE) {

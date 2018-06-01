@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println("test");
+        //System.out.println("test");
         Client client = new Client();
 
         try {
@@ -12,7 +12,7 @@ public class Main {
             System.out.println("no connection");
         }
 
-        System.out.println("test");
+        //System.out.println("test");
     }
 
 

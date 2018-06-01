@@ -7,6 +7,7 @@ public class Client {
     private byte Spielernummer;
     private boolean isRunning;
     private boolean bomben;
+    private static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
    // short[] zug= new short[3];
 
 
@@ -35,8 +36,8 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
-        System.out.println(heuristik);
+        //Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
+        //System.out.println(heuristik);
 
         while(isRunning) {
             empfangeNachricht(socket);
@@ -100,11 +101,23 @@ public class Client {
                         }
                     }
 
-
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
-                    zug = Spiel.sucheZug(2, Spielernummer);
+                    long start, ende, gesamt;
+                    start = System.nanoTime();
+                    zug = Spiel.sucheZug(5, Spielernummer);
+                    ende = System.nanoTime();
+                    gesamt = ende-start;
+                    if(max < gesamt) {
+                        max = gesamt;
+                    }
+                    if(min > gesamt) {
+                        min = gesamt;
+                    }
+                    System.out.println("Zeit: "+gesamt/1000000.0+" ms");
+                    System.out.println("Maximale Zeit: "+max/1000000.0+" ms");
+                    System.out.println("Minimale Zeit: "+min/1000000.0+" ms");
                     sendeZug(zug, socket);
 
                     return "";
@@ -121,17 +134,16 @@ public class Client {
                 byte sonderfeld = message[4];
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
-            if(bomben){
-                   Spiel.bombZug(x,y);
-            }else {
-                if (spieler == Spielernummer) {
+
+                if(bomben){
+                     Spiel.bombZug(x,y);
+                } else if (spieler == Spielernummer){
                     Spiel.ganzerZug(spieler, x, y);
                 } else {
                     int anzahlsteine = Spiel.getUeberschreibsteine();
                     Spiel.ganzerZug(spieler, x, y);
                     Spiel.setUeberschreibsteine(anzahlsteine);
                 }
-            }
                break;
             case 7:
                 System.exit(-1);
@@ -159,9 +171,6 @@ public class Client {
         short y = zug[1];
         byte sonderfeld = (byte)zug[2];
 
-
-
-
         zuSendendeNachricht[6] = (byte)(x);
         zuSendendeNachricht[5] = (byte)((x >> 8));
 
@@ -170,9 +179,6 @@ public class Client {
         zuSendendeNachricht[9] = sonderfeld;
 
         schreibeNachricht(socket,zuSendendeNachricht);
-
-
-
 
     }
 
