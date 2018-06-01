@@ -105,18 +105,14 @@ public class Client {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
                     zug = Spiel.sucheZug(2, Spielernummer);
-                    //if(zug[0] != -1 && zug[1] != -1) {
-                        sendeZug(zug, socket);
-                    //}
-                    //sendeZug(zug, socket);
-                    // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
+                    sendeZug(zug, socket);
+
                     return "";
                     //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig mache
                 }
                 break;
 
             case 6:
-                boolean ustein = false;
                 short x = (short)((short)message[0]<<8);
                 x += message[1];
 
@@ -125,23 +121,17 @@ public class Client {
                 byte sonderfeld = message[4];
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
-               if(Spielfeld[x][y][0] != '0'){
-                   ustein = true;
-               }
-               if(sonderfeld == spieler){
-                   Spielernummer = sonderfeld;
-            }
             if(bomben){
                    Spiel.bombZug(x,y);
             }else {
-
-                Spiel.ganzerZug(spieler, x, y, ustein);
+                if (spieler == Spielernummer) {
+                    Spiel.ganzerZug(spieler, x, y);
+                } else {
+                    int anzahlsteine = Spiel.getUeberschreibsteine();
+                    Spiel.ganzerZug(spieler, x, y);
+                    Spiel.setUeberschreibsteine(anzahlsteine);
+                }
             }
-               if (ustein && (spieler == Spielernummer)){
-
-                   Spiel.setUeberschreibsteine(Spiel.getUeberschreibsteine()-1);
-
-               }
                break;
             case 7:
                 System.exit(-1);
@@ -152,14 +142,6 @@ public class Client {
                 System.out.println("Ende");
                 isRunning = false;
                 break;
-
-
-
-
-
-
-
-
         }
         return "";
 
@@ -173,8 +155,6 @@ public class Client {
         zuSendendeNachricht = new byte[laenge + 5];
         zuSendendeNachricht[0] = 5;
         zuSendendeNachricht[4] = laenge;
-       // short[] zug = Spiel.getZug;
-       // zug[] = Spiel.getZug();
         short x = zug[0];
         short y = zug[1];
         byte sonderfeld = (byte)zug[2];

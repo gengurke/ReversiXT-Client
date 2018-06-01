@@ -45,7 +45,7 @@ public class Heuristik {
         statischFeldwertBerechnen();
         mobilitaetBerechnen();
         spielbrettSummeBerechnen();
-        System.out.println(heuristikToString());
+        //System.out.println(heuristikToString());
     }
 
     void spielbrettSummeBerechnen() {
