@@ -36,7 +36,7 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        //Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
+        //DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, Spielernummer);
         //System.out.println(heuristik);
 
         while(isRunning) {

@@ -511,7 +511,7 @@ public class Spielbrett {
 
     private int sucheZug(int tiefe, int s, int aktS, Spielbrett spiel) {
         if (tiefe == 0) {
-            Heuristik h = new Heuristik(spiel, s);
+            DynamischeHeuristik h = new DynamischeHeuristik(spiel, s);
             return h.getSpielbewertung();
 
         } else {
