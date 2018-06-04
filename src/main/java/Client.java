@@ -85,6 +85,14 @@ public class Client {
                 break;
             case 4:
                 char[][][] Spielfeld = Spiel.getSpielfeld();
+                int zeit;
+                byte tiefe;
+                for(int i = 0; i<4;i++){
+                    zeit =(int)nachricht[i];
+                    zeit *= 10;
+                }
+                tiefe = (byte)nachricht[4];
+
                 if(bomben){
                     Spiel.gueltigeBombZuege();
                     //Todo Sinnvolle Zugauswahl
@@ -105,7 +113,7 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
-                    zug = Spiel.sucheZug(2, Spielernummer);
+                    zug = Spiel.sucheZug(tiefe, Spielernummer);
                     //if(zug[0] != -1 && zug[1] != -1) {
                         sendeZug(zug, socket);
                     //}
