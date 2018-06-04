@@ -1,3 +1,5 @@
+package MainPackage;
+
 public interface Heuristik {
 
     public int getTrivialeHeuristik();

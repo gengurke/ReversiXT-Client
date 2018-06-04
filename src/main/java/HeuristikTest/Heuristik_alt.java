@@ -4,11 +4,11 @@
  * Zelle = einzelnes Feld auf dem Spielfeld
  * Spielfeld = Summer aller Zellen.
  * <p>
- * Level der 3.Dimension
+ * MainPackage.Level der 3.Dimension
  * 0 = Feld
  * 1 = gueltige Zuege
- * 2 = Transition Ja/Nein
- * 3 = Wert des Feldes (Heuristik)
+ * 2 = MainPackage.Transition Ja/Nein
+ * 3 = Wert des Feldes (MainPackage.Heuristik)
  * 4 = oben
  * 5 = obenrechts
  * 6 = rechts
@@ -19,21 +19,21 @@
  * 11 = obenlinks
  *//*
 
-public class Heuristik {
+public class MainPackage.Heuristik {
 
     //Spielkonstanten
     final byte LEVEL = 11;
-    final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der Richtungen erst ab dem 4. Level des Arrays beginnt
+    final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der MainPackage.Richtungen erst ab dem 4. MainPackage.Level des Arrays beginnt
 
     //Spielvariablen
-    Spielbrett spiel;
+    MainPackage.Spielbrett spiel;
     short brettsumme;
     int breite, hoehe;
     char[][][] spielfeld;
     //short[][][] shortarray = new short[breite][hoehe][LEVEL];
 
 
-    public Heuristik(Spielbrett spiel) {
+    public MainPackage.Heuristik(MainPackage.Spielbrett spiel) {
         this.spiel = spiel;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
@@ -52,7 +52,7 @@ public class Heuristik {
 /**
      * Summiert alle Zellen auf. TODO nach test entfernen
      *
-     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
+     * @return Gibt den durch die MainPackage.Heuristik berechneten Wert des Spielfeldes aus.
      *//*
 
     short spielfeldWertBerechnenTest() {
@@ -69,7 +69,7 @@ public class Heuristik {
 /**
      * Summiert alle Zellen auf.
      *
-     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
+     * @return Gibt den durch die MainPackage.Heuristik berechneten Wert des Spielfeldes aus.
      *//*
 
     short spielfeldWertBerechnen() {
@@ -86,7 +86,7 @@ public class Heuristik {
     */
 /**
      * Geht jedes Feld durch und ueberprueft sie auf Kriterien wie Sicherheit oder Mobilitaet.
-     * Die Ergebnisse der einzelnen Zellen werden zu Heuristik Wert (Array Level 4) hinzuaddiert.
+     * Die Ergebnisse der einzelnen Zellen werden zu MainPackage.Heuristik Wert (Array MainPackage.Level 4) hinzuaddiert.
      *//*
 
     void spielfeldBewerten() {
@@ -157,7 +157,7 @@ public class Heuristik {
 
     private void berechneZelleSicherheit(short x, short y) {
 
-        //geht alle Richtungen durch und addiert fuer jede Sichere Richtung +25
+        //geht alle MainPackage.Richtungen durch und addiert fuer jede Sichere Richtung +25
         for (short i = 0; i < 8; i++) {
             if (spielfeld[x][y][i + RICHTUNGSSHIFT] == '1') {
                 spielfeld[x][y][4] += 25;
@@ -169,19 +169,19 @@ public class Heuristik {
         for (short x = 0; x < breite; x++) {
             for (short y = 0; y < hoehe; y++) {
                 for (int dir = 0; dir < 8; dir++) {
-                    checkZelleAufSicherheit(x, y, Richtungen.values()[dir]);
+                    checkZelleAufSicherheit(x, y, MainPackage.Richtungen.values()[dir]);
                 }
             }
         }
     }
 
-    private void checkZelleAufSicherheit(short x, short y, Richtungen dir) {
+    private void checkZelleAufSicherheit(short x, short y, MainPackage.Richtungen dir) {
         if (istRand(x, y, dir)) {
 
-            Transition transition = getTransition(x, y, dir);
+            MainPackage.Transition transition = getTransition(x, y, dir);
 
 
-            //Schauen ob es Transition gibt. Wenn nicht => sicher. Sonst => Zelle hinter Transition pruefen
+            //Schauen ob es MainPackage.Transition gibt. Wenn nicht => sicher. Sonst => Zelle hinter MainPackage.Transition pruefen
             if (transition == null) {
                 spielfeld[x][y][dir.ordinal() + RICHTUNGSSHIFT] = '1';
 
@@ -200,11 +200,11 @@ public class Heuristik {
                     anderesEndeDir = transition.dir1;
                 }
 
-                //Auf eigene Zelle pruefen sonst Zelle hinter Transition pruefen
+                //Auf eigene Zelle pruefen sonst Zelle hinter MainPackage.Transition pruefen
                 if (!istEigeneZelle(anderesEndeX, anderesEndeY, x, y)) {
                     spielfeld[x][y][dir.ordinal()] = '1';
                 } else {
-                    checkZelleAufSicherheit(anderesEndeX, anderesEndeY, Richtungen.values()[anderesEndeDir]);
+                    checkZelleAufSicherheit(anderesEndeX, anderesEndeY, MainPackage.Richtungen.values()[anderesEndeDir]);
                 }
 
             }
@@ -261,7 +261,7 @@ public class Heuristik {
      * @return Liefert True oder False ob rand da ist oder nicht
      *//*
 
-    private boolean istRand(short x, short y, Richtungen dir) {
+    private boolean istRand(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 if (y == 0) {
@@ -311,17 +311,17 @@ public class Heuristik {
 
     */
 /**
-     * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
+     * Die Funktion liefert Boolwerte jenachdem ob eine MainPackage.Transition in diese Richtung vorhanden ist
      *
      * @param x   X Koordinate
      * @param y   Y Koordinate
-     * @param dir Richtung der potentiellen Transition
-     * @return Liefert True oder False wenn Transition da ist oder nicht
+     * @param dir Richtung der potentiellen MainPackage.Transition
+     * @return Liefert True oder False wenn MainPackage.Transition da ist oder nicht
      *//*
 
-    private boolean hatTransition(short x, short y, Richtungen dir) {
-        TransitionenListe[] transitionen = spiel.getTransitionen();
-        Transition transition = new Transition((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);//TODO - Default Construktor erstellen?
+    private boolean hatTransition(short x, short y, MainPackage.Richtungen dir) {
+        MainPackage.TransitionenListe[] transitionen = spiel.getTransitionen();
+        MainPackage.Transition transition = new MainPackage.Transition((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);//TODO - Default Construktor erstellen?
 
         if (transitionen[spielfeld[x][y][2]].isEmpty()) {
             return false;
@@ -332,8 +332,8 @@ public class Heuristik {
         }
     }
 
-    private Transition getTransition(short x, short y, Richtungen dir) {
-        TransitionenListe[] transitionen = spiel.getTransitionen();
+    private MainPackage.Transition getTransition(short x, short y, MainPackage.Richtungen dir) {
+        MainPackage.TransitionenListe[] transitionen = spiel.getTransitionen();
 
         if (hatTransition(x, y, dir)) {
             return transitionen[spielfeld[x][y][2]].search(x, y, (short) dir.ordinal());
@@ -350,7 +350,7 @@ public class Heuristik {
         }
     }
 
-    private boolean istNichtAngeschautOderUnsicher(short x, short y, Richtungen dir) {
+    private boolean istNichtAngeschautOderUnsicher(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 return spielfeld[x][y][3] != '1';
@@ -380,7 +380,7 @@ public class Heuristik {
         }
     }
 
-    private boolean istSicher(short x, short y, Richtungen dir) {
+    private boolean istSicher(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 return spielfeld[x][y][3] == '1';
@@ -420,7 +420,7 @@ public class Heuristik {
      * @return
      *//*
 
-    private boolean istEigeneFarbe(short x, short y, Richtungen dir) {
+    private boolean istEigeneFarbe(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
 
             case OBEN:
@@ -469,7 +469,7 @@ public class Heuristik {
         return heuristikToString();
     }
 
-    //gibt Heuristik als String zurueck
+    //gibt MainPackage.Heuristik als String zurueck
     private String heuristikToString() {
         StringBuffer text = new StringBuffer();
         for (int i = 0; i < hoehe; i++) {
@@ -481,7 +481,7 @@ public class Heuristik {
             }
             text.append("\n");
         }
-        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
+        return "MainPackage.Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
     }
 }
 */

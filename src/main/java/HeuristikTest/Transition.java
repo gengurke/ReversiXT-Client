@@ -1,3 +1,5 @@
+package HeuristikTest;
+
 public class Transition {
     public short x1, y1, dir1, x2, y2, dir2;
     private Transition next;

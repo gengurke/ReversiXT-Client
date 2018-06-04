@@ -1,6 +1,8 @@
+package MainPackage;
+
+import HeuristikTest.Heuristik_alt3;
+
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
 
 public class Client {
     private Spielbrett Spiel;
@@ -36,8 +38,8 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        //DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, Spielernummer);
-        //System.out.println(heuristik);
+        Heuristik_alt3 heuristik = new Heuristik_alt3(Spiel, 1);
+        System.out.println(heuristik);
 
         while(isRunning) {
             empfangeNachricht(socket);

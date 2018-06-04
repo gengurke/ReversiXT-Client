@@ -5,11 +5,11 @@
  * Zelle = einzelnes Feld auf dem Spielfeld
  * Spielfeld = Summer aller Zellen.
  * <p>
- * Level der 3.Dimension
+ * MainPackage.Level der 3.Dimension
  * 0 = Feld
  * 1 = gueltige Zuege
- * 2 = Transition Ja/Nein
- * 3 = Wert des Feldes (Heuristik)
+ * 2 = MainPackage.Transition Ja/Nein
+ * 3 = Wert des Feldes (MainPackage.Heuristik)
  * 4 = oben
  * 5 = obenrechts
  * 6 = rechts
@@ -22,17 +22,17 @@ public class Heuristik_1 {
 
     //Spielkonstanten
     final byte LEVEL = 12;
-    final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der Richtungen erst ab dem 4. Level des Arrays beginnt
+    final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der MainPackage.Richtungen erst ab dem 4. MainPackage.Level des Arrays beginnt
 
     //Spielvariablen
-    Spielbrett spiel;
+    MainPackage.Spielbrett spiel;
     short brettsumme;
     int breite, hoehe;
     char[][][] spielfeld;
     short[][][] spielfeldSHORT;
 
 
-    public Heuristik_1(Spielbrett spiel) {
+    public Heuristik_1(MainPackage.Spielbrett spiel) {
         this.spiel = spiel;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
@@ -62,7 +62,7 @@ public class Heuristik_1 {
 *
      * Summiert alle Zellen auf. TODO nach test entfernen
      *
-     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
+     * @return Gibt den durch die MainPackage.Heuristik berechneten Wert des Spielfeldes aus.
 
 
     short spielfeldWertBerechnenTest() {
@@ -79,7 +79,7 @@ public class Heuristik_1 {
 *
      * Summiert alle Zellen auf.
      *
-     * @return Gibt den durch die Heuristik berechneten Wert des Spielfeldes aus.
+     * @return Gibt den durch die MainPackage.Heuristik berechneten Wert des Spielfeldes aus.
 
 
     short spielfeldWertBerechnen() {
@@ -109,7 +109,7 @@ public class Heuristik_1 {
 
 *
      * Geht jedes Feld durch und ueberprueft sie auf Kriterien wie Sicherheit oder Mobilitaet.
-     * Die Ergebnisse der einzelnen Zellen werden zu Heuristik Wert (Array Level 4) hinzuaddiert.
+     * Die Ergebnisse der einzelnen Zellen werden zu MainPackage.Heuristik Wert (Array MainPackage.Level 4) hinzuaddiert.
 
 
     void spielfeldBewerten() {
@@ -165,7 +165,7 @@ public class Heuristik_1 {
                         if (istEcke(x, y)) {
                             spielfeldSHORT[x][y][0] = 100;
 
-                        } else if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                        } else if ((istRand(x, y, MainPackage.Richtungen.OBEN)) || (istRand(x, y, MainPackage.Richtungen.OBENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.RECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTEN)) || (istRand(x, y, MainPackage.Richtungen.UNTENLINKS)) || (istRand(x, y, MainPackage.Richtungen.LINKS) || (istRand(x, y, MainPackage.Richtungen.OBENLINKS)))) {
                             spielfeldSHORT[x][y][0] = 9;
                         } else {
                             spielfeldSHORT[x][y][0] = 1;
@@ -179,7 +179,7 @@ public class Heuristik_1 {
                     case '6':
                     case '7':
                     case '8':
-                        if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                        if ((istRand(x, y, MainPackage.Richtungen.OBEN)) || (istRand(x, y, MainPackage.Richtungen.OBENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.RECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTEN)) || (istRand(x, y, MainPackage.Richtungen.UNTENLINKS)) || (istRand(x, y, MainPackage.Richtungen.LINKS) || (istRand(x, y, MainPackage.Richtungen.OBENLINKS)))) {
                             spielfeldSHORT[x][y][0] = -5;
                         } else {
                             spielfeldSHORT[x][y][0] = -1;
@@ -217,7 +217,7 @@ public class Heuristik_1 {
      * @return Liefert True oder False ob rand da ist oder nicht
 
 
-    private boolean istRand(short x, short y, Richtungen dir) {
+    private boolean istRand(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 if (y == 0) {
@@ -265,7 +265,7 @@ public class Heuristik_1 {
         }
     }
 
-    private boolean istNichtAngeschautOderUnsicher(short x, short y, Richtungen dir) {
+    private boolean istNichtAngeschautOderUnsicher(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 return spielfeld[x][y][3] != '1';
@@ -295,7 +295,7 @@ public class Heuristik_1 {
         }
     }
 
-    private boolean istSicher(short x, short y, Richtungen dir) {
+    private boolean istSicher(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
             case OBEN:
                 return spielfeld[x][y][3] == '1';
@@ -334,7 +334,7 @@ public class Heuristik_1 {
      * @return
 
 
-    private boolean istEigeneFarbe(short x, short y, Richtungen dir) {
+    private boolean istEigeneFarbe(short x, short y, MainPackage.Richtungen dir) {
         switch (dir) {
 
             case OBEN:
@@ -382,7 +382,7 @@ public class Heuristik_1 {
         return heuristikToString();
     }
 
-    //gibt Heuristik als String zurueck
+    //gibt MainPackage.Heuristik als String zurueck
     private String heuristikToString() {
         StringBuffer text = new StringBuffer();
         for (int i = 0; i < hoehe; i++) {
@@ -396,7 +396,7 @@ public class Heuristik_1 {
             }
             text.append("\n");
         }
-        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n" + "\n" + "Legende:\n" + "\n" + "Eigener Stein an Kante: 10\n" + "Fremder Stein an Kante: -10\n" + "Choise- und Inversionsstein: -8\n" + "Bonusstein: 2\n";
+        return "MainPackage.Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n" + "\n" + "Legende:\n" + "\n" + "Eigener Stein an Kante: 10\n" + "Fremder Stein an Kante: -10\n" + "Choise- und Inversionsstein: -8\n" + "Bonusstein: 2\n";
 
     }
 
@@ -418,7 +418,7 @@ public class Heuristik_1 {
                         if (istEcke(x, y)) {
                             spielfeldSHORT[x][y][0] = 50;
 
-                        } else if ((istRand(x, y, Richtungen.OBEN)) || (istRand(x, y, Richtungen.OBENRECHTS)) || (istRand(x, y, Richtungen.RECHTS)) || (istRand(x, y, Richtungen.UNTENRECHTS)) || (istRand(x, y, Richtungen.UNTEN)) || (istRand(x, y, Richtungen.UNTENLINKS)) || (istRand(x, y, Richtungen.LINKS) || (istRand(x, y, Richtungen.OBENLINKS)))) {
+                        } else if ((istRand(x, y, MainPackage.Richtungen.OBEN)) || (istRand(x, y, MainPackage.Richtungen.OBENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.RECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTENRECHTS)) || (istRand(x, y, MainPackage.Richtungen.UNTEN)) || (istRand(x, y, MainPackage.Richtungen.UNTENLINKS)) || (istRand(x, y, MainPackage.Richtungen.LINKS) || (istRand(x, y, MainPackage.Richtungen.OBENLINKS)))) {
                             spielfeldSHORT[x][y][0] = 10;
                         } else {
                             spielfeldSHORT[x][y][0] = 1;

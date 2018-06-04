@@ -1,3 +1,4 @@
+package HeuristikTest;
 
 /**
  * Begriffe:
@@ -9,17 +10,16 @@
  * 0 = Feld
  * 1 = gueltige Zuege
  * 2 = Transition Ja/Nein
- * 3 = Wert des Feldes (DynamischeHeuristik)
+ * 3 = Wert des Feldes (Heuristik)
  * <p>
- * <p>
- * Level Sicherheistarray
+ * Level Shicherheistarray
  * <p>
  * 0 = Oben
  * 1 = obenRechts
  * 2 = Rechts
  */
 
-public class DynamischeHeuristik implements Heuristik{
+public class StatischeHeuristik {
 
     //Spielkonstanten
     final byte LEVEL = 12;
@@ -28,24 +28,23 @@ public class DynamischeHeuristik implements Heuristik{
     //Spielvariablen
     Spielbrett spiel;
     int brettsumme;
-    int breite, hoehe, spieler;
+    int breite, hoehe;
     char[][][] spielfeld;
     int[][][] sicherheit;
 
-    public DynamischeHeuristik(Spielbrett spiel, int spieler) {
+    public StatischeHeuristik(Spielbrett spiel) {
         this.spiel = spiel;
-        this.spieler = spieler;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
         spielfeld = spiel.getSpielfeld();
 
         sicherheit = new int[breite][hoehe][9];
 
-        //statischFeldwertBerechnenZumAusgeben();
-        statischFeldwertBerechnen();
+        statischFeldwertBerechnenZumAusgeben();
+        //statischFeldwertBerechnen();
         mobilitaetBerechnen();
         spielbrettSummeBerechnen();
-        //System.out.println(heuristikToString());
+
     }
 
     void spielbrettSummeBerechnen() {
@@ -56,24 +55,6 @@ public class DynamischeHeuristik implements Heuristik{
         }
     }
 
-
-    /**
-     * Wenn man im Suchbaum am Ende angekommen ist und alle Felder zaehlen muss
-     *
-     * @return Summe eigener Steine
-     */
-    public int getTrivialeHeuristik() {
-        int summe = 0;
-        for (int y = 0; y < hoehe; y++) {
-            for (int x = 0; x < breite; x++) {
-                if (this.spielfeld[x][y][0] == '1') {
-                    summe += 1;
-                }
-            }
-        }
-        return summe;
-    }
-
     /**
      * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
      *
@@ -82,6 +63,7 @@ public class DynamischeHeuristik implements Heuristik{
      * @param dir Richtung der potentiellen Transition
      * @return Liefert True oder False wenn Transition da ist oder nicht
      */
+
     private boolean hatTransition(int x, int y, Richtungen dir) {
         TransitionenListe[] transitionen = spiel.getTransitionen();
         Transition transition;
@@ -143,6 +125,18 @@ public class DynamischeHeuristik implements Heuristik{
             for (int x = 0; x < breite; x++) {
                 switch (spielfeld[x][y][0]) {
                     case '1':
+                        sicherheit[x][y][8] += 10;
+                        for (Richtungen dir : Richtungen.values()) {
+                            if (istRand(x, y, dir)) {
+                                if (!hatTransition(x, y, dir)) {
+                                    sicherheit[x][y][dir.ordinal()] = 1;
+                                    sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
+                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
+                                }
+                            }
+                        }
+                        break;
                     case '2':
                     case '3':
                     case '4':
@@ -150,29 +144,14 @@ public class DynamischeHeuristik implements Heuristik{
                     case '6':
                     case '7':
                     case '8':
-                        if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
-                            sicherheit[x][y][8] += 10;
-                            for (Richtungen dir : Richtungen.values()) {
-                                if (istRand(x, y, dir)) {
-                                    if (!hatTransition(x, y, dir)) {
-                                        sicherheit[x][y][dir.ordinal()] = 1;
-                                        sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
-                                        /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
-                                        sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
-                                        sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
-                                    }
-                                }
-                            }
-                        } else {
-                            sicherheit[x][y][8] -= 10;
-                            for (Richtungen dir : Richtungen.values()) {
-                                if (istRand(x, y, dir)) {
-                                    if (!hatTransition(x, y, dir)) {
-                                        sicherheit[x][y][dir.ordinal()] = -1;
-                                        sicherheit[x][y][getOppDir(dir.ordinal())] = -1;
-                                        sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
-                                        sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
-                                    }
+                        sicherheit[x][y][8] -= 10;
+                        for (Richtungen dir : Richtungen.values()) {
+                            if (istRand(x, y, dir)) {
+                                if (!hatTransition(x, y, dir)) {
+                                    sicherheit[x][y][dir.ordinal()] = -1;
+                                    sicherheit[x][y][getOppDir(dir.ordinal())] = -1;
+                                    sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
+                                    sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
                                 }
                             }
                         }
@@ -256,7 +235,7 @@ public class DynamischeHeuristik implements Heuristik{
         }
     }
 
-    private int getOppDir(int dir) {
+    public int getOppDir(int dir) {
         switch (dir) {
             case 0:
                 return 4;
@@ -289,7 +268,7 @@ public class DynamischeHeuristik implements Heuristik{
         return heuristikToString();
     }
 
-    //gibt DynamischeHeuristik als String zurueck
+    //gibt Heuristik als String zurueck
     private String heuristikToString() {
         StringBuffer text = new StringBuffer();
         for (int y = 0; y < hoehe; y++) {
@@ -312,7 +291,7 @@ public class DynamischeHeuristik implements Heuristik{
             }
             text.append("\n");
         }
-        return "DynamischeHeuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
+        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
 
     }
 }

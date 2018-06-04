@@ -1,3 +1,5 @@
+package HeuristikTest;
+
 public enum Richtungen {
     OBEN,
     OBENRECHTS,

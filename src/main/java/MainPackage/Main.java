@@ -1,10 +1,16 @@
+package MainPackage;
+
+import HeuristikTest.HeuristikTestAusgabe;
+
 import java.io.*;
-import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         //System.out.println("test");
         Client client = new Client();
+
+        //TODO - Heuristik Testausgabe
+        HeuristikTestAusgabe ausgabe = new HeuristikTestAusgabe();
 
         try {
             client.netzwerk(7777);
