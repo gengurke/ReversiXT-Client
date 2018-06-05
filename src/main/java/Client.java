@@ -7,6 +7,7 @@ public class Client {
     private byte Spielernummer;
     private boolean isRunning;
     private boolean bomben;
+
     private static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
    // short[] zug= new short[3];
 
@@ -16,9 +17,9 @@ public class Client {
     }
 
 
-    public void netzwerk(int p) throws IOException {
-        String ip = "127.0.0.1"; // localhost
-        int port = p;
+    public void netzwerk(int port, String ip) throws IOException {
+
+
         java.net.Socket socket = new java.net.Socket(ip, port); // verbindet sich mit Server
         byte Gruppennummer = 7;
         isRunning = true;
@@ -85,6 +86,14 @@ public class Client {
                 break;
             case 4:
                 char[][][] Spielfeld = Spiel.getSpielfeld();
+                int zeit;
+                byte tiefe;
+                for(int i = 0; i<4;i++){
+                    zeit =(int)nachricht[i];
+                    zeit *= 10;
+                }
+                tiefe = (byte)nachricht[4];
+
                 if(bomben){
                     Spiel.gueltigeBombZuege();
                     //Todo Sinnvolle Zugauswahl
@@ -105,9 +114,16 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
+                 //   zug = Spiel.sucheZug(tiefe, Spielernummer);
+                    //if(zug[0] != -1 && zug[1] != -1) {
+                     //   sendeZug(zug, socket);
+                    //}
+                    //sendeZug(zug, socket);
+                    // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
                     long start, ende, gesamt;
                     start = System.nanoTime();
-                    zug = Spiel.sucheZug(3, Spielernummer);
+
+                    zug = Spiel.sucheZug(tiefe, Spielernummer);
                     ende = System.nanoTime();
                     gesamt = ende-start;
                     if(max < gesamt) {
@@ -138,7 +154,7 @@ public class Client {
 
 
                 if(bomben){
-                     Spiel.bombZug(x,y);
+                     Spiel.bombZug(x,y,0,0,0);
                 } else if (spieler == Spielernummer){
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
@@ -149,6 +165,8 @@ public class Client {
                 }
                break;
             case 7:
+                Spiel.PrintSpielfeld();
+                System.out.println(Spielernummer);
                 System.exit(-1);
             case 8:
                 bomben = true;

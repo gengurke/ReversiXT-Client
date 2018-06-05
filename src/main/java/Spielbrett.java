@@ -139,12 +139,108 @@ public class Spielbrett {
         gueltigeZuege = new GueltigerZugListe();
 
     }
+    private void transbombZug(int x, int y, int staerke,int i, int j){
+        ++i;
+        ++j;
 
-    public void bombZug(int x, int y) {
+                    char temp = Spielfeld[x][y][2];
+                    if (temp != 0) {
+                        for (short dir = 0; dir < 8; dir++) {
+
+
+                            Transition t = Transitionen[temp].search((short) x, (short) y, dir);
+
+                            if (t != null) {
+                                short number = t.getNumber((short) x, (short) y, dir);
+
+
+                                if (i != staerke) {
+                                    int newoffset;
+                                    if(i<j){
+                                        newoffset = j;
+                                    } else {
+                                        newoffset =  i;
+                                    }
+                                    bombZug(t.getX(number),t.getY(number),newoffset,i,j);
+
+                                }
+                            }
+                        }
+                    }
+
+            }
+
+
+
+
+
+    public void bombZug(int x, int y,int offset,int newi,int newj) {
+//todo transitionen korrekt einbinden
+        int staerke = Staerke - offset;
         Spielfeld[x][y][0] = '-';
-        PrintSpielfeld();
+        for (int i = newi; i <= staerke; i++) {
+            for (int j = newj; j <= staerke; j++) {
 
-    }
+                if (x - i >= 0) {
+
+                    Spielfeld[x - i][y][0] = '-';
+                    transbombZug(x - i, y, staerke, i, j);
+                    if (y - j >= 0) {
+                        Spielfeld[x - i][y - j][0] = '-';
+                        transbombZug(x - i, y - j, staerke, i, j);
+
+                    }
+                }
+
+                    if (Breite > x + i && Hoehe > y + j) {
+                        Spielfeld[x + i][y + j][0] = '-';
+                        transbombZug(x+i,y+j,staerke,i,j);
+
+
+                    }
+
+                    if (Hoehe > y + j) {
+                        Spielfeld[x][y + j][0] = '-';
+                        transbombZug(x,y+j,staerke,i,j);
+
+
+                    }
+                    if (Breite > x + i) {
+                        Spielfeld[x + i][y][0] = '-';
+                        transbombZug(x+i,y,staerke,i,j);
+
+
+                    }
+                    if (y - j >= 0) {
+                        Spielfeld[x][y - j][0] = '-';
+                        transbombZug(x,y-j,staerke,i,j);
+
+
+                    }
+                    if (Breite > x + i && 0 <= y - j) {
+                        Spielfeld[x + i][y - j][0] = '-';
+                        transbombZug(x+i,y-j,staerke,i,j);
+
+
+                    }
+                    if (0 <= x - i && Hoehe > y + j) {
+                        Spielfeld[x - i][y + j][0] = '-';
+                        transbombZug(x-i,y+j,staerke,i,j);
+
+
+                    }
+                }
+            }
+        
+
+
+
+
+
+            PrintSpielfeld();
+
+        }
+
 
     public void gueltigeBombZuege() {
         for (int zeile = 0; zeile < Hoehe; zeile++) {
