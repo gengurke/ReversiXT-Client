@@ -8,6 +8,7 @@ public class Client {
     private boolean isRunning;
     private boolean bomben;
 
+    private static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
    // short[] zug= new short[3];
 
 
@@ -36,8 +37,8 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
-        System.out.println(heuristik);
+        //Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
+        //System.out.println(heuristik);
 
         while(isRunning) {
             empfangeNachricht(socket);
@@ -109,23 +110,37 @@ public class Client {
                         }
                     }
 
-
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
-                    zug = Spiel.sucheZug(tiefe, Spielernummer);
+                 //   zug = Spiel.sucheZug(tiefe, Spielernummer);
                     //if(zug[0] != -1 && zug[1] != -1) {
-                        sendeZug(zug, socket);
+                     //   sendeZug(zug, socket);
                     //}
                     //sendeZug(zug, socket);
                     // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
+                    long start, ende, gesamt;
+                    start = System.nanoTime();
+                    zug = Spiel.sucheZug(tiefe, Spielernummer);
+                    ende = System.nanoTime();
+                    gesamt = ende-start;
+                    if(max < gesamt) {
+                        max = gesamt;
+                    }
+                    if(min > gesamt) {
+                        min = gesamt;
+                    }
+                    System.out.println("Zeit: "+gesamt/1000000.0+" ms");
+                    System.out.println("Maximale Zeit: "+max/1000000.0+" ms");
+                    System.out.println("Minimale Zeit: "+min/1000000.0+" ms");
+                    sendeZug(zug, socket);
+
                     return "";
                     //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig mache
                 }
                 break;
 
             case 6:
-                boolean ustein = false;
                 short x = (short)((short)message[0]<<8);
                 x += message[1];
 
@@ -134,25 +149,20 @@ public class Client {
                 byte sonderfeld = message[4];
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
-               if(Spielfeld[x][y][0] != '0'){
-                   ustein = true;
-               }
-               if(sonderfeld == spieler){
-                   Spielernummer = sonderfeld;
-            }
-            if(bomben){
-                   Spiel.bombZug(x,y);
-            }else {
 
-                Spiel.ganzerZug(spieler, x, y, ustein);
-            }
-               if (ustein && (spieler == Spielernummer)){
-
-                   Spiel.setUeberschreibsteine(Spiel.getUeberschreibsteine()-1);
-
-               }
+                if(bomben){
+                     Spiel.bombZug(x,y,0,0,0);
+                } else if (spieler == Spielernummer){
+                    Spiel.ganzerZug(spieler, x, y);
+                } else {
+                    int anzahlsteine = Spiel.getUeberschreibsteine();
+                    Spiel.ganzerZug(spieler, x, y);
+                    Spiel.setUeberschreibsteine(anzahlsteine);
+                }
                break;
             case 7:
+                Spiel.PrintSpielfeld();
+                System.out.println(Spielernummer);
                 System.exit(-1);
             case 8:
                 bomben = true;
@@ -161,14 +171,6 @@ public class Client {
                 System.out.println("Ende");
                 isRunning = false;
                 break;
-
-
-
-
-
-
-
-
         }
         return "";
 
@@ -182,14 +184,9 @@ public class Client {
         zuSendendeNachricht = new byte[laenge + 5];
         zuSendendeNachricht[0] = 5;
         zuSendendeNachricht[4] = laenge;
-       // short[] zug = Spiel.getZug;
-       // zug[] = Spiel.getZug();
         short x = zug[0];
         short y = zug[1];
         byte sonderfeld = (byte)zug[2];
-
-
-
 
         zuSendendeNachricht[6] = (byte)(x);
         zuSendendeNachricht[5] = (byte)((x >> 8));
@@ -199,9 +196,6 @@ public class Client {
         zuSendendeNachricht[9] = sonderfeld;
 
         schreibeNachricht(socket,zuSendendeNachricht);
-
-
-
 
     }
 
