@@ -199,12 +199,10 @@ public class Heuristik {
     }
 
     void mobilitaetBerechnen() {
-        for (int y = 0; y < hoehe; y++) {
-            for (int x = 0; x < breite; x++) {
-                if (spielfeld[x][y][1] == 'X') {
-                    sicherheit[x][y][8] += 50;
-                }
-            }
+        GueltigerZug gzug = spiel.getGueltigeZuege().getHead();
+        while(gzug != null) {
+            sicherheit[gzug.getX()][gzug.getY()][8] += 50;
+            gzug = gzug.getNext();
         }
     }
 

@@ -95,6 +95,7 @@ public class Client {
                             if (Spielfeld[x][y][1] == 'B') {
                                 zug[0] = x;
                                 zug[1] = y;
+                                zug[2] = 0;
                                 sendeZug(zug, socket);
                                 return "";
                             }
@@ -106,7 +107,7 @@ public class Client {
                     short[] zug = new short[3];
                     long start, ende, gesamt;
                     start = System.nanoTime();
-                    zug = Spiel.sucheZug(5, Spielernummer);
+                    zug = Spiel.sucheZug(3, Spielernummer);
                     ende = System.nanoTime();
                     gesamt = ende-start;
                     if(max < gesamt) {
@@ -135,13 +136,15 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
+
                 if(bomben){
                      Spiel.bombZug(x,y);
                 } else if (spieler == Spielernummer){
-                    Spiel.ganzerZug(spieler, x, y);
+                    Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
                     int anzahlsteine = Spiel.getUeberschreibsteine();
-                    Spiel.ganzerZug(spieler, x, y);
+                    Spiel.setUeberschreibsteine(1);
+                    Spiel.ganzerZug(spieler, x, y, sonderfeld);
                     Spiel.setUeberschreibsteine(anzahlsteine);
                 }
                break;
