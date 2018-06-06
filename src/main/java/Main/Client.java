@@ -1,6 +1,5 @@
-package MainPackage;
+package Main;
 
-import HeuristikTest.Heuristik_alt3;
 
 import java.io.*;
 
@@ -38,7 +37,7 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        Heuristik_alt3 heuristik = new Heuristik_alt3(Spiel, 1);
+        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
 
         while(isRunning) {

@@ -1,11 +1,13 @@
+/*
 package HeuristikTest;
 
-import MainPackage.Heuristik;
-import MainPackage.Richtungen;
-import MainPackage.Spielbrett;
-import MainPackage.Transition;
-import MainPackage.TransitionenListe;
+import Main.Heuristik;
+import Main.Richtungen;
+import Main.Spielbrett;
+import Main.Transition;
+import Main.TransitionenListe;
 
+*/
 /**
  * Begriffe:
  * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
@@ -24,7 +26,8 @@ import MainPackage.TransitionenListe;
  * 0 = Oben
  * 1 = obenRechts
  * 2 = Rechts
- */
+ *//*
+
 
 public class Heuristik_alt3 implements Heuristik {
 
@@ -33,7 +36,7 @@ public class Heuristik_alt3 implements Heuristik {
     final byte RICHTUNGSSHIFT = 4; // Da die Speicherung der Richtungen erst ab dem 4. Level des Arrays beginnt
 
     //Spielvariablen
-    MainPackage.Spielbrett spiel;
+    Spielbrett spiel;
     int brettsumme;
     int breite, hoehe, spieler;
     char[][][] spielfeld;
@@ -64,11 +67,13 @@ public class Heuristik_alt3 implements Heuristik {
     }
 
 
-    /**
+    */
+/**
      * Wenn man im Suchbaum am Ende angekommen ist und alle Felder zaehlen muss
      *
      * @return Summe eigener Steine
-     */
+     *//*
+
     public int getTrivialeHeuristik() {
         int summe = 0;
         for (int y = 0; y < hoehe; y++) {
@@ -81,15 +86,17 @@ public class Heuristik_alt3 implements Heuristik {
         return summe;
     }
 
-    /**
+    */
+/**
      * Die Funktion liefert Boolwerte jenachdem ob eine Transition in diese Richtung vorhanden ist
      *
      * @param x   X Koordinate
      * @param y   Y Koordinate
      * @param dir Richtung der potentiellen Transition
      * @return Liefert True oder False wenn Transition da ist oder nicht
-     */
-    private boolean hatTransition(int x, int y, MainPackage.Richtungen dir) {
+     *//*
+
+    private boolean hatTransition(int x, int y, Main.Richtungen dir) {
         TransitionenListe[] transitionen = spiel.getTransitionen();
         Transition transition;
 
@@ -115,7 +122,7 @@ public class Heuristik_alt3 implements Heuristik {
                     case '8':
                     case '0':
                     case 'x':
-                        for (MainPackage.Richtungen dir : MainPackage.Richtungen.values()) {
+                        for (Main.Richtungen dir : Main.Richtungen.values()) {
                             if (istRand(x, y, dir)) {
                                 if (!hatTransition(x, y, dir)) {
                                     sicherheit[x][y][dir.ordinal()] = 1;
@@ -159,12 +166,14 @@ public class Heuristik_alt3 implements Heuristik {
                     case '8':
                         if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
                             sicherheit[x][y][8] += 10;
-                            for (MainPackage.Richtungen dir : MainPackage.Richtungen.values()) {
+                            for (Main.Richtungen dir : Main.Richtungen.values()) {
                                 if (istRand(x, y, dir)) {
                                     if (!hatTransition(x, y, dir)) {
                                         sicherheit[x][y][dir.ordinal()] = 1;
                                         sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
-                                        /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
+                                        */
+/*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*//*
+
                                         sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
                                         sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
                                     }
@@ -172,7 +181,7 @@ public class Heuristik_alt3 implements Heuristik {
                             }
                         } else {
                             sicherheit[x][y][8] -= 10;
-                            for (MainPackage.Richtungen dir : MainPackage.Richtungen.values()) {
+                            for (Main.Richtungen dir : Main.Richtungen.values()) {
                                 if (istRand(x, y, dir)) {
                                     if (!hatTransition(x, y, dir)) {
                                         sicherheit[x][y][dir.ordinal()] = -1;
@@ -325,3 +334,4 @@ public class Heuristik_alt3 implements Heuristik {
 }
 
 
+*/

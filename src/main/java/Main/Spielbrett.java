@@ -1,6 +1,5 @@
-package MainPackage;
+package Main;
 
-import HeuristikTest.Heuristik_alt3;
 
 import java.io.*;
 import java.util.*;
@@ -515,7 +514,7 @@ public class Spielbrett {
 
     private int sucheZug(int tiefe, int s, int aktS, Spielbrett spiel) {
         if (tiefe == 0) {
-            Heuristik_alt3 h = new Heuristik_alt3(spiel, s);
+            DynamischeHeuristik h = new DynamischeHeuristik(spiel, s);
             return h.getSpielbewertung();
 
         } else {

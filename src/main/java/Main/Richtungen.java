@@ -1,4 +1,4 @@
-package MainPackage;
+package Main;
 
 public enum Richtungen {
     OBEN,

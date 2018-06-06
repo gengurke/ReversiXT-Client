@@ -17,7 +17,7 @@ public class Main {
         Spiel.gueltigeZuege();
 
         //Heuristik
-        StatischeHeuristik heuristik = new StatischeHeuristik(Spiel);
+        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
 
     }

@@ -1,8 +1,5 @@
 package HeuristikTest;
 
-import MainPackage.Heuristik;
-import MainPackage.Richtungen;
-import MainPackage.Spielbrett;
 
 /**
  * Begriffe:
@@ -30,17 +27,26 @@ public class DynamischeHeuristik implements Heuristik {
     int brettsumme;
     int breite, hoehe, spieler;
     char[][][] spielfeld;
+    TransitionenListe[] transitionen;
+
     int[][][] sicherheit;
+    int[][] felderwerte;
+
 
     public DynamischeHeuristik(Spielbrett spiel, int spieler) {
         this.spieler = spieler;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
         spielfeld = spiel.getSpielfeld();
-        sicherheit = new int[breite][hoehe][9];
+        transitionen = spiel.getTransitionen();
+        sicherheit = new int[breite][hoehe][7];
+        felderwerte = new int[breite][hoehe];
+
+
+        dynamischFeldwertBerechnen();
     }
 
-    void statischFeldwertBerechnen() {
+    void dynamischFeldwertBerechnen() {
 
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
@@ -53,12 +59,7 @@ public class DynamischeHeuristik implements Heuristik {
                     case '6':
                     case '7':
                     case '8':
-                        //Wenn Nummer des aktuellen Spielers
-                        if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
-
-                        } else {
-
-                        }
+                        zelleUeberpruefen(x, y, spieler);
                         break;
                     case '0':
                     case 'x':
@@ -73,19 +74,68 @@ public class DynamischeHeuristik implements Heuristik {
                         break;
                     default:
                         break;
-
                 }
             }
         }
     }
 
-    private void zelleUeberpruefen(int x, int y) {
-        for (int dir = 0; dir < 8; dir++) {
-            if (istRand(x, y, Richtungen.values()[dir])){
+    private void zelleUeberpruefen(int x, int y, int spieler) {
+        for (int intDir = 0; intDir < 8; intDir++) {
+            Richtungen dir = Richtungen.values()[intDir];
 
+            //Wenn Nummer des aktuellen Spielers
+            if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
+                if (istRand(x, y, dir)) {
+                    Transition transi;
+                    if ((transi = getTransition(x, y, dir)) != null) {
+                        switch (transi.getNumber(x, y, intDir)) {
+                            case 1:
+                                //TODO Durch richtungUeberpruefen ersetzten
+                                zelleUeberpruefen(transi.x2, transi.y2, spieler);
+                                break;
+                            case 2:
+                                //TODO Durch richtungUeberpruefen ersetzten
+                                zelleUeberpruefen(transi.x1, transi.y1, spieler);
+                                break;
+
+                        }
+                    } else {
+
+                    }
+                } else {
+
+                }
+                //Wenn nicht der aktuelle Spieler
+                //TODO durch etwas sinnvolles ersetzten.
             } else {
-
+                if (istRand(x, y, Richtungen.values()[intDir])) {
+                    felderwerte[x][y] = -1;
+                } else {
+                    felderwerte[x][y] = -1;
+                }
             }
+        }
+    }
+
+    private void richtungUeberpruefen(int x, int y, int spieler) {
+        //TODO - in eine Richtung Überprüfen bis nicht mehr sicher
+    }
+
+    private boolean hatTransition(int x, int y, Richtungen dir) {
+        Transition transition;
+        if ((transitionen[spielfeld[x][y][2]].search(x, y, (int) dir.ordinal())) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Transition getTransition(int x, int y, Richtungen dir) {
+
+        if (hatTransition(x, y, dir)) {
+            return transitionen[spielfeld[x][y][2]].search(x, y, dir.ordinal());
+        } else {
+            return null;
         }
     }
 
@@ -175,30 +225,32 @@ public class DynamischeHeuristik implements Heuristik {
         return heuristikToString();
     }
 
-    //gibt Heuristik_alt3 als String zurueck
+    //gibt Heuristik als String zurueck
     private String heuristikToString() {
         StringBuffer text = new StringBuffer();
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
 
                 //Formattierung
-                if (sicherheit[x][y][8] <= -100) {
-                    text.append(String.valueOf(" " + sicherheit[x][y][8]));
-                } else if (sicherheit[x][y][8] <= -10) {
-                    text.append(String.valueOf("  " + sicherheit[x][y][8]));
-                } else if (sicherheit[x][y][8] >= 1000) {
-                    text.append(String.valueOf(" " + sicherheit[x][y][8]));
-                } else if (sicherheit[x][y][8] >= 100) {
-                    text.append(String.valueOf("  " + sicherheit[x][y][8]));
-                } else if (sicherheit[x][y][8] >= 10) {
-                    text.append(String.valueOf("   " + sicherheit[x][y][8]));
+                if (felderwerte[x][y] <= -100) {
+                    text.append(String.valueOf(" " + felderwerte[x][y]));
+                } else if (felderwerte[x][y] <= -10) {
+                    text.append(String.valueOf("  " + felderwerte[x][y]));
+                } else if (felderwerte[x][y] <= -1) {
+                    text.append(String.valueOf("   " + felderwerte[x][y]));
+                } else if (felderwerte[x][y] >= 1000) {
+                    text.append(String.valueOf(" " + felderwerte[x][y]));
+                } else if (felderwerte[x][y] >= 100) {
+                    text.append(String.valueOf("  " + felderwerte[x][y]));
+                } else if (felderwerte[x][y] >= 10) {
+                    text.append(String.valueOf("   " + felderwerte[x][y]));
                 } else {
-                    text.append(String.valueOf("    " + sicherheit[x][y][8]));
+                    text.append(String.valueOf("    " + felderwerte[x][y]));
                 }
             }
             text.append("\n");
         }
-        return "Heuristik_alt3:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
+        return "Heuristik:\n" + text.toString() + "\n" + "Summe:\n" + brettsumme + "\n";
 
     }
 }
