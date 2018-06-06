@@ -1,3 +1,5 @@
+package Main;
+
 public class GueltigerZug {
     private int x, y;
     private GueltigerZug next;

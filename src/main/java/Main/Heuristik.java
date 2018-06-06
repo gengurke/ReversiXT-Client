@@ -1,3 +1,4 @@
+package Main;
 
 /**
  * Begriffe:
@@ -66,7 +67,7 @@ public class Heuristik {
         int summe = 0;
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
-                if (this.spielfeld[x][y][0] == '1') {
+                if (this.spielfeld[x][y][0] == Integer.toString(spieler).charAt(0)) {
                     summe += 1;
                 }
             }

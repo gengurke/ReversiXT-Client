@@ -1,3 +1,5 @@
+package Main;
+
 import java.io.*;
 import java.util.*;
 
@@ -169,10 +171,6 @@ public class Spielbrett {
                     }
 
             }
-
-
-
-
 
     public void bombZug(int x, int y,int offset,int newi,int newj) {
 //todo transitionen korrekt einbinden
@@ -518,7 +516,6 @@ public class Spielbrett {
                 case '6':
                 case '7':
                 case '8':
-                case 'x':
                     if (hatUeberschreibsteine()) {
                         Spielfeld[x][y][0] = '0';
                         faerben = Zug(s, x, y);
@@ -527,6 +524,14 @@ public class Spielbrett {
                     }
                     Spielfeld[x][y][0] = a;
                     break;
+                case 'x':
+                    if (hatUeberschreibsteine()) {
+                        Spielfeld[x][y][0] = '0';
+                        Zug(s, x, y);
+                        faerben = true;
+                    } else {
+                        faerben = false;
+                    }
                 case '-':
                     break;
                 default:
@@ -612,7 +617,10 @@ public class Spielbrett {
     private int sucheZug(int tiefe, int s, int aktS, Spielbrett spiel, byte sonderfeld) {
         if (tiefe == 0) {
             Heuristik h = new Heuristik(spiel, s);
-            return h.getSpielbewertung();
+            int wert = h.getSpielbewertung();
+            //int wert = h.trivialeHeuristik();
+            System.out.println("Wert: "+wert);
+            return wert;
         } else {
             int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, anzahlsteine = spiel.getUeberschreibsteine();
             GueltigerZug gzug;
@@ -648,8 +656,14 @@ public class Spielbrett {
                 return spiel.sucheZug(tiefe - 1, s, (aktS) % spiel.Spieler + 1, spiel, sonderfeld);
 
             } else if (min != Integer.MAX_VALUE) {
+                System.out.println();
+                System.out.println("Spieler: "+s+" Akts: "+aktS+ " Min: "+min);
+                System.out.println();
                 return min;
             } else {
+                System.out.println();
+                System.out.println("Spieler: "+s+" Akts: "+aktS+ " Max: "+max);
+                System.out.println();
                 return max;
             }
         }

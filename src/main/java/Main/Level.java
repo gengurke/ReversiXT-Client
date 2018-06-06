@@ -1,4 +1,4 @@
-/*
+package Main;/*
  * 0 = Feld
  * 1 = gueltige Zuege
  * 2 = Transition Ja/Nein
