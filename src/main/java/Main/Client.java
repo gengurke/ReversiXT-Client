@@ -123,7 +123,7 @@ public class Client {
                     long start, ende, gesamt;
                     start = System.nanoTime();
 
-                    zug = Spiel.sucheZug(tiefe, Spielernummer);
+                    zug = Spiel.alphaBeta(10, Spielernummer);
                     ende = System.nanoTime();
                     gesamt = ende-start;
                     if(max < gesamt) {
