@@ -9,6 +9,8 @@ public class Client {
     private boolean bomben;
 
     private static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
+    public long[] durchschnitt = new long[100], zustaende = new long[500];
+    private static int i = 0;
    // short[] zug= new short[3];
 
 
@@ -97,6 +99,7 @@ public class Client {
                 if(bomben){
                     Spiel.gueltigeBombZuege();
                     //Todo Sinnvolle Zugauswahl
+                    Spielfeld = Spiel.getSpielfeld();
 
                     for (short y = 0; y < Spiel.getHoehe(); y++) {
                         for (short x = 0; x < Spiel.getBreite(); x++) {
@@ -120,21 +123,28 @@ public class Client {
                     //}
                     //sendeZug(zug, socket);
                     // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
-                    long start, ende, gesamt;
-                    start = System.nanoTime();
+                    //long start, ende, gesamt;
+                    //start = System.nanoTime();
 
-                    zug = Spiel.alphaBeta(10, Spielernummer);
-                    ende = System.nanoTime();
-                    gesamt = ende-start;
-                    if(max < gesamt) {
+                    zug = Spiel.alphaBeta(tiefe, Spielernummer);
+                   // ende = System.nanoTime();
+                    //gesamt = ende-start;
+                    /*if(max < gesamt) {
                         max = gesamt;
                     }
                     if(min > gesamt) {
                         min = gesamt;
                     }
-                    System.out.println("Zeit: "+gesamt/1000000.0+" ms");
-                    System.out.println("Maximale Zeit: "+max/1000000.0+" ms");
-                    System.out.println("Minimale Zeit: "+min/1000000.0+" ms");
+                    if(i < 100) {
+                        durchschnitt[i] = gesamt/1000;
+                        i++;
+                    } else {
+
+                    }*/
+
+                    //System.out.println("Zeit: "+gesamt/1000000.0+" ms");
+                    //System.out.println("Maximale Zeit: "+max/1000000.0+" ms");
+                    //System.out.println("Minimale Zeit: "+min/1000000.0+" ms");
                     sendeZug(zug, socket);
 
                     return "";
@@ -155,6 +165,7 @@ public class Client {
 
                 if(bomben){
                      Spiel.bombZug(x,y,0,0,0);
+                    //Spiel.leichtBombZug(x,y);
                 } else if (spieler == Spielernummer){
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
@@ -165,19 +176,41 @@ public class Client {
                 }
                break;
             case 7:
-                Spiel.PrintSpielfeld();
-                System.out.println(Spielernummer);
-                System.exit(-1);
+                if((byte) nachricht[0] == Spielernummer) {
+                    Spiel.PrintSpielfeld();
+                    System.out.println(Spielernummer);
+                    System.exit(-1);
+                }
+                break;
             case 8:
                 bomben = true;
                 break;
             case 9:
-                System.out.println("Ende");
+                //System.out.println("Ende");
                 isRunning = false;
+                /*System.out.println("Zeit: ");
+                durchschnitt(durchschnitt);
+                System.out.println("Zustände: ");
+                durchschnitt(Spiel.zustande);
+                System.out.println("Zeit/Zustand: ");
+                durchschnitt(Spiel.zeit_zustand);*/
                 break;
         }
         return "";
 
+    }
+
+    private void durchschnitt(long[] d) {
+        long summe = 0, counter = 0;
+        double erg;
+        for(int j = 0; j < d.length; j++) {
+            if(d[j] != 0) {
+                summe = summe + d[j];
+                counter++;
+            }
+        }
+        erg = ((double) summe/ (double) counter);
+        System.out.println(erg);
     }
 
     public void sendeZug(short[] zug,java.net.Socket socket)throws IOException{

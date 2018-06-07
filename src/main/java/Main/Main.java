@@ -11,7 +11,7 @@ public class Main {
          String ip = "127.0.0.1";
 
 
-        System.out.println("test");
+        //System.out.println("test");
 
 
         for (int i = 0; i < args.length; i++) {
@@ -36,13 +36,11 @@ public class Main {
             Client client = new Client();
         //System.out.println("test");
 
-
         try {
             client.netzwerk(port,ip);
         } catch (IOException e) {
             System.out.println("no connection");
         }
-
 
 
         //System.out.println("test");

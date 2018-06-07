@@ -1,12 +1,13 @@
 package Main;
 
 public class GueltigerZug {
-    private int x, y;
+    private int x, y, wert;
     private GueltigerZug next;
 
     public GueltigerZug(int x, int y) {
         this.x = x;
         this.y = y;
+        this.wert = 0;
         next = null;
     }
 
@@ -16,6 +17,10 @@ public class GueltigerZug {
 
     public int getY() {
         return y;
+    }
+
+    public int getWert() {
+        return wert;
     }
 
     public GueltigerZug getNext() {
@@ -28,6 +33,10 @@ public class GueltigerZug {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setWert(int w) {
+        wert = w;
     }
 
     public void setNext(GueltigerZug next) {
