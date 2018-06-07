@@ -10,6 +10,7 @@ projektbericht/*.pdf
 .gradle/
 build/
 bin/
+!gradle/wrapper/gradle-wrapper.jar
 
 ### Windows template
 # Windows thumbnail cache files
@@ -37,7 +38,6 @@ $RECYCLE.BIN/
 ### Eclipse template
 
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -293,7 +293,6 @@ TSWLatexianTemp*
 
 ## Editors:
 # WinEdt
-*.bak
 *.sav
 
 # Texpad
@@ -306,7 +305,6 @@ TSWLatexianTemp*
 *~[0-9]*
 
 # auto folder when using emacs and auctex
-./auto/*
 *.el
 
 # expex forward references with \gathertags
@@ -384,7 +382,6 @@ fabric.properties
 *.class
 
 # Log file
-*.log
 
 # BlueJ files
 *.ctxt
@@ -393,7 +390,6 @@ fabric.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip
@@ -405,3 +401,5 @@ hs_err_pid*
 
 /.idea/
 Reversi_KI_Gruppe_07.iml
+src/main/resources/
+src/test/resources/

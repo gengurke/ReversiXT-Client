@@ -5,6 +5,20 @@ plugins {
 group 'Gruppe07'
 version '1.0-SNAPSHOT'
 
+jar {
+    baseName = archivesBaseName
+    manifest {
+        attributes "Implementation-Title": archivesBaseName
+        attributes "Implementation-Version": 0.1
+        attributes "Main-Class": "Main.Main"
+    }
+}
+
+jar {
+    destinationDir = file("bin")
+    archiveName = "${"client07"}.jar"
+}
+
 sourceCompatibility = 1.8
 
 repositories {
