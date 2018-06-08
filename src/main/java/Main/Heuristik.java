@@ -158,7 +158,7 @@ public class Heuristik {
                                     if (!hatTransition(x, y, dir)) {
                                         sicherheit[x][y][dir.ordinal()] = 1;
                                         sicherheit[x][y][getOppDir(dir.ordinal())] = 1;
-                                        /*Addiert für jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
+                                        /*Addiert fuer jede sichere Richtung 10 Punkte (20 Punkte wenn man nur 4 Richtungen hat*/
                                         sicherheit[x][y][8] += sicherheit[x][y][dir.ordinal()] * 10;
                                         sicherheit[x][y][8] += sicherheit[x][y][getOppDir(dir.ordinal())] * 10;
                                     }

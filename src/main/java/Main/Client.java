@@ -190,7 +190,7 @@ public class Client {
                 isRunning = false;
                 /*System.out.println("Zeit: ");
                 durchschnitt(durchschnitt);
-                System.out.println("Zustände: ");
+                System.out.println("Zustaende: ");
                 durchschnitt(Spiel.zustande);
                 System.out.println("Zeit/Zustand: ");
                 durchschnitt(Spiel.zeit_zustand);*/

@@ -599,7 +599,7 @@ public class Spielbrett {
                 spiel.Spielfeld = temp;
                 setUeberschreibsteine(anzahlsteine);
                 spiel.setUeberschreibsteine(anzahlsteine);
-                /*System.out.println("Zustände pro Zug: " + zustaende);
+                /*System.out.println("Zustaende pro Zug: " + zustaende);
                 if(j < 500) {
                     zustande[j] = (long) zustaende;
                     j++;
@@ -611,7 +611,7 @@ public class Spielbrett {
         spiel.getGueltigeZuege().listeLoeschen();
 
         if (x == -1 || y == -1) {
-            //System.out.println("Kein Zug möglich.");
+            //System.out.println("Kein Zug moeglich.");
             zug[0] = -1;
             zug[1] = -1;
         } else {
@@ -733,7 +733,7 @@ public class Spielbrett {
                     setUeberschreibsteine(anzahlsteine);
                     spiel.setUeberschreibsteine(anzahlsteine);
                     zeitende = System.nanoTime();
-                    //System.out.println("Zustände pro Zug: " + zustaende);
+                    //System.out.println("Zustaende pro Zug: " + zustaende);
                     if(j < 500) {
                         zustande[j] = (long) zustaende;
                         zeit_zustand[j] = (zeitende-zeitstart)/ zustaende;
@@ -746,7 +746,7 @@ public class Spielbrett {
             spiel.getGueltigeZuege().listeLoeschen();
 
         if (x == -1 || y == -1) {
-            //System.out.println("Kein Zug möglich.");
+            //System.out.println("Kein Zug moeglich.");
             zug[0] = -1;
             zug[1] = -1;
         } else {
