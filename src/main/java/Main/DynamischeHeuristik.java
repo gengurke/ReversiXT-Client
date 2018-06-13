@@ -157,10 +157,6 @@ public class DynamischeHeuristik implements Heuristik {
         return -1;
     }
 
-    @Override
-    public int getTrivialeHeuristik() {
-        return 0;
-    }
 
     public int getSpielbewertung() {
         return brettsumme;

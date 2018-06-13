@@ -1,6 +1,5 @@
 package HeuristikTest;
 
-
 /**
  * Begriffe:
  * (Spiel)brett = Das ganze spielbrett mit allen Eigenschaften wie Ueberschreibsteine, Bomben usw.
@@ -24,13 +23,13 @@ package HeuristikTest;
 public class DynamischeHeuristik implements Heuristik {
 
     //Spielvariablen
-    int brettsumme;
-    int breite, hoehe, spieler;
-    char[][][] spielfeld;
-    TransitionenListe[] transitionen;
+    private int brettsumme;
+    private int breite, hoehe, spieler;
+    private char[][][] spielfeld;
+    private TransitionenListe[] transitionen;
 
-    int[][][] sicherheit;
-    int[][] felderwerte;
+    private int[][][] sicherheit;
+    private int[][] felderwerte;
 
 
     public DynamischeHeuristik(Spielbrett spiel, int spieler) {
@@ -43,87 +42,91 @@ public class DynamischeHeuristik implements Heuristik {
         felderwerte = new int[breite][hoehe];
 
 
-        dynamischFeldwertBerechnen();
+        heuristikwertBerechnen();
     }
 
-    void dynamischFeldwertBerechnen() {
+    private void heuristikwertBerechnen() {
 
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
-                switch (spielfeld[x][y][0]) {
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                        zelleUeberpruefen(x, y, spieler);
-                        break;
-                    case '0':
-                    case 'x':
-                        break;
-                    case 'b':
-                        break;
-                    case 'c':
-                        break;
-                    case 'i':
-                        break;
-                    case '-':
-                        break;
-                    default:
-                        break;
-                }
+                zelleUeberpruefen(x, y, spieler);
             }
         }
     }
 
     private void zelleUeberpruefen(int x, int y, int spieler) {
-        for (int intDir = 0; intDir < 8; intDir++) {
-            Richtungen dir = Richtungen.values()[intDir];
-
-            //Wenn Nummer des aktuellen Spielers
-            if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
-                if (istRand(x, y, dir)) {
-                    Transition transi;
-                    if ((transi = getTransition(x, y, dir)) != null) {
-                        switch (transi.getNumber(x, y, intDir)) {
-                            case 1:
-                                //TODO Durch richtungUeberpruefen ersetzten
-                                zelleUeberpruefen(transi.x2, transi.y2, spieler);
-                                break;
-                            case 2:
-                                //TODO Durch richtungUeberpruefen ersetzten
-                                zelleUeberpruefen(transi.x1, transi.y1, spieler);
-                                break;
-
-                        }
-                    } else {
-
-                    }
-                } else {
-
-                }
-                //Wenn nicht der aktuelle Spieler
-                //TODO durch etwas sinnvolles ersetzten.
-            } else {
-                if (istRand(x, y, Richtungen.values()[intDir])) {
-                    felderwerte[x][y] = -1;
-                } else {
-                    felderwerte[x][y] = -1;
-                }
+        for (Richtungen dir : Richtungen.values()) {
+            switch (spielfeld[x][y][0]) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                    richtungUeberpruefen(x, y, spieler, dir);
+                    break;
+                case '0':
+                case 'x':
+                    break;
+                case 'b':
+                    break;
+                case 'c':
+                    break;
+                case 'i':
+                    break;
+                case '-':
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    private void richtungUeberpruefen(int x, int y, int spieler) {
-        //TODO - in eine Richtung Überprüfen bis nicht mehr sicher
+    private void richtungUeberpruefen(int x, int y, int spieler, Richtungen dir) {
+        int intDir = dir.ordinal(); // Int Repraesentation der Richtung
+
+        //Wenn Nummer des aktuellen Spielers
+        if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
+            //Rand
+            if (istRand(x, y, dir)) {
+                Transition transi;
+
+                //hat Transition
+                if ((transi = getTransition(x, y, dir)) != null) {
+                    switch (transi.getNumber(x, y, intDir)) {
+                        case 1:
+                            //TODO - in eine Richtung Ueberpruefen bis nicht mehr sicher
+                            //TODO Ueberpruefungslogic einbauen (z.B. ob eigenes Feld USW)
+                            richtungUeberpruefen(transi.x2, transi.y2, spieler, getOppDir(dir));
+                            break;
+                        case 2:
+                            richtungUeberpruefen(transi.x1, transi.y1, spieler, getOppDir(dir));
+                            break;
+
+                    }
+                    //hat keine Transition
+                } else {
+
+                }
+                //kein Rand
+            } else {
+
+            }
+            //Wenn nicht der aktuelle Spieler
+            //TODO durch etwas sinnvolles ersetzten.
+        } else {
+            if (istRand(x, y, Richtungen.values()[intDir])) {
+                felderwerte[x][y] = -1;
+            } else {
+                felderwerte[x][y] = -1;
+            }
+        }
     }
 
     private boolean hatTransition(int x, int y, Richtungen dir) {
-        Transition transition;
-        if ((transitionen[spielfeld[x][y][2]].search(x, y, (int) dir.ordinal())) != null) {
+        if ((transitionen[spielfeld[x][y][2]].search(x, y, dir.ordinal())) != null) {
             return true;
         } else {
             return false;
@@ -187,33 +190,28 @@ public class DynamischeHeuristik implements Heuristik {
         }
     }
 
-    private int getOppDir(int dir) {
+    private Richtungen getOppDir(Richtungen dir) {
         switch (dir) {
-            case 0:
-                return 4;
-            case 1:
-                return 5;
-            case 2:
-                return 6;
-            case 3:
-                return 7;
-            case 4:
-                return 0;
-            case 5:
-                return 1;
-            case 6:
-                return 2;
-            case 7:
-                return 3;
+            case OBEN:
+                return Richtungen.UNTEN;
+            case OBENRECHTS:
+                return Richtungen.UNTENLINKS;
+            case RECHTS:
+                return Richtungen.LINKS;
+            case UNTENRECHTS:
+                return Richtungen.OBENLINKS;
+            case UNTEN:
+                return Richtungen.OBEN;
+            case UNTENLINKS:
+                return Richtungen.OBENRECHTS;
+            case LINKS:
+                return Richtungen.RECHTS;
+            case OBENLINKS:
+                return Richtungen.UNTENRECHTS;
             default:
                 break;
         }
-        return -1;
-    }
-
-    @Override
-    public int getTrivialeHeuristik() {
-        return 0;
+        return Richtungen.UNTEN; // TODO
     }
 
     public int getSpielbewertung() {
@@ -227,7 +225,7 @@ public class DynamischeHeuristik implements Heuristik {
 
     //gibt Heuristik als String zurueck
     private String heuristikToString() {
-        StringBuffer text = new StringBuffer();
+        StringBuilder text = new StringBuilder();
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
 
