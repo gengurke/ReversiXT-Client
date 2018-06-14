@@ -1,83 +1,70 @@
 package Main;
 
+import java.util.Comparator;
+import java.util.LinkedList;
+
 public class GueltigerZugListe {
-    private GueltigerZug head;
-    private int size;
+    private LinkedList<GueltigerZug> liste;
 
     public GueltigerZugListe() {
-        head = null;
-        size = 0;
+       liste = new LinkedList<GueltigerZug>();
     }
 
     public void hinzufuegen(int x, int y, int w) {
         GueltigerZug neu = new GueltigerZug(x,y,w);
-        if(head == null) {
-            head = neu;
-        } else {
-            neu.setNext(head);
-            head= neu;
-        }
-        size++;
+        liste.addFirst(neu);
+
     }
 
-    public void hinzufuegenSortAlpha(int x, int y, int w) {
-        GueltigerZug neu = new GueltigerZug(x,y,w);
-        if(head != null) {
-            head = hinzufuegenAlpha(head, neu);
-        } else {
-            head = neu;
-        }
-        size++;
-    }
-
-    public GueltigerZug hinzufuegenAlpha(GueltigerZug zug, GueltigerZug neu) {
-        if(zug == null) {
-            return neu;
-        } else {
-            if(zug.getWert() <= neu.getWert()) {
-                neu.setNext(zug);
-                return neu;
-            } else {
-                zug.setNext(hinzufuegenAlpha(zug.getNext(), neu));
-                return zug;
-            }
-        }
-    }
-
-    public void hinzufuegenSortBeta(int x, int y, int w) {
-        GueltigerZug neu = new GueltigerZug(x,y,w);
-        if(head != null) {
-            head = hinzufuegenBeta(head, neu);
-        } else {
-            head = neu;
-        }
-        size++;
-    }
-
-    public GueltigerZug hinzufuegenBeta(GueltigerZug zug, GueltigerZug neu) {
-        if(zug == null) {
-            return neu;
-        } else {
-            if(zug.getWert() >= neu.getWert()) {
-                neu.setNext(zug);
-                return neu;
-            } else {
-                zug.setNext(hinzufuegenBeta(zug.getNext(), neu));
-                return zug;
-            }
-        }
+    public boolean isEmpty() {
+        return liste.isEmpty();
     }
 
     public GueltigerZug getHead() {
-        return head;
+        if(isEmpty()) {
+            return null;
+        } else {
+            return liste.getFirst();
+        }
+    }
+
+    public void SortMaxFirst() {
+        liste.sort(Comparator.comparingInt(GueltigerZug::getWert).reversed());
+    }
+
+    public void SortMinFirst() {
+        liste.sort(Comparator.comparingInt(GueltigerZug::getWert));
+    }
+
+    public LinkedList<GueltigerZug> getListe() {
+        return liste;
+    }
+
+    public void setListe(LinkedList<GueltigerZug> gliste) {
+        liste = gliste;
+    }
+
+    public GueltigerZugListe clone() {
+        GueltigerZugListe neu = new GueltigerZugListe();
+        neu.setListe((LinkedList<GueltigerZug>) liste.clone());
+        return neu;
     }
 
     public int getSize() {
-        return size;
+        return liste.size();
     }
 
     public void listeLoeschen() {
-        head = null;
-        size = 0;
+        liste.clear();
+    }
+
+    public GueltigerZug get(int i) {
+        return liste.get(i);
+    }
+
+    public void Print() {
+        for (int i = 0; i < getSize(); i++) {
+            System.out.println(liste.get(i));
+        }
     }
 }
