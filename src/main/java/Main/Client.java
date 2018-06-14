@@ -163,7 +163,7 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
-                if (x == 7 && y == 7) {
+                if (x == 16 && y == 2) {
                     int test = 1;
                 }
 

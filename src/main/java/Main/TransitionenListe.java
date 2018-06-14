@@ -14,6 +14,10 @@ public class TransitionenListe {
         return true;
     }
 
+    public Transition getHead(){
+        return  head;
+    }
+
     public void insert(Transition t) {
         head = insert(t, head);
     }

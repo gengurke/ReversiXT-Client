@@ -122,7 +122,21 @@ public class Spielbrett {
             r2 = Short.parseShort(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
-            if (Spielfeld[x1][y1][2] != 0) {
+            if(Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {
+                char value1 = Spielfeld[x1][y1][2];
+                char value2 = Spielfeld[x2][y2][2];
+                if(value1 != value2) {
+                    Transition trans = Transitionen[value2].getHead();
+                    while (trans != null) {
+                        Spielfeld[trans.x1][trans.y1][2] = value1;
+                        Spielfeld[trans.x2][trans.y2][2] = value1;
+                        Transitionen[value1].insert(trans);
+                        trans = trans.getNext();
+                    }
+                }
+                Transitionen[value1].insert(t);
+
+            } else if (Spielfeld[x1][y1][2] != 0) {
                 char value = Spielfeld[x1][y1][2];
                 Transitionen[value].insert(t);
                 Spielfeld[x2][y2][2] = value;
@@ -441,8 +455,10 @@ public class Spielbrett {
                             if (t != null) {
                                 short number = t.getNumber((short) x, (short) y, (short) dir);
                                 if (number == 1) {
+                                    count++;
                                     return pruefeZug(s, t.getX(number), t.getY(number), t.getOppDir(t.dir2));
                                 } else {
+                                    count++;
                                     return pruefeZug(s, t.getX(number), t.getY(number), t.getOppDir(t.dir1));
                                 }
                             } else {
