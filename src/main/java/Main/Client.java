@@ -97,7 +97,7 @@ public class Client {
                 tiefe = (byte)nachricht[4];
 
                 if(bomben){
-                    Spiel.gueltigeBombZuege();
+                    Spiel.gueltigeBombZuege(Spielernummer);
                     //Todo Sinnvolle Zugauswahl
                     Spielfeld = Spiel.getSpielfeld();
 
@@ -127,6 +127,7 @@ public class Client {
                     //start = System.nanoTime();
 
                     zug = Spiel.alphaBeta(tiefe, Spielernummer);
+
                    // ende = System.nanoTime();
                     //gesamt = ende-start;
                     /*if(max < gesamt) {
@@ -162,6 +163,9 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
+                if (x == 7 && y == 7) {
+                    int test = 1;
+                }
 
                 if(bomben){
                      Spiel.bombZug(x,y,0,0,0);

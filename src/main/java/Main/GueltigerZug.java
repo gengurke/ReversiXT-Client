@@ -4,10 +4,10 @@ public class GueltigerZug {
     private int x, y, wert;
     private GueltigerZug next;
 
-    public GueltigerZug(int x, int y) {
+    public GueltigerZug(int x, int y, int w) {
         this.x = x;
         this.y = y;
-        this.wert = 0;
+        this.wert = w;
         next = null;
     }
 
@@ -44,6 +44,6 @@ public class GueltigerZug {
     }
 
     public String toString() {
-        return "("+x+","+y+")";
+        return "("+x+","+y+") "+wert;
     }
 }

@@ -9,8 +9,8 @@ public class GueltigerZugListe {
         size = 0;
     }
 
-    public void hinzufuegen(int x, int y) {
-        GueltigerZug neu = new GueltigerZug(x,y);
+    public void hinzufuegen(int x, int y, int w) {
+        GueltigerZug neu = new GueltigerZug(x,y,w);
         if(head == null) {
             head = neu;
         } else {
@@ -20,32 +20,53 @@ public class GueltigerZugListe {
         size++;
     }
 
-    /*public void hinzufuegen(int x, int y, Spielbrett spiel, int spieler) {
-        GueltigerZug temp = head, neu;
-        Heuristik h = new Heuristik(spiel, spieler);
-        int w = h.trivialeHeuristik();
-        neu = new GueltigerZug(x, y, w);
-        if(temp != null) {
-            if(temp.getWert() <= w) {
-                while(temp.getNext() != null) {
-                    if(temp.getNext().getWert() <= w) {
-                        neu.setNext(temp.getNext());
-                        temp.setNext(neu);
-                        temp = null;
-                    } else {
-                        temp = temp.getNext();
-                    }
-                }
-            } else {
-                neu.setNext(head);
-                head = neu;
-            }
+    public void hinzufuegenSortAlpha(int x, int y, int w) {
+        GueltigerZug neu = new GueltigerZug(x,y,w);
+        if(head != null) {
+            head = hinzufuegenAlpha(head, neu);
         } else {
-            neu.setNext(head);
             head = neu;
         }
         size++;
-    }*/
+    }
+
+    public GueltigerZug hinzufuegenAlpha(GueltigerZug zug, GueltigerZug neu) {
+        if(zug == null) {
+            return neu;
+        } else {
+            if(zug.getWert() <= neu.getWert()) {
+                neu.setNext(zug);
+                return neu;
+            } else {
+                zug.setNext(hinzufuegenAlpha(zug.getNext(), neu));
+                return zug;
+            }
+        }
+    }
+
+    public void hinzufuegenSortBeta(int x, int y, int w) {
+        GueltigerZug neu = new GueltigerZug(x,y,w);
+        if(head != null) {
+            head = hinzufuegenBeta(head, neu);
+        } else {
+            head = neu;
+        }
+        size++;
+    }
+
+    public GueltigerZug hinzufuegenBeta(GueltigerZug zug, GueltigerZug neu) {
+        if(zug == null) {
+            return neu;
+        } else {
+            if(zug.getWert() >= neu.getWert()) {
+                neu.setNext(zug);
+                return neu;
+            } else {
+                zug.setNext(hinzufuegenBeta(zug.getNext(), neu));
+                return zug;
+            }
+        }
+    }
 
     public GueltigerZug getHead() {
         return head;
@@ -57,5 +78,6 @@ public class GueltigerZugListe {
 
     public void listeLoeschen() {
         head = null;
+        size = 0;
     }
 }
