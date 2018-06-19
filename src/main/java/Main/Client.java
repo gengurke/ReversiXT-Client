@@ -88,12 +88,13 @@ public class Client {
                 break;
             case 4:
                 char[][][] Spielfeld = Spiel.getSpielfeld();
-                int zeit;
+                int zeit = 0;
                 byte tiefe;
                 for(int i = 0; i<4;i++){
                     zeit =(int)nachricht[i];
                     zeit *= 10;
                 }
+                System.out.println("Zeit: "+zeit);
                 tiefe = (byte)nachricht[4];
 
                 if(bomben){
@@ -117,35 +118,9 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
-                 //   zug = Spiel.sucheZug(tiefe, Spielernummer);
-                    //if(zug[0] != -1 && zug[1] != -1) {
-                     //   sendeZug(zug, socket);
-                    //}
-                    //sendeZug(zug, socket);
-                    // Spiel.ganzerZug(Spielernummer, zug[1], zug[0], false);
-                    //long start, ende, gesamt;
-                    //start = System.nanoTime();
 
                     zug = Spiel.alphaBeta(tiefe, Spielernummer);
 
-                   // ende = System.nanoTime();
-                    //gesamt = ende-start;
-                    /*if(max < gesamt) {
-                        max = gesamt;
-                    }
-                    if(min > gesamt) {
-                        min = gesamt;
-                    }
-                    if(i < 100) {
-                        durchschnitt[i] = gesamt/1000;
-                        i++;
-                    } else {
-
-                    }*/
-
-                    //System.out.println("Zeit: "+gesamt/1000000.0+" ms");
-                    //System.out.println("Maximale Zeit: "+max/1000000.0+" ms");
-                    //System.out.println("Minimale Zeit: "+min/1000000.0+" ms");
                     sendeZug(zug, socket);
 
                     return "";
@@ -163,7 +138,7 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
-                if (x == 16 && y == 2) {
+                if (x == 12 && y == 12) {
                     int test = 1;
                 }
 
@@ -173,10 +148,11 @@ public class Client {
                 } else if (spieler == Spielernummer){
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
-                    int anzahlsteine = Spiel.getUeberschreibsteine();
+                    int anzahlsteine = Spiel.getUeberschreibsteine(), anzahlbomben = Spiel.getBomben();
                     Spiel.setUeberschreibsteine(1);
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                     Spiel.setUeberschreibsteine(anzahlsteine);
+                    Spiel.setBomben(anzahlbomben);
                 }
                break;
             case 7:

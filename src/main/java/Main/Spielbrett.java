@@ -273,18 +273,30 @@ public class Spielbrett {
         if (x >= 0 && y >= 0 && x < Breite && y < Hoehe) {
             int tausch = 0, bonus = 0;
             boolean choice = false, inversion = false, ustein = false;
-            if (Spielfeld[x][y][0] == 'c') {
-                choice = true;
-                tausch = (int) sonderfeld;
-            } else if (Spielfeld[x][y][0] == 'b') {
-                if (sonderfeld == 20) {
+            switch (sonderfeld) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    choice = true;
+                    tausch = (int) sonderfeld;
+                    break;
+                case 20:
                     Bomben++;
-                } else if (sonderfeld == 21) {
+                    break;
+                case 21:
                     Ueberschreibsteine++;
-                }
-            } else if (Spielfeld[x][y][0] == 'i') {
+                    break;
+                    default:
+                        break;
+            }
+            if (Spielfeld[x][y][0] == 'i') {
                 inversion = true;
-            } else if (Spielfeld[x][y][0] != '0') {
+            } else if (Spielfeld[x][y][0] != '0' && Spielfeld[x][y][0] != 'b' && Spielfeld[x][y][0] != 'c') {
                 ustein = true;
             }
 
@@ -395,7 +407,7 @@ public class Spielbrett {
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
                 if (Zug(s, spalte, zeile)) {
-                    char[][][] temp = kopiereSpielfeld();
+                    char[][][] temp = kopiereSpielfeld(this.Spielfeld);
                     Faerben(s, spalte, zeile);
                     Heuristik h = new Heuristik(this, s);
                     Spielfeld = temp;
@@ -550,6 +562,8 @@ public class Spielbrett {
                     } else {
                         faerben = false;
                     }
+                    Spielfeld[x][y][0] = a;
+                    break;
                 case '-':
                     break;
                 default:
@@ -559,64 +573,59 @@ public class Spielbrett {
         return faerben;
     }
 
-    private char[][][] kopiereSpielfeld() {
-        char[][][] temp = new char[Breite][Hoehe][3];
+    private char[][][] kopiereSpielfeld(char[][][] feld) {
+        char[][][] clone = new char[feld.length][][];
 
-        for (int zeile = 0; zeile < Hoehe; zeile++) {
+        for(int i = 0; i < feld.length; i++) {
+            char[][] innerClone = new char[feld[i].length][];
 
-            for (int spalte = 0; spalte < Breite; spalte++) {
-
-                temp[spalte][zeile][0] = Spielfeld[spalte][zeile][0];
-                temp[spalte][zeile][1] = Spielfeld[spalte][zeile][1];
-                temp[spalte][zeile][2] = Spielfeld[spalte][zeile][2];
+            for(int j = 0; j < feld[i].length; j++) {
+                innerClone[j] = feld[i][j].clone();
             }
+
+            clone[i] = innerClone;
         }
 
-        return temp;
+        return clone;
     }
 
     private GueltigerZugListe kopiereGZugListe() {
-        GueltigerZugListe neu = new GueltigerZugListe();
-        GueltigerZug gzug = gueltigeZuege.getHead();
-        while (gzug != null) {
-            neu.hinzufuegen(gzug.getX(), gzug.getY(), gzug.getWert());
-            gzug = gzug.getNext();
-        }
-        return neu;
+        return gueltigeZuege.clone();
     }
 
     public short[] alphaBeta(int tiefe, int s) {
-        int x = -1, y = -1, anzahlsteine = getUeberschreibsteine();
+        System.out.println("Vor");
+        this.PrintSpielfeld();
+        int x = -1, y = -1, anzahlsteine = this.getUeberschreibsteine(), anzahlbomben = this.getBomben();
         byte sonderfeld = 1;
         short[] zug = new short[3];
         GueltigerZug gzug;
         ABKnoten knoten = new ABKnoten(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE);
 
-        Spielbrett spiel = new Spielbrett(this.getSpieler(), this.getUeberschreibsteine(), this.getBomben(), this.getStaerke(), this.getHoehe(), this.getBreite(), this.kopiereSpielfeld(), this.getTransitionen(), new GueltigerZugListe());
-        spiel.gueltigeZuege(s);
-        spiel.gueltigeZuege.SortMaxFirst();
-        spiel.printGueltigeZuege();
-        for(int j = 0; j < spiel.gueltigeZuege.getSize(); j++) {
-            gzug = spiel.gueltigeZuege.get(j);
+        this.gueltigeZuege(s);
+        this.gueltigeZuege.SortMaxFirst();
+        this.printGueltigeZuege();
+        char[][][] feld = kopiereSpielfeld(this.Spielfeld);
+        GueltigerZugListe liste = this.kopiereGZugListe();
+        for(int j = 0; j < this.gueltigeZuege.getSize(); j++) {
+            gzug = this.gueltigeZuege.get(j);
             byte start = 0, ende = 0;
             int gx = gzug.getX(), gy = gzug.getY(), wert;
-            char[][][] temp = spiel.kopiereSpielfeld();
-            GueltigerZugListe gliste = spiel.kopiereGZugListe();
 
-            if(spiel.Spielfeld[gx][gy][0] == 'c') {
+            if(this.Spielfeld[gx][gy][0] == 'c') {
                 start = 1;
-                ende = (byte) spiel.Spieler;
-            } else if(spiel.Spielfeld[gx][gy][0] == 'b') {
+                ende = (byte) this.Spieler;
+            } else if(this.Spielfeld[gx][gy][0] == 'b') {
                 start = 20;
                 ende = 21;
             }
             for(byte i = start; i <= ende; i++) {
-                spiel.ganzerZug(s, gx, gy, i);
+               this.ganzerZug(s, gx, gy, i);
                 zustaende++;
                 if(tiefe > 0) {
-                    wert = alphaBeta(knoten.getAlpha(), knoten.getBeta(), tiefe - 1, s, s % spiel.Spieler + 1, spiel, i);
+                    wert = alphaBeta(knoten.getAlpha(), knoten.getBeta(), tiefe - 1, s, s % this.Spieler + 1, this, i);
                 } else {
-                    Heuristik h = new Heuristik(spiel, s);
+                    Heuristik h = new Heuristik(this, s);
                     wert = h.getSpielbewertung();
                 }
                 if (knoten.getAlpha() < wert) {
@@ -627,10 +636,10 @@ public class Spielbrett {
                     y = gy;
                     sonderfeld = i;
                 }
-                spiel.Spielfeld = temp;
-                spiel.gueltigeZuege = gliste;
-                setUeberschreibsteine(anzahlsteine);
-                spiel.setUeberschreibsteine(anzahlsteine);
+                this.setSpielfeld(kopiereSpielfeld(feld));
+                this.setGueltigeZuege(liste.clone());
+                this.setUeberschreibsteine(anzahlsteine);
+                this.setBomben(anzahlbomben);
                 /*System.out.println("Zustaende pro Zug: " + zustaende);
                 if(j < 500) {
                     zustande[j] = (long) zustaende;
@@ -639,12 +648,14 @@ public class Spielbrett {
                 zustaende = 0;
             }
         }
-        this.gueltigeZuege = new GueltigerZugListe();
+        this.setSpielfeld(feld);
+        this.setUeberschreibsteine(anzahlsteine);
+        this.setBomben(anzahlbomben);
+        this.gueltigeZuege.listeLoeschen();
 
         if (x == -1 || y == -1) {
             //System.out.println("Kein Zug moeglich.");
-            zug[0] = -1;
-            zug[1] = -1;
+            System.exit(1);
         } else {
             System.out.println("Zug: (" + x + "," + y + ")");
             System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine());
@@ -653,6 +664,8 @@ public class Spielbrett {
             zug[1] = (short) y;
             zug[2] = (short) sonderfeld;
         }
+        System.out.println("Nach");
+        this.PrintSpielfeld();
         return zug;
     }
 
@@ -683,7 +696,7 @@ public class Spielbrett {
                 spiel.gueltigeZuege.SortMinFirst();
             }
             GueltigerZugListe gliste = spiel.kopiereGZugListe();
-            Spielbrett temp = new Spielbrett(spiel.getSpieler(), spiel.getUeberschreibsteine(), spiel.getBomben(), spiel.getStaerke(), spiel.getHoehe(), spiel.getBreite(), spiel.kopiereSpielfeld(), spiel.getTransitionen(), gliste);
+            char[][][] feld = kopiereSpielfeld(spiel.Spielfeld);
             spiel.printGueltigeZuege();
 
             if(spiel.gueltigeZuege.getSize() > 0) {
@@ -701,12 +714,7 @@ public class Spielbrett {
                             knoten.setAlpha(wert);
                         }
                         if (knoten.getBeta() < wert) {
-                            gzug = null;
-                            spiel = temp;
-                            spiel.setUeberschreibsteine(anzahlsteine);
-                            setUeberschreibsteine(anzahlsteine);
-                            spiel.gueltigeZuege = gliste;
-                            break;
+                            i = gliste.getSize();
                         }
                     } else { // MIN
                         wert = alphaBeta(knoten.getAlpha(), knoten.getBeta(), tiefe - 1, s, aktS % spiel.Spieler + 1, spiel, sonderfeld);
@@ -717,26 +725,20 @@ public class Spielbrett {
                             knoten.setBeta(wert);
                         }
                         if (knoten.getAlpha() > wert) {
-                            gzug = null;
-                            spiel = temp;
-                            spiel.setUeberschreibsteine(anzahlsteine);
-                            setUeberschreibsteine(anzahlsteine);
-                            spiel.gueltigeZuege = gliste;
-                            break;
+                            i = gliste.getSize();
                         }
                     }
-                    spiel = temp;
+                    spiel.setSpielfeld(kopiereSpielfeld(feld));
                     spiel.setUeberschreibsteine(anzahlsteine);
-                    setUeberschreibsteine(anzahlsteine);
-                    spiel.gueltigeZuege = gliste;
+                    spiel.setGueltigeZuege(gliste.clone());
                 }
             } else {
-                spiel = temp;
-                spiel.setUeberschreibsteine(anzahlsteine);
-                setUeberschreibsteine(anzahlsteine);
-                spiel.gueltigeZuege = gliste;
                 //zustaende++;
                 int wert = spiel.alphaBeta(knoten.getAlpha(), knoten.getBeta(), tiefe - 1, s, (aktS) % spiel.Spieler + 1, spiel, sonderfeld);
+                spiel.setSpielfeld(kopiereSpielfeld(feld));
+                spiel.setUeberschreibsteine(anzahlsteine);
+                setUeberschreibsteine(anzahlsteine);
+                spiel.setGueltigeZuege(gliste);
                 return wert;
             }
             spiel.getGueltigeZuege().listeLoeschen();
@@ -750,7 +752,7 @@ public class Spielbrett {
         byte sonderfeld = 1;
         short[] zug = new short[3];
         GueltigerZug gzug;
-            Spielbrett spiel = new Spielbrett(this.getSpieler(), this.getUeberschreibsteine(), this.getBomben(), this.getStaerke(), this.getHoehe(), this.getBreite(), this.kopiereSpielfeld(), this.getTransitionen(), this.getGueltigeZuege());
+            Spielbrett spiel = new Spielbrett(this.getSpieler(), this.getUeberschreibsteine(), this.getBomben(), this.getStaerke(), this.getHoehe(), this.getBreite(), this.kopiereSpielfeld(this.Spielfeld), this.getTransitionen(), this.getGueltigeZuege());
             spiel.gueltigeZuege(s);
             gzug = spiel.getGueltigeZuege().getHead();
             //spiel.printGueltigeZuege();
@@ -767,7 +769,7 @@ public class Spielbrett {
                     ende = 21;
                 }
                 for(byte i = start; i <= ende; i++) {
-                    char[][][] temp = spiel.kopiereSpielfeld();
+                    char[][][] temp = spiel.kopiereSpielfeld(spiel.Spielfeld);
                     int wert;
                     spiel.ganzerZug(s, gx, gy, i);
                     zustaende++;
@@ -826,7 +828,7 @@ public class Spielbrett {
             GueltigerZug gzug;
             spiel.gueltigeZuege(aktS);
             gzug = spiel.getGueltigeZuege().getHead();
-            Spielbrett temp = new Spielbrett(spiel.getSpieler(), spiel.getUeberschreibsteine(), spiel.getBomben(), spiel.getStaerke(), spiel.getHoehe(), spiel.getBreite(), spiel.kopiereSpielfeld(), spiel.getTransitionen(), spiel.getGueltigeZuege());
+            Spielbrett temp = new Spielbrett(spiel.getSpieler(), spiel.getUeberschreibsteine(), spiel.getBomben(), spiel.getStaerke(), spiel.getHoehe(), spiel.getBreite(), spiel.kopiereSpielfeld(spiel.Spielfeld), spiel.getTransitionen(), spiel.getGueltigeZuege());
             while(gzug != null) {
                 spiel.ganzerZug(aktS, gzug.getX(), gzug.getY(), sonderfeld);
                 zustaende++;
@@ -934,7 +936,7 @@ public class Spielbrett {
     }
 
     public char[][][] getSpielfeld() {
-        return kopiereSpielfeld();
+        return Spielfeld;
     }
 
     public TransitionenListe[] getTransitionen() {
@@ -943,6 +945,10 @@ public class Spielbrett {
 
     public GueltigerZugListe getGueltigeZuege() {
         return gueltigeZuege;
+    }
+
+    public void setGueltigeZuege(GueltigerZugListe liste) {
+        gueltigeZuege = liste;
     }
 
     //gibt Spielfeld als String zurueck
