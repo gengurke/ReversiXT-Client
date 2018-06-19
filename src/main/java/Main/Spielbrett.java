@@ -594,8 +594,6 @@ public class Spielbrett {
     }
 
     public short[] alphaBeta(int tiefe, int s) {
-        System.out.println("Vor");
-        this.PrintSpielfeld();
         int x = -1, y = -1, anzahlsteine = this.getUeberschreibsteine(), anzahlbomben = this.getBomben();
         byte sonderfeld = 1;
         short[] zug = new short[3];
@@ -604,7 +602,6 @@ public class Spielbrett {
 
         this.gueltigeZuege(s);
         this.gueltigeZuege.SortMaxFirst();
-        this.printGueltigeZuege();
         char[][][] feld = kopiereSpielfeld(this.Spielfeld);
         GueltigerZugListe liste = this.kopiereGZugListe();
         for(int j = 0; j < this.gueltigeZuege.getSize(); j++) {
@@ -640,11 +637,6 @@ public class Spielbrett {
                 this.setGueltigeZuege(liste.clone());
                 this.setUeberschreibsteine(anzahlsteine);
                 this.setBomben(anzahlbomben);
-                /*System.out.println("Zustaende pro Zug: " + zustaende);
-                if(j < 500) {
-                    zustande[j] = (long) zustaende;
-                    j++;
-                }*/
                 zustaende = 0;
             }
         }
@@ -654,18 +646,15 @@ public class Spielbrett {
         this.gueltigeZuege.listeLoeschen();
 
         if (x == -1 || y == -1) {
-            //System.out.println("Kein Zug moeglich.");
             System.exit(1);
         } else {
-            System.out.println("Zug: (" + x + "," + y + ")");
+            /*System.out.println("Zug: (" + x + "," + y + ")");
             System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine());
-            PrintSpielfeld();
+            PrintSpielfeld();*/
             zug[0] = (short) x;
             zug[1] = (short) y;
             zug[2] = (short) sonderfeld;
         }
-        System.out.println("Nach");
-        this.PrintSpielfeld();
         return zug;
     }
 
@@ -673,7 +662,6 @@ public class Spielbrett {
         if (tiefe == 0) {
             Heuristik h = new Heuristik(spiel, s);
             int w = h.getSpielbewertung();
-            //System.out.println(w);
             return w;
         } else {
             ABKnoten knoten;
@@ -697,7 +685,6 @@ public class Spielbrett {
             }
             GueltigerZugListe gliste = spiel.kopiereGZugListe();
             char[][][] feld = kopiereSpielfeld(spiel.Spielfeld);
-            spiel.printGueltigeZuege();
 
             if(spiel.gueltigeZuege.getSize() > 0) {
                 for(int i = 0; i < spiel.gueltigeZuege.getSize();i++) {

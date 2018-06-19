@@ -88,12 +88,12 @@ public class Client {
                 break;
             case 4:
                 char[][][] Spielfeld = Spiel.getSpielfeld();
-                int zeit = 0;
+                long zeit = 3000;
                 byte tiefe;
-                for(int i = 0; i<4;i++){
+                /*for(int i = 0; i<4;i++){
                     zeit =(int)nachricht[i];
                     zeit *= 10;
-                }
+                }*/
                 System.out.println("Zeit: "+zeit);
                 tiefe = (byte)nachricht[4];
 
@@ -118,8 +118,25 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     short[] zug = new short[3];
+                    if(zeit!=0) {
+                        long start, ende, ges;
+                        int i = 1;
+                        while(zeit > 0) {
+                            start = System.currentTimeMillis();
+                            zug = Spiel.alphaBeta(i, Spielernummer);
+                            ende = System.currentTimeMillis();
+                            ges = ende - start;
+                            zeit = zeit-ges;
+                            i++;
+                            System.out.println(i);
+                            if(ges*2 > zeit-ges) {
+                                break;
+                            }
+                        }
 
-                    zug = Spiel.alphaBeta(tiefe, Spielernummer);
+                    } else if (tiefe != 0){
+                        zug = Spiel.alphaBeta(tiefe, Spielernummer);
+                    }
 
                     sendeZug(zug, socket);
 
@@ -137,10 +154,6 @@ public class Client {
                 byte sonderfeld = message[4];
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
-
-                if (x == 12 && y == 12) {
-                    int test = 1;
-                }
 
                 if(bomben){
                      Spiel.bombZug(x,y,0,0,0);
