@@ -1,10 +1,10 @@
 package Main;
 
 public class Transition {
-    public short x1, y1, dir1, x2, y2, dir2;
+    public int x1, y1, dir1, x2, y2, dir2;
     private Transition next;
 
-    public Transition(short x1, short y1, short dir1, short x2, short y2, short dir2) {
+    public Transition(int x1, int y1, int dir1, int x2, int y2, int dir2) {
         this.x1 = x1;
         this.y1 = y1;
         this.dir1 = dir1;
@@ -14,7 +14,7 @@ public class Transition {
         next = null;
     }
 
-    public short getNumber(short x, short y, short dir) {
+    public int getNumber(int x, int y, int dir) {
         if ((x == x1) && (y == y1) && (dir == dir1)) {
             return 1;
         } else if ((x == x2) && (y == y2) && (dir == dir2)) {
@@ -23,7 +23,7 @@ public class Transition {
         return 0;
     }
 
-    public short getX(short number) {
+    public int getX(int number) {
         if (number == 1) {
             return x2;
         } else if (number == 2) {
@@ -33,7 +33,7 @@ public class Transition {
         }
     }
 
-    public short getY(short number) {
+    public int getY(int number) {
         if (number == 1) {
             return y2;
         } else if (number == 2) {
@@ -43,7 +43,7 @@ public class Transition {
         }
     }
 
-    public short getOppDir(short dir) {
+    public int getOppDir(int dir) {
         switch (dir) {
             case 0:
                 return 4;

@@ -1,4 +1,4 @@
-package HeuristikTest;
+package Main;
 
 public class TrivialeHeuristikMitAusgabe implements Heuristik {
 

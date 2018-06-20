@@ -1,6 +1,6 @@
-package HeuristikTest;
+package Main;
 
-public class TrivialeHeuristik implements Heuristik {
+public class TrivialeHeuristikMitUebersUndMobilitaet implements Heuristik {
 
     //Spielvariablen
     private int brettsumme;
@@ -8,13 +8,12 @@ public class TrivialeHeuristik implements Heuristik {
     private char[][][] spielfeld;
 
 
-    public TrivialeHeuristik(Spielbrett spiel, int spieler) {
+    public TrivialeHeuristikMitUebersUndMobilitaet(Spielbrett spiel, int spieler) {
         this.spieler = spieler;
         hoehe = spiel.getHoehe();
         breite = spiel.getBreite();
         spielfeld = spiel.getSpielfeld();
         ueberschreibsteine = spiel.getUeberschreibsteine();
-
 
 
         heuristikwertBerechnen();

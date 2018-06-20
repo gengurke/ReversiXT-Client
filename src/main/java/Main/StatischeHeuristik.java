@@ -1,4 +1,4 @@
-package HeuristikTest;
+package Main;
 
 /**
  * Begriffe:
@@ -63,7 +63,6 @@ public class StatischeHeuristik {
      * @param dir Richtung der potentiellen Transition
      * @return Liefert True oder False wenn Transition da ist oder nicht
      */
-
     private boolean hatTransition(int x, int y, Richtungen dir) {
         TransitionenListe[] transitionen = spiel.getTransitionen();
         Transition transition;
