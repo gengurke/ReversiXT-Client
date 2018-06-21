@@ -31,7 +31,7 @@ public class TransitionenListe {
         }
     }
 
-    public Transition search(short x, short y, short dir) {
+    public Transition search(int x, int y, int dir) {
         Transition temp = head;
 
         while (temp != null) {

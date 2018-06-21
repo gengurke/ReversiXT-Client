@@ -28,10 +28,6 @@ public class Main {
 
 
             }
-
-
-
-
         }
             Client client = new Client();
         //System.out.println("test");
