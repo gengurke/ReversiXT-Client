@@ -17,6 +17,8 @@ public class Spielbrett {
     private short aktX = 0, aktY = 0, aktDir = 0;
     private int count = 0, zustaende = 0;
     public long[] zustande = new long[500], zeit_zustand = new long[500];
+    public boolean ustein = false;
+    public int lastSize = 1;
     private static int j = 0;
 
     public Spielbrett(String name) throws IOException {
@@ -604,6 +606,17 @@ public class Spielbrett {
         this.gueltigeZuege.SortMaxFirst();
         char[][][] feld = kopiereSpielfeld(this.Spielfeld);
         GueltigerZugListe liste = this.kopiereGZugListe();
+        if(tiefe == 0) {
+            zug[0] = (short) gueltigeZuege.get(0).getX();
+            zug[1] = (short) gueltigeZuege.get(0).getY();
+            if(this.Spielfeld[zug[0]][zug[1]][0] == 'c') {
+                zug[2] = (short) s;
+            } else if (this.Spielfeld[zug[0]][zug[1]][0] == 'b') {
+                zug[2] = 21;
+                ustein = true;
+            }
+            return zug;
+        }
         for(int j = 0; j < this.gueltigeZuege.getSize(); j++) {
             gzug = this.gueltigeZuege.get(j);
             byte start = 0, ende = 0;
@@ -615,6 +628,7 @@ public class Spielbrett {
             } else if(this.Spielfeld[gx][gy][0] == 'b') {
                 start = 20;
                 ende = 21;
+                ustein = true;
             }
             for(byte i = start; i <= ende; i++) {
                this.ganzerZug(s, gx, gy, i);
@@ -643,7 +657,7 @@ public class Spielbrett {
         this.setSpielfeld(feld);
         this.setUeberschreibsteine(anzahlsteine);
         this.setBomben(anzahlbomben);
-        this.gueltigeZuege.listeLoeschen();
+        this.setGueltigeZuege(liste);
 
         if (x == -1 || y == -1) {
             System.exit(1);
@@ -662,6 +676,7 @@ public class Spielbrett {
         if (tiefe == 0) {
             Heuristik h = new Heuristik(spiel, s);
             int w = h.getSpielbewertung();
+            lastSize = getGueltigeZuege().getSize();
             return w;
         } else {
             ABKnoten knoten;
@@ -935,7 +950,7 @@ public class Spielbrett {
     }
 
     public void setGueltigeZuege(GueltigerZugListe liste) {
-        gueltigeZuege = liste;
+        gueltigeZuege.set(liste);
     }
 
     //gibt Spielfeld als String zurueck
