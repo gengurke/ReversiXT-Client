@@ -87,6 +87,8 @@ public class Client {
                     zeit = zeit << 8;
                     zeit += Byte.toUnsignedInt(message[i]);
                 }
+                ende = System.currentTimeMillis();
+                Timer clock = new Timer(zeit-(ende-start));
                 tiefe = (byte) nachricht[4];
 
                 if (bomben) {
@@ -109,61 +111,30 @@ public class Client {
 
                 } else {
                     //Todo Sinnvolle Zugauswahl
-                    int[] zug = new int[3];
+                    int[] zug = new int[3], temp;
                     if (zeit != 0) {
                         long ges = 0;
-                        int i = 0, size, feldgroesse = 1;
-                        if (Spiel.getBreite() < 10 && Spiel.getHoehe() < 10) {
-                            feldgroesse = 1;
-                        } else if (Spiel.getBreite() < 20 && Spiel.getHoehe() < 20) {
-                            feldgroesse = 2;
-                        } else if (Spiel.getBreite() < 30 && Spiel.getHoehe() < 30) {
-                            feldgroesse = 3;
-                        } else if (Spiel.getBreite() < 40 && Spiel.getHoehe() < 40) {
-                            feldgroesse = 4;
-                        } else {
-                            feldgroesse = 5;
-                        }
-                        while (i < 30) {
-                            System.out.println(i);
-                            zug = Spiel.alphaBeta(i, Spielernummer);
+                        int counter = 0, size;
+                        while (counter < 30) {
+                            temp = Spiel.alphaBeta(counter, Spielernummer, clock);
+                            if(temp == null) {
+                                sendeZug(zug, socket);
+                                return "";
+                            } else {
+                                zug = temp;
+                            }
                             size = Spiel.getGueltigeZuege().getSize();
-                            if (Spiel.hatUeberschreibsteine()) {
-                                feldgroesse = feldgroesse * 2;
-                            }
-                            if (Spiel.ustein) {
-                                feldgroesse = feldgroesse * 4;
-                                Spiel.ustein = false;
-                            }
                             ende = System.currentTimeMillis();
                             ges = ges + (ende - start);
-                            if (size <= 10) {
-                                if ((zeit - ges) < ges * feldgroesse) {
-                                    i = 100;
-                                }
-                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * feldgroesse);
-                            } else if (size > 10 && size < 50) {
-                                if (zeit - ges < ges * 3 * feldgroesse) {
-                                    i = 100;
-                                }
-                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 3 * feldgroesse);
-                            } else if (size >= 50 && size < 100) {
-                                if (zeit - ges < ges * 4 * feldgroesse) {
-                                    i = 100;
-                                }
-                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 4 * feldgroesse);
-                            } else {
-                                if (zeit - ges < ges * 8 * feldgroesse) {
-                                    i = 100;
-                                }
-                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 8 * feldgroesse);
-                            }
-                            i++;
                             Spiel.getGueltigeZuege().listeLoeschen();
+                            counter++;
+                            if(zeit-ges < (ges*counter*size*Spiel.getHoehe()*Spiel.getBreite())/80000) {
+                                break;
+                            }
                         }
 
                     } else if (tiefe != 0) {
-                        zug = Spiel.alphaBeta(tiefe, Spielernummer);
+                        zug = Spiel.alphaBeta(tiefe, Spielernummer, clock);
                     }
 
                     sendeZug(zug, socket);
