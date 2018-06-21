@@ -1,6 +1,5 @@
 package Main;
 
-
 import java.io.*;
 
 public class Client {
@@ -8,17 +7,14 @@ public class Client {
     private byte Spielernummer;
     private boolean isRunning;
     private boolean bomben;
-    private static long max = Long.MIN_VALUE, min = Long.MAX_VALUE;
-    // int[] zug= new int[3];
-
+    private long start, ende;
 
     public Client() throws IOException {
 
     }
 
-    public void netzwerk(int p) throws IOException {
-        String ip = "127.0.0.1"; // localhost
-        int port = p;
+
+    public void netzwerk(int port, String ip) throws IOException {
         java.net.Socket socket = new java.net.Socket(ip, port); // verbindet sich mit Server
         byte Gruppennummer = 7;
         isRunning = true;
@@ -36,8 +32,8 @@ public class Client {
         Spiel = new Spielbrett(empfangeNachricht(socket));
 
         //TODO - Heursitik ausgabe
-        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
-        System.out.println(heuristik);
+        //Heuristik heuristik = new Heuristik(Spiel, Spielernummer);
+        //System.out.println(heuristik);
 
         while (isRunning) {
             empfangeNachricht(socket);
@@ -53,7 +49,7 @@ public class Client {
     }
 
     public String empfangeNachricht(java.net.Socket socket) throws IOException {
-
+        start = System.currentTimeMillis();
 
         InputStream socketInputStream = socket.getInputStream();
 
@@ -85,9 +81,18 @@ public class Client {
                 break;
             case 4:
                 char[][][] Spielfeld = Spiel.getSpielfeld();
+                long zeit = 0;
+                byte tiefe;
+                for (int i = 0; i < 4; i++) {
+                    zeit = zeit << 8;
+                    zeit += Byte.toUnsignedInt(message[i]);
+                }
+                tiefe = (byte) nachricht[4];
+
                 if (bomben) {
-                    Spiel.gueltigeBombZuege();
+                    Spiel.gueltigeBombZuege(Spielernummer);
                     //Todo Sinnvolle Zugauswahl
+                    Spielfeld = Spiel.getSpielfeld();
 
                     for (int y = 0; y < Spiel.getHoehe(); y++) {
                         for (int x = 0; x < Spiel.getBreite(); x++) {
@@ -95,6 +100,7 @@ public class Client {
                             if (Spielfeld[x][y][1] == 'B') {
                                 zug[0] = x;
                                 zug[1] = y;
+                                zug[2] = 0;
                                 sendeZug(zug, socket);
                                 return "";
                             }
@@ -104,20 +110,62 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     int[] zug = new int[3];
-                    long start, ende, gesamt;
-                    start = System.nanoTime();
-                    zug = Spiel.sucheZug(5, Spielernummer);
-                    ende = System.nanoTime();
-                    gesamt = ende - start;
-                    if (max < gesamt) {
-                        max = gesamt;
+                    if (zeit != 0) {
+                        long ges = 0;
+                        int i = 0, size, feldgroesse = 1;
+                        if (Spiel.getBreite() < 10 && Spiel.getHoehe() < 10) {
+                            feldgroesse = 1;
+                        } else if (Spiel.getBreite() < 20 && Spiel.getHoehe() < 20) {
+                            feldgroesse = 2;
+                        } else if (Spiel.getBreite() < 30 && Spiel.getHoehe() < 30) {
+                            feldgroesse = 3;
+                        } else if (Spiel.getBreite() < 40 && Spiel.getHoehe() < 40) {
+                            feldgroesse = 4;
+                        } else {
+                            feldgroesse = 5;
+                        }
+                        while (i < 30) {
+                            System.out.println(i);
+                            zug = Spiel.alphaBeta(i, Spielernummer);
+                            size = Spiel.getGueltigeZuege().getSize();
+                            if (Spiel.hatUeberschreibsteine()) {
+                                feldgroesse = feldgroesse * 2;
+                            }
+                            if (Spiel.ustein) {
+                                feldgroesse = feldgroesse * 4;
+                                Spiel.ustein = false;
+                            }
+                            ende = System.currentTimeMillis();
+                            ges = ges + (ende - start);
+                            if (size <= 10) {
+                                if ((zeit - ges) < ges * feldgroesse) {
+                                    i = 100;
+                                }
+                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * feldgroesse);
+                            } else if (size > 10 && size < 50) {
+                                if (zeit - ges < ges * 3 * feldgroesse) {
+                                    i = 100;
+                                }
+                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 3 * feldgroesse);
+                            } else if (size >= 50 && size < 100) {
+                                if (zeit - ges < ges * 4 * feldgroesse) {
+                                    i = 100;
+                                }
+                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 4 * feldgroesse);
+                            } else {
+                                if (zeit - ges < ges * 8 * feldgroesse) {
+                                    i = 100;
+                                }
+                                System.out.println(size + " " + zeit + " " + ges + " " + Spiel.lastSize + " " + ges * 8 * feldgroesse);
+                            }
+                            i++;
+                            Spiel.getGueltigeZuege().listeLoeschen();
+                        }
+
+                    } else if (tiefe != 0) {
+                        zug = Spiel.alphaBeta(tiefe, Spielernummer);
                     }
-                    if (min > gesamt) {
-                        min = gesamt;
-                    }
-                    System.out.println("Zeit: " + gesamt / 1000000.0 + " ms");
-                    System.out.println("Maximale Zeit: " + max / 1000000.0 + " ms");
-                    System.out.println("Minimale Zeit: " + min / 1000000.0 + " ms");
+
                     sendeZug(zug, socket);
 
                     return "";
@@ -136,27 +184,54 @@ public class Client {
                 Spielfeld = Spiel.getSpielfeld();
 
                 if (bomben) {
-                    Spiel.bombZug(x, y);
+                    Spiel.bombZug(x, y, 0, 0, 0);
+                    //Spiel.leichtBombZug(x,y);
                 } else if (spieler == Spielernummer) {
-                    Spiel.ganzerZug(spieler, x, y);
+                    Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
-                    int anzahlsteine = Spiel.getUeberschreibsteine();
-                    Spiel.ganzerZug(spieler, x, y);
+                    int anzahlsteine = Spiel.getUeberschreibsteine(), anzahlbomben = Spiel.getBomben();
+                    Spiel.setUeberschreibsteine(1);
+                    Spiel.ganzerZug(spieler, x, y, sonderfeld);
                     Spiel.setUeberschreibsteine(anzahlsteine);
+                    Spiel.setBomben(anzahlbomben);
                 }
                 break;
             case 7:
-                System.exit(-1);
+                if ((byte) nachricht[0] == Spielernummer) {
+                    Spiel.PrintSpielfeld();
+                    System.out.println(Spielernummer);
+                    System.exit(-1);
+                }
+                break;
             case 8:
                 bomben = true;
                 break;
             case 9:
-                System.out.println("Ende");
+                //System.out.println("Ende");
                 isRunning = false;
+                /*System.out.println("Zeit: ");
+                durchschnitt(durchschnitt);
+                System.out.println("Zustaende: ");
+                durchschnitt(Spiel.zustande);
+                System.out.println("Zeit/Zustand: ");
+                durchschnitt(Spiel.zeit_zustand);*/
                 break;
         }
         return "";
 
+    }
+
+    private void durchschnitt(long[] d) {
+        long summe = 0, counter = 0;
+        double erg;
+        for (int j = 0; j < d.length; j++) {
+            if (d[j] != 0) {
+                summe = summe + d[j];
+                counter++;
+            }
+        }
+        erg = ((double) summe / (double) counter);
+        System.out.println(erg);
     }
 
     public void sendeZug(int[] zug, java.net.Socket socket) throws IOException {
@@ -181,6 +256,7 @@ public class Client {
         schreibeNachricht(socket, zuSendendeNachricht);
 
     }
+
 
     private int getlaenge(byte[] bytes) {
 

@@ -47,7 +47,7 @@ public class DynamischeHeuristik implements Heuristik {
         bombenStaerke = spiel.getStaerke();
 
         //gueltige Zuege
-        LinkedList gueltigeZuege = spiel.gueltigeZuege(spieler);
+        GueltigerZugListe gueltigeZuege = spiel.getGueltigeZuege();
         anzahlGueltigeZuege = gueltigeZuege.getSize();
 
         //Arrays fuer die Heuristikberechnung

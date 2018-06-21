@@ -4,6 +4,7 @@
 projektbericht/*.pdf
 .idea/
 .idea/misc.xml
+*.iml
 
 #Gradle
 .gradletasknamecache
