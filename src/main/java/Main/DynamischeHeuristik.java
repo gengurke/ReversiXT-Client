@@ -1,7 +1,5 @@
 package Main;
 
-import java.util.LinkedList;
-
 import static Main.HeuristikHilfsFunktionen.*;
 
 public class DynamischeHeuristik implements Heuristik {
@@ -143,6 +141,8 @@ public class DynamischeHeuristik implements Heuristik {
                         switch (transi.getNumber(x, y, intDir)) {
                             case 1:
                                 //TODO loop fall implementieren
+                                //Todo - Alte INIT mit reinnehmen damit ich die heuristik testen kann
+                                //Todo StackOverflow loop Fehler bei zeile 170 und 145
                                 if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x2, transi.y2, spielerInZelle, getOppDir(Richtungen.values()[transi.dir2]))) {
                                     sicherheit[x][y][spielerInZelle][intDir] = 1;
                                     sicherheit[x][y][spielerInZelle][oppIntDir] = 1;

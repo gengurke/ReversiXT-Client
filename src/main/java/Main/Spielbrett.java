@@ -25,6 +25,11 @@ public class Spielbrett {
         Init(name);
     }
 
+    //TODO enfernen nach Heuristik Test
+    public Spielbrett(String mapName, String test) throws IOException {
+        heuristikTestInit(mapName);
+    }
+
     public Spielbrett(int s, int u, int b, int st, int h, int br, char[][][] sp, TransitionenListe[] t, GueltigerZugListe gl) {
         Spieler = s;
         Ueberschreibsteine = u;
@@ -122,6 +127,95 @@ public class Spielbrett {
             x2 = Short.parseShort(textarray[4]);
             y2 = Short.parseShort(textarray[5]);
             r2 = Short.parseShort(textarray[6]);
+
+            t = new Transition(x1, y1, r1, x2, y2, r2);
+            if (Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {
+                char value1 = Spielfeld[x1][y1][2];
+                char value2 = Spielfeld[x2][y2][2];
+                if (value1 != value2) {
+                    Transition trans = Transitionen[value2].getHead();
+                    while (trans != null) {
+                        Spielfeld[trans.x1][trans.y1][2] = value1;
+                        Spielfeld[trans.x2][trans.y2][2] = value1;
+                        Transitionen[value1].insert(trans);
+                        trans = trans.getNext();
+                    }
+                }
+                Transitionen[value1].insert(t);
+
+            } else if (Spielfeld[x1][y1][2] != 0) {
+                char value = Spielfeld[x1][y1][2];
+                Transitionen[value].insert(t);
+                Spielfeld[x2][y2][2] = value;
+            } else if (Spielfeld[x2][y2][2] != 0) {
+                char value = Spielfeld[x2][y2][2];
+                Transitionen[value].insert(t);
+                Spielfeld[x1][y1][2] = value;
+            } else {
+                Transitionen[counter].insert(t);
+                Spielfeld[x1][y1][2] = (char) counter;              //der Wert von counter wir zu char gecastet und ins Spielfeld geschrieben
+                Spielfeld[x2][y2][2] = (char) counter++;            //da es mehr als 9 Transitionen geben kann und es bei chars nur bis Ziffer 9 geht
+            }
+        }
+
+
+        dir = new boolean[8];
+        faerben = new boolean[Breite][Hoehe];
+        gueltigeZuege = new GueltigerZugListe();
+
+    }
+
+    //TODO enfernen nach Heuristik Test
+    private void heuristikTestInit(String mapName) throws IOException {
+        FileReader fr = new FileReader(mapName);
+        BufferedReader br = new BufferedReader(fr);
+        String text;
+        //Spieler und Ueberschreibsteine einlesen/speichern
+        text = br.readLine();
+        setSpieler(Integer.parseInt(text));
+        text = br.readLine();
+        setUeberschreibsteine(Integer.parseInt(text));
+        //Bomben und Staerke einlesen/speichern
+        text = br.readLine();
+        String array[] = text.split(" ");
+        setBomben(Integer.parseInt(array[0]));
+        setStaerke(Integer.parseInt(array[1]));
+        //Hoehe und Breite einlesen/speichern
+        text = br.readLine();
+        array = text.split(" ");
+        setHoehe(Integer.parseInt(array[0]));
+        setBreite(Integer.parseInt(array[1]));
+        //Spielfeld einlesen/speichern
+        Spielfeld = new char[Breite][Hoehe][12];
+        for (int zeile = 0; zeile < Hoehe; zeile++) {
+            text = br.readLine();
+            array = text.split(" ");
+            for (int spalte = 0; spalte < Breite; spalte++) {
+                Spielfeld[spalte][zeile][0] = array[spalte].charAt(0);
+                Spielfeld[spalte][zeile][2] = 0;
+            }
+        }
+        //Transitionen einlesen/speichern
+        ArrayList<String> templiste = new ArrayList<>();
+        while ((text = br.readLine()) != null) {
+            templiste.add(text);
+        }
+
+        Transitionen = new TransitionenListe[templiste.size() + 1];
+        int counter = 1;
+        Transitionen[0] = new TransitionenListe();
+        for (int i = 0; i < templiste.size(); i++) {
+            Transitionen[i + 1] = new TransitionenListe();
+            String[] textarray = templiste.get(i).split(" ");
+            int x1, y1, r1, x2, y2, r2;
+            Transition t;
+
+            x1 = Integer.parseInt(textarray[0]);
+            y1 = Integer.parseInt(textarray[1]);
+            r1 = Integer.parseInt(textarray[2]);
+            x2 = Integer.parseInt(textarray[4]);
+            y2 = Integer.parseInt(textarray[5]);
+            r2 = Integer.parseInt(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
             if (Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {

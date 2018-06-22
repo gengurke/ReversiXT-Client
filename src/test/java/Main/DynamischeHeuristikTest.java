@@ -13,7 +13,7 @@ public class DynamischeHeuristikTest {
         //Einlesen des Dateinamens
         String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/miniQuadrat_leer.map";
         //Erzeugen des Spielbretts
-        Spielbrett Spiel = new Spielbrett(Datname);
+        Spielbrett Spiel = new Spielbrett(Datname, "test");
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
@@ -32,7 +32,7 @@ public class DynamischeHeuristikTest {
         //Einlesen des Dateinamens
         String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/miniQuadrat_vierSicher.map";
         //Erzeugen des Spielbretts
-        Spielbrett Spiel = new Spielbrett(Datname);
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
@@ -51,7 +51,7 @@ public class DynamischeHeuristikTest {
         //Einlesen des Dateinamens
         String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/miniQuadrat_dreiSicher.map";
         //Erzeugen des Spielbretts
-        Spielbrett Spiel = new Spielbrett(Datname);
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
@@ -70,7 +70,7 @@ public class DynamischeHeuristikTest {
         //Einlesen des Dateinamens
         String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/miniQuadrat_zweiSicher.map";
         //Erzeugen des Spielbretts
-        Spielbrett Spiel = new Spielbrett(Datname);
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
@@ -89,7 +89,45 @@ public class DynamischeHeuristikTest {
         //Einlesen des Dateinamens
         String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/miniQuadrat_eineSicher.map";
         //Erzeugen des Spielbretts
-        Spielbrett Spiel = new Spielbrett(Datname);
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
+        //Ausgabe des Spielbretts
+        System.out.println(Spiel);
+
+        //gueltige Zuege
+        Spiel.gueltigeZuege(1);
+
+        //Heuristik
+        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
+        System.out.println(heuristik);
+        assertEquals(heuristik.getSpielbewertung(), 0);
+
+    }
+
+    @Test
+    public void endlosrohr_keineSicherenSteine() throws IOException {
+        //Einlesen des Dateinamens
+        String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/endlosrohr.map";
+        //Erzeugen des Spielbretts
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
+        //Ausgabe des Spielbretts
+        System.out.println(Spiel);
+
+        //gueltige Zuege
+        Spiel.gueltigeZuege(1);
+
+        //Heuristik
+        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
+        System.out.println(heuristik);
+        assertEquals(heuristik.getSpielbewertung(), 910);
+
+    }
+
+    @Test
+    public void endlosrohr_loop() throws IOException {
+        //Einlesen des Dateinamens
+        String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/endlosrohr_loop.map";
+        //Erzeugen des Spielbretts
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
         //Ausgabe des Spielbretts
         System.out.println(Spiel);
 
