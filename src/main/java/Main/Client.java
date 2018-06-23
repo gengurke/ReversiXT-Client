@@ -87,8 +87,6 @@ public class Client {
                     zeit = zeit << 8;
                     zeit += Byte.toUnsignedInt(message[i]);
                 }
-                ende = System.currentTimeMillis();
-                Timer clock = new Timer(zeit-(ende-start));
                 tiefe = (byte) nachricht[4];
 
                 if (bomben) {
@@ -113,6 +111,8 @@ public class Client {
                     //Todo Sinnvolle Zugauswahl
                     int[] zug = new int[3], temp;
                     if (zeit != 0) {
+                        ende = System.currentTimeMillis();
+                        Timer clock = new Timer(zeit-(ende-start));
                         long ges = 0;
                         int counter = 0, size;
                         while (counter < 30) {
@@ -133,8 +133,9 @@ public class Client {
                             }
                         }
 
-                    } else if (tiefe != 0) {
-                        zug = Spiel.alphaBeta(tiefe, Spielernummer, clock);
+                    } else{
+                        zug = Spiel.alphaBeta(tiefe, Spielernummer, null);
+                        Spiel.getGueltigeZuege().listeLoeschen();
                     }
 
                     sendeZug(zug, socket);

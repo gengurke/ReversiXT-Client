@@ -15,10 +15,9 @@ public class Spielbrett {
     private GueltigerZugListe gueltigeZuege;
     private boolean dir[], faerben[][];
     private int aktX = 0, aktY = 0, aktDir = 0;
-    private int count = 0, zustaende = 0;
+    private int count = 0, zustaende = 0, ersatzsteine= 0;
     public long[] zustande = new long[500], zeit_zustand = new long[500];
     public boolean ustein = false;
-    public int lastSize = 1;
     private static int j = 0;
 
     public Spielbrett(String name) throws IOException {
@@ -27,7 +26,8 @@ public class Spielbrett {
 
     public Spielbrett(int s, int u, int b, int st, int h, int br, char[][][] sp, TransitionenListe[] t, GueltigerZugListe gl) {
         Spieler = s;
-        Ueberschreibsteine = u;
+        Ueberschreibsteine = 0;
+        ersatzsteine = u;
         Bomben = b;
         Staerke = st;
         Hoehe = h;
@@ -80,7 +80,8 @@ public class Spielbrett {
         text = br.readLine();
         setSpieler(Integer.parseInt(text));
         text = br.readLine();
-        setUeberschreibsteine(Integer.parseInt(text));
+        setUeberschreibsteine(0);
+        ersatzsteine = Integer.parseInt(text);
         //Bomben und Staerke einlesen/speichern
         text = br.readLine();
         String array[] = text.split(" ");
@@ -152,7 +153,6 @@ public class Spielbrett {
                 Spielfeld[x2][y2][2] = (char) counter++;            //da es mehr als 9 Transitionen geben kann und es bei chars nur bis Ziffer 9 geht
             }
         }
-
 
         dir = new boolean[8];
         faerben = new boolean[Breite][Hoehe];
@@ -291,7 +291,7 @@ public class Spielbrett {
                     Bomben++;
                     break;
                 case 21:
-                    Ueberschreibsteine++;
+                    ersatzsteine++;
                     break;
                 default:
                     break;
@@ -604,6 +604,16 @@ public class Spielbrett {
 
         this.gueltigeZuege(s);
         this.gueltigeZuege.SortMaxFirst();
+
+        if(gueltigeZuege.getSize() == 0) {
+            if(ersatzsteine > 0) {
+                setUeberschreibsteine(1);
+                ersatzsteine--;
+                this.gueltigeZuege(s);
+                this.gueltigeZuege.SortMaxFirst();
+            }
+        }
+
         char[][][] feld = kopiereSpielfeld(this.Spielfeld);
         GueltigerZugListe liste = this.kopiereGZugListe();
         if (tiefe == 0) {
@@ -618,7 +628,7 @@ public class Spielbrett {
             return zug;
         }
         for (int j = 0; j < this.gueltigeZuege.getSize(); j++) {
-            if(t.getStatus()) {
+            if(t != null && t.getStatus()) {
                 this.setSpielfeld(feld);
                 this.setUeberschreibsteine(anzahlsteine);
                 this.setBomben(anzahlbomben);
@@ -691,7 +701,7 @@ public class Spielbrett {
     }
 
     private Object alphaBeta(int a, int b, int tiefe, int s, int aktS, Spielbrett spiel, byte sonderfeld, Timer t) {
-        if(t.getStatus()) {
+        if(t != null && t.getStatus()) {
             return null;
         }
         if (tiefe == 0) {
