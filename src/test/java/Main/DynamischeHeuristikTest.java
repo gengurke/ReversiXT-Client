@@ -137,7 +137,7 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 0);
+        assertEquals(heuristik.getSpielbewertung(), 910);
 
     }
 }
