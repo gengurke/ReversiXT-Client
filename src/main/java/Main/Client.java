@@ -97,6 +97,7 @@ public class Client {
                 tiefe = (byte)nachricht[4];
 
                 if(bomben){
+
                     Spiel.gueltigeBombZuege(Spielernummer);
                     //Todo Sinnvolle Zugauswahl
                     Spielfeld = Spiel.getSpielfeld();
@@ -105,6 +106,7 @@ public class Client {
                         for (short x = 0; x < Spiel.getBreite(); x++) {
                             short[] zug = new short[3];
                             if (Spielfeld[x][y][1] == 'B') {
+                                //TODO 5 durch X und Y ersetzen
                                 zug[0] = x;
                                 zug[1] = y;
                                 zug[2] = 0;
@@ -168,7 +170,7 @@ public class Client {
                 }
 
                 if(bomben){
-                     Spiel.bombZug(x,y,0,0,0);
+                     Spiel.bombZug(x,y);
                     //Spiel.leichtBombZug(x,y);
                 } else if (spieler == Spielernummer){
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
