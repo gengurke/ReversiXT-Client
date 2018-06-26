@@ -9,5 +9,4 @@ public enum Richtungen {
     UNTENLINKS,
     LINKS,
     OBENLINKS;
-
 }

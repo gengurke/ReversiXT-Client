@@ -13,7 +13,10 @@ public class GueltigerZugListe {
     public void hinzufuegen(int x, int y, int w) {
         GueltigerZug neu = new GueltigerZug(x,y,w);
         liste.addFirst(neu);
+    }
 
+    public void hinzufuegen(GueltigerZug gzug) {
+        liste.addFirst(gzug);
     }
 
     public boolean isEmpty() {
@@ -46,7 +49,9 @@ public class GueltigerZugListe {
 
     public GueltigerZugListe clone() {
         GueltigerZugListe neu = new GueltigerZugListe();
-        neu.setListe((LinkedList<GueltigerZug>) liste.clone());
+        for(int i = 0; i < getSize(); i++) {
+            neu.hinzufuegen(liste.get(i));
+        }
         return neu;
     }
 
@@ -60,6 +65,11 @@ public class GueltigerZugListe {
 
     public GueltigerZug get(int i) {
         return liste.get(i);
+    }
+
+    public void set(GueltigerZugListe l) {
+        listeLoeschen();
+        liste = l.getListe();
     }
 
     public void Print() {
