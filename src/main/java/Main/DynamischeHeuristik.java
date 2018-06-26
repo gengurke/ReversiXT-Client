@@ -1,7 +1,5 @@
 package Main;
 
-import java.util.LinkedList;
-
 import static Main.HeuristikHilfsFunktionen.*;
 
 public class DynamischeHeuristik implements Heuristik {
@@ -100,8 +98,7 @@ public class DynamischeHeuristik implements Heuristik {
                 case '6':
                 case '7':
                 case '8':
-                    richtungUeberpruefenUndSicherheitenFestlegen(x, y, spielerInZelle, dir);
-                    //TODO bool nutzen
+                    richtungUeberpruefenUndSicherheitenFestlegen(x, y, x, y, dir, spielerInZelle, dir);
                     continue;
                 case '0':
                     continue;
@@ -121,64 +118,86 @@ public class DynamischeHeuristik implements Heuristik {
         }
     }
 
-    private boolean richtungUeberpruefenUndSicherheitenFestlegen(int x, int y, int spielerInZelle, Richtungen dir) {
+
+    /**
+     * Kernfunktion in dieser Klasse. Sie ueberpfrueft die gegebene zelle strahlenmaessig in alle Richtungen auf
+     * Faerbbarkeit und legt dann die Sicherheit im array sicherheit fest.
+     *
+     * @param x
+     * @param y
+     * @param urX            unrspuengliches x von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param urY            unrspuengliches y von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param urDir          unrspuengliche richtung von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param spielerInZelle
+     * @param dir
+     * @return
+     */
+    private boolean richtungUeberpruefenUndSicherheitenFestlegen(int x, int y, int urX, int urY, Richtungen urDir, int spielerInZelle, Richtungen dir) {
+        //Todo richtungUeberpruefenUndSicherheitenFestlegen refaktorieren, sodass man nicht immer urX usw angeben muss, sondern dass das intern funktioniert.
         //Wenn ueberpruefender Spieler gleich Spieler auf spielfeld
         int intDir = dir.ordinal(); // Int Repraesentation der Richtung
         int oppIntDir = getOppDir(dir).ordinal();
 
-        if (spielerInZelle == Character.getNumericValue(spielfeld[x][y][0])) {
-            //Schon sicher
-            if ((sicherheit[x][y][spielerInZelle][intDir] == 1) && (sicherheit[x][y][spielerInZelle][oppIntDir] == 1)) {
-                return true;
-                //nicht sicher
-            } else if (sicherheit[x][y][spielerInZelle][intDir] == -1) {
-                return false;
-                //noch nicht ueberprueft
-            } else {
-                //Rand
-                if (istRand(x, y, dir)) {
-                    //hat Transition
-                    Transition transi;
-                    if ((transi = getTransition(x, y, dir)) != null) {
-                        switch (transi.getNumber(x, y, intDir)) {
-                            case 1:
-                                //TODO loop fall implementieren
-                                if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x2, transi.y2, spielerInZelle, getOppDir(Richtungen.values()[transi.dir2]))) {
-                                    sicherheit[x][y][spielerInZelle][intDir] = 1;
-                                    sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
-                                    return true;
-                                }
-                                break;
-                            case 2:
-                                if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x1, transi.y1, spielerInZelle, getOppDir(Richtungen.values()[transi.dir1]))) {
-                                    sicherheit[x][y][spielerInZelle][intDir] = 1;
-                                    sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
-                                    return true;
-                                }
-                                break;
-                        }
-                        sicherheit[x][y][spielerInZelle][intDir] = -1;
-                        return false;
-                        //hat keine Transition
-                    } else {
-                        sicherheit[x][y][spielerInZelle][intDir] = 1;
-                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
-                        return true;
-                    }
-                    //kein Rand
+        //loop abfangen
+        if (x == urX && y == urY && dir == urDir) {
+            return true;
+
+            //kein loop
+        } else {
+            if (spielerInZelle == Character.getNumericValue(spielfeld[x][y][0])) {
+                //Schon sicher
+                if ((sicherheit[x][y][spielerInZelle][intDir] == 1) && (sicherheit[x][y][spielerInZelle][oppIntDir] == 1)) {
+                    return true;
+                    //nicht sicher
+                } else if (sicherheit[x][y][spielerInZelle][intDir] == -1) {
+                    return false;
+                    //noch nicht ueberprueft
                 } else {
-                    if (richtungUeberpruefenUndSicherheitenFestlegen(getNewX(x, dir), getNewY(y, dir), spielerInZelle, dir)) {
-                        sicherheit[x][y][spielerInZelle][intDir] = 1;
-                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
-                        return true;
+                    //Rand
+                    if (istRand(x, y, dir)) {
+                        //hat Transition
+                        Transition transi;
+                        if ((transi = getTransition(x, y, dir)) != null) {
+                            switch (transi.getNumber(x, y, intDir)) {
+                                case 1:
+                                    //Todo StackOverflow loop Fehler bei zeile 170 und 145 (warscheinlich geloest durch loop implementierung)
+                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x2, transi.y2, urX, urY, urDir, spielerInZelle, getOppDir(Richtungen.values()[transi.dir2]))) {
+                                        sicherheit[x][y][spielerInZelle][intDir] = 1;
+                                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                                        return true;
+                                    }
+                                    break;
+                                case 2:
+                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x1, transi.y1, urX, urY, urDir, spielerInZelle, getOppDir(Richtungen.values()[transi.dir1]))) {
+                                        sicherheit[x][y][spielerInZelle][intDir] = 1;
+                                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                                        return true;
+                                    }
+                                    break;
+                            }
+                            sicherheit[x][y][spielerInZelle][intDir] = -1;
+                            return false;
+                            //hat keine Transition
+                        } else {
+                            sicherheit[x][y][spielerInZelle][intDir] = 1;
+                            sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                            return true;
+                        }
+                        //kein Rand
                     } else {
-                        sicherheit[x][y][spielerInZelle][intDir] = -1;
-                        return false;
+                        if (richtungUeberpruefenUndSicherheitenFestlegen(getNewX(x, dir), getNewY(y, dir), urX, urY, urDir, spielerInZelle, dir)) {
+                            sicherheit[x][y][spielerInZelle][intDir] = 1;
+                            sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                            return true;
+                        } else {
+                            sicherheit[x][y][spielerInZelle][intDir] = -1;
+                            return false;
+                        }
                     }
                 }
+            } else {
+                return false;
             }
-        } else {
-            return false;
         }
     }
 

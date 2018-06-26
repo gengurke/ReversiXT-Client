@@ -1,0 +1,1 @@
+$ /cygdrive/c/Users/fklam/Desktop/bin-distfile-CYGWIN_NT-6.1-x86_64-noai/server_nogl -m C://Users/fklam/Desktop/RevXT-SS18-g07/maps/kernMaps/endlosrohr.map -t 1
