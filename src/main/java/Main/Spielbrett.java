@@ -15,7 +15,7 @@ public class Spielbrett {
     private GueltigerZugListe gueltigeZuege;
     private boolean dir[], faerben[][];
     private int aktX = 0, aktY = 0, aktDir = 0;
-    private int count = 0, zustaende = 0, ersatzsteine= 0;
+    private int count = 0, zustaende = 0, ersatzsteine;
     public long[] zustande = new long[500], zeit_zustand = new long[500];
     public boolean ustein = false;
     private static int j = 0;
@@ -257,97 +257,93 @@ public class Spielbrett {
     public void leichtBombZug(int x, int y, int s) {
         Spielfeld[x][y][0] = '-';
     }
-
-    private void transbombZug(int x, int y, int staerke, int i, int j) {
-        ++i;
-        ++j;
-
-        char temp = Spielfeld[x][y][2];
-        if (temp != 0) {
-            for (int dir = 0; dir < 8; dir++) {
+    private void transbombZug(int x, int y, int offset, short lastdir) {
 
 
-                Transition t = Transitionen[temp].search(x, y, dir);
 
-                if (t != null) {
-                    int number = t.getNumber(x, y, dir);
+            char temp = Spielfeld[x][y][2];
+            if (temp != 0) {
+                for (short dir = 0; dir < 8; dir++) {
 
 
-                    if (i != staerke) {
-                        int newoffset;
-                        if (i < j) {
-                            newoffset = j;
-                        } else {
-                            newoffset = i;
+                    Transition t = Transitionen[temp].search((short) x, (short) y, dir);
+
+                    if (t != null) {
+                        int number = t.getNumber( x, y, dir);
+                        if (lastdir != dir) {
+
+                            bombZug(t.getX(number), t.getY(number), offset, dir,true);
+
                         }
-                        bombZug(t.getX(number), t.getY(number), newoffset, i, j);
-
                     }
-                }
-            }
-        }
-    }
-
-    public void bombZug(int x, int y, int offset, int newi, int newj) {
-//todo transitionen korrekt einbinden
-        int staerke = Staerke - offset;
-        Spielfeld[x][y][0] = '-';
-        for (int i = newi; i <= staerke; i++) {
-            for (int j = newj; j <= staerke; j++) {
-
-                if (x - i >= 0) {
-
-                    Spielfeld[x - i][y][0] = '-';
-                    transbombZug(x - i, y, staerke, i, j);
-                    if (y - j >= 0) {
-                        Spielfeld[x - i][y - j][0] = '-';
-                        transbombZug(x - i, y - j, staerke, i, j);
-
-                    }
-                }
-
-                if (Breite > x + i && Hoehe > y + j) {
-                    Spielfeld[x + i][y + j][0] = '-';
-                    transbombZug(x + i, y + j, staerke, i, j);
-
-
-                }
-
-                if (Hoehe > y + j) {
-                    Spielfeld[x][y + j][0] = '-';
-                    transbombZug(x, y + j, staerke, i, j);
-
-
-                }
-                if (Breite > x + i) {
-                    Spielfeld[x + i][y][0] = '-';
-                    transbombZug(x + i, y, staerke, i, j);
-
-
-                }
-                if (y - j >= 0) {
-                    Spielfeld[x][y - j][0] = '-';
-                    transbombZug(x, y - j, staerke, i, j);
-
-
-                }
-                if (Breite > x + i && 0 <= y - j) {
-                    Spielfeld[x + i][y - j][0] = '-';
-                    transbombZug(x + i, y - j, staerke, i, j);
-
-
-                }
-                if (0 <= x - i && Hoehe > y + j) {
-                    Spielfeld[x - i][y + j][0] = '-';
-                    transbombZug(x - i, y + j, staerke, i, j);
-
 
                 }
             }
         }
-        //PrintSpielfeld();
 
+
+
+    public void bombZug(int x, int y){
+        bombZug(x,y,0,(short)-1,false);
+        firebomb();
+        PrintSpielfeld();
     }
+            private void bombZug(int x, int y,int offset,short dir,boolean trans) {
+                // if (x < Breite && y < Hoehe) {
+                if (Spielfeld[x][y][0] != '-') {
+                    int staerke = Staerke - offset;
+                    Spielfeld[x][y][0] = 'B';
+                    if (staerke > 0) {
+                        if (trans) {
+
+                            transbombZug(x, y, offset+1, dir);
+                        }else{
+                            transbombZug(x,y,offset,dir);
+                        }
+
+                        if (0 <= x - 1 && staerke > 0) {
+                            bombZug(x - 1, y, offset + 1, (short) -1,false);
+                        }
+                        if (0 <= x - 1 && 0 <= y - 1 && staerke > 0) {
+                            bombZug(x - 1, y - 1, offset + 1, (short) -1,false);
+                        }
+                        if (Breite > x + 1 && staerke > 0) {
+                            bombZug(x + 1, y, offset + 1, (short) -1,false);
+                        }
+                        if (Breite > x + 1 && Hoehe > y + 1 && staerke > 0) {
+                            bombZug(x + 1, y + 1, offset + 1, (short) -1,false);
+                        }
+                        if (0 <= x - 1 && Hoehe > y + 1 && staerke > 0) {
+                            bombZug(x - 1, y + 1, offset + 1, (short) -1,false);
+                        }
+                        if (Breite > x + 1 && 0 <= y - 1 && staerke > 0) {
+                            bombZug(x + 1, y - 1, offset + 1, (short) -1,false);
+                        }
+                        if (Hoehe > y + 1 && staerke > 0) {
+                            bombZug(x, y + 1, offset + 1, (short) -1,false);
+                        }
+                        if (0 < y - 1 && staerke > 0) {
+                            bombZug(x, y - 1, offset + 1, (short) -1,false);
+                        }
+
+
+
+                    }
+
+
+                }
+            }
+          //  }
+            private void firebomb(){
+        for (int i =0;i<Breite;i++){
+            for(int j = 0; j<Hoehe;j++){
+                if(Spielfeld[i][j][0] == 'B'){
+                    Spielfeld[i][j][0] = '-';
+                }
+            }
+        }
+            }
+
 
 
     public void gueltigeBombZuege(int s) {
@@ -361,6 +357,10 @@ public class Spielbrett {
 
             }
         }
+
+    }
+    public void getBombZug(){
+
 
     }
 
@@ -393,6 +393,8 @@ public class Spielbrett {
             if (Spielfeld[x][y][0] == 'i') {
                 inversion = true;
             } else if (Spielfeld[x][y][0] != '0' && Spielfeld[x][y][0] != 'b' && Spielfeld[x][y][0] != 'c') {
+                setUeberschreibsteine(1);
+                setErsatzsteine(getErsatzsteine()-1);
                 ustein = true;
             }
 
@@ -431,11 +433,11 @@ public class Spielbrett {
                         }
                     }
                 }
-            } else if (ustein) {
-                Ueberschreibsteine--;
+            } else if(ustein) {
+                setUeberschreibsteine(0);
             }
         } else {
-            System.out.println("Ungueltiger Zug!3");
+            System.out.println("Ungueltiger Zug!");
         }
     }
 
@@ -689,22 +691,28 @@ public class Spielbrett {
         return gueltigeZuege.clone();
     }
 
-    public int[] alphaBeta(int tiefe, int s, Timer t) {
-        int x = -1, y = -1, anzahlsteine = this.getUeberschreibsteine(), anzahlbomben = this.getBomben();
+    public int[] alphaBeta(int tiefe, int s, Timer t, int alpha, int beta) {
+        int x = -1, y = -1, anzahlsteine = this.getErsatzsteine(), anzahlbomben = this.getBomben();
         byte sonderfeld = 1;
         int[] zug = new int[3];
         GueltigerZug gzug;
-        ABKnoten knoten = new ABKnoten(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        ABKnoten knoten = new ABKnoten(alpha, beta, Integer.MIN_VALUE);
 
         this.gueltigeZuege(s);
         this.gueltigeZuege.SortMaxFirst();
+        printGueltigeZuege();
 
         if(gueltigeZuege.getSize() == 0) {
             if(ersatzsteine > 0) {
                 setUeberschreibsteine(1);
-                ersatzsteine--;
                 this.gueltigeZuege(s);
                 this.gueltigeZuege.SortMaxFirst();
+                System.out.println(ersatzsteine+" "+Ueberschreibsteine);
+                printGueltigeZuege();
+            }
+            if(this.gueltigeZuege.getSize() == 0) {
+                PrintSpielfeld();
+                System.exit(1);
             }
         }
 
@@ -724,7 +732,7 @@ public class Spielbrett {
         for (int j = 0; j < this.gueltigeZuege.getSize(); j++) {
             if(t != null && t.getStatus()) {
                 this.setSpielfeld(feld);
-                this.setUeberschreibsteine(anzahlsteine);
+                this.setErsatzsteine(anzahlsteine);
                 this.setBomben(anzahlbomben);
                 this.setGueltigeZuege(liste);
                 return null;
@@ -738,7 +746,7 @@ public class Spielbrett {
                 start = 1;
                 ende = (byte) this.Spieler;
             } else if (this.Spielfeld[gx][gy][0] == 'b') {
-                start = 20;
+                start = 21;
                 ende = 21;
                 ustein = true;
             }
@@ -750,7 +758,7 @@ public class Spielbrett {
                     if(temp == null) {
                         //System.out.println("Abbruch Tiefe: "+tiefe);
                         this.setSpielfeld(feld);
-                        this.setUeberschreibsteine(anzahlsteine);
+                        this.setErsatzsteine(anzahlsteine);
                         this.setBomben(anzahlbomben);
                         this.setGueltigeZuege(liste);
                         return null;
@@ -771,22 +779,23 @@ public class Spielbrett {
                 }
                 this.setSpielfeld(kopiereSpielfeld(feld));
                 this.setGueltigeZuege(liste.clone());
-                this.setUeberschreibsteine(anzahlsteine);
+                this.setErsatzsteine(anzahlsteine);
                 this.setBomben(anzahlbomben);
                 zustaende = 0;
             }
         }
         this.setSpielfeld(feld);
-        this.setUeberschreibsteine(anzahlsteine);
+        this.setErsatzsteine(anzahlsteine);
         this.setBomben(anzahlbomben);
         this.setGueltigeZuege(liste);
 
         if (x == -1 || y == -1) {
+            PrintSpielfeld();
             System.exit(1);
         } else {
-            /*System.out.println("Zug: (" + x + "," + y + ")");
-            System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine());
-            PrintSpielfeld();*/
+            System.out.println("Zug: (" + x + "," + y + ")");
+            System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine()+" Estein: "+getErsatzsteine());
+            PrintSpielfeld();
             zug[0] = x;
             zug[1] = y;
             zug[2] = sonderfeld;
@@ -794,7 +803,7 @@ public class Spielbrett {
         return zug;
     }
 
-    private Object alphaBeta(int a, int b, int tiefe, int s, int aktS, Spielbrett spiel, byte sonderfeld, Timer t) {
+    private Object alphaBeta(int alpha, int beta, int tiefe, int s, int aktS, Spielbrett spiel, byte sonderfeld, Timer t) {
         if(t != null && t.getStatus()) {
             return null;
         }
@@ -804,14 +813,14 @@ public class Spielbrett {
             return w;
         } else {
             ABKnoten knoten;
-            int anzahlsteine = spiel.getUeberschreibsteine();
+            int anzahlsteine = spiel.getErsatzsteine();
             boolean maxFirst;
 
             if (s == aktS) { // MAX
-                knoten = new ABKnoten(a, b, Integer.MIN_VALUE);
+                knoten = new ABKnoten(alpha, beta, Integer.MIN_VALUE);
                 maxFirst = true;
             } else { // MIN
-                knoten = new ABKnoten(a, b, Integer.MAX_VALUE);
+                knoten = new ABKnoten(alpha, beta, Integer.MAX_VALUE);
                 maxFirst = false;
             }
             GueltigerZug gzug;
@@ -837,7 +846,7 @@ public class Spielbrett {
                         if(temp == null) {
                             //System.out.println("Abbruch Tiefe: "+tiefe);
                             spiel.setSpielfeld(kopiereSpielfeld(feld));
-                            spiel.setUeberschreibsteine(anzahlsteine);
+                            spiel.setErsatzsteine(anzahlsteine);
                             setUeberschreibsteine(anzahlsteine);
                             spiel.setGueltigeZuege(gliste);
                             return null;
@@ -859,7 +868,7 @@ public class Spielbrett {
                         if(temp == null) {
                             //System.out.println("Abbruch Tiefe: "+tiefe);
                             spiel.setSpielfeld(kopiereSpielfeld(feld));
-                            spiel.setUeberschreibsteine(anzahlsteine);
+                            spiel.setErsatzsteine(anzahlsteine);
                             setUeberschreibsteine(anzahlsteine);
                             spiel.setGueltigeZuege(gliste);
                             return null;
@@ -877,7 +886,7 @@ public class Spielbrett {
                         }
                     }
                     spiel.setSpielfeld(kopiereSpielfeld(feld));
-                    spiel.setUeberschreibsteine(anzahlsteine);
+                    spiel.setErsatzsteine(anzahlsteine);
                     spiel.setGueltigeZuege(gliste.clone());
                 }
             } else {
@@ -886,7 +895,7 @@ public class Spielbrett {
                 if(temp == null) {
                     //System.out.println("Abbruch Tiefe: "+tiefe);
                     spiel.setSpielfeld(kopiereSpielfeld(feld));
-                    spiel.setUeberschreibsteine(anzahlsteine);
+                    spiel.setErsatzsteine(anzahlsteine);
                     setUeberschreibsteine(anzahlsteine);
                     spiel.setGueltigeZuege(gliste);
                     return null;
@@ -894,8 +903,8 @@ public class Spielbrett {
                     wert = (int) temp;
                 }
                 spiel.setSpielfeld(kopiereSpielfeld(feld));
-                spiel.setUeberschreibsteine(anzahlsteine);
-                setUeberschreibsteine(anzahlsteine);
+                spiel.setErsatzsteine(anzahlsteine);
+                setErsatzsteine(anzahlsteine);
                 spiel.setGueltigeZuege(gliste);
                 return wert;
             }
@@ -1037,6 +1046,10 @@ public class Spielbrett {
         Ueberschreibsteine = ueberschreibsteine;
     }
 
+    public void setErsatzsteine(int ersatzsteine) {
+        this.ersatzsteine = ersatzsteine;
+    }
+
     public void setBomben(int bomben) {
         Bomben = bomben;
     }
@@ -1066,7 +1079,11 @@ public class Spielbrett {
     }
 
     public int getUeberschreibsteine() {
-        return Integer.valueOf(Ueberschreibsteine);
+        return Ueberschreibsteine;
+    }
+
+    public int getErsatzsteine() {
+        return ersatzsteine;
     }
 
     public boolean hatUeberschreibsteine() {
