@@ -89,7 +89,8 @@ public class Client {
                 }
                 tiefe = (byte) nachricht[4];
 
-                if (bomben) {
+                if(bomben){
+
                     Spiel.gueltigeBombZuege(Spielernummer);
                     //Todo Sinnvolle Zugauswahl
                     Spielfeld = Spiel.getSpielfeld();
@@ -97,7 +98,17 @@ public class Client {
                     for (int y = 0; y < Spiel.getHoehe(); y++) {
                         for (int x = 0; x < Spiel.getBreite(); x++) {
                             int[] zug = new int[3];
-                            if (Spielfeld[x][y][1] == 'B') {
+                            //todo entfernen
+                            if(Spielfeld[3][3][1] == 'B'){
+                                zug[0] = 3;
+                                zug[1] = 1;
+                                zug[2] = 0;
+                                sendeZug(zug, socket);
+                                return "";
+
+                            }
+                            else if(Spielfeld[x][y][1] == 'B') {
+                                //TODO 3 durch X und Y ersetzen
                                 zug[0] = x;
                                 zug[1] = y;
                                 zug[2] = 0;
@@ -108,7 +119,7 @@ public class Client {
                     }
 
                 } else {
-                    //Todo Sinnvolle Zugauswahl
+
                     int[] zug = new int[3], temp;
                     int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
                     if (zeit != 0) {
@@ -156,8 +167,12 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
-                if (bomben) {
-                    Spiel.bombZug(x, y, 0, 0, 0);
+                if (x == 16 && y == 2) {
+                    int test = 1;
+                }
+
+                if(bomben){
+                     Spiel.bombZug(x,y);
                     //Spiel.leichtBombZug(x,y);
                 } else if (spieler == Spielernummer) {
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
