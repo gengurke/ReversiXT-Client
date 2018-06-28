@@ -110,13 +110,14 @@ public class Client {
                 } else {
                     //Todo Sinnvolle Zugauswahl
                     int[] zug = new int[3], temp;
+                    int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
                     if (zeit != 0) {
                         ende = System.currentTimeMillis();
                         Timer clock = new Timer(zeit-(ende-start));
                         long ges = 0;
                         int counter = 0, size;
                         while (counter < 30) {
-                            temp = Spiel.alphaBeta(counter, Spielernummer, clock);
+                            temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha,beta);
                             if(temp == null) {
                                 sendeZug(zug, socket);
                                 return "";
@@ -134,7 +135,7 @@ public class Client {
                         }
 
                     } else{
-                        zug = Spiel.alphaBeta(tiefe, Spielernummer, null);
+                        zug = Spiel.alphaBeta(tiefe, Spielernummer, null, alpha, beta);
                         Spiel.getGueltigeZuege().listeLoeschen();
                     }
 
@@ -161,10 +162,10 @@ public class Client {
                 } else if (spieler == Spielernummer) {
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
-                    int anzahlsteine = Spiel.getUeberschreibsteine(), anzahlbomben = Spiel.getBomben();
-                    Spiel.setUeberschreibsteine(1);
+                    int anzahlsteine = Spiel.getErsatzsteine(), anzahlbomben = Spiel.getBomben();
+                    Spiel.setErsatzsteine(1);
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
-                    Spiel.setUeberschreibsteine(anzahlsteine);
+                    Spiel.setErsatzsteine(anzahlsteine);
                     Spiel.setBomben(anzahlbomben);
                 }
                 break;
