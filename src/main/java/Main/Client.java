@@ -98,8 +98,17 @@ public class Client {
                     for (int y = 0; y < Spiel.getHoehe(); y++) {
                         for (int x = 0; x < Spiel.getBreite(); x++) {
                             int[] zug = new int[3];
-                            if (Spielfeld[x][y][1] == 'B') {
-                                //TODO 5 durch X und Y ersetzen
+                            //todo entfernen
+                            if(Spielfeld[3][3][1] == 'B'){
+                                zug[0] = 3;
+                                zug[1] = 1;
+                                zug[2] = 0;
+                                sendeZug(zug, socket);
+                                return "";
+
+                            }
+                            else if(Spielfeld[x][y][1] == 'B') {
+                                //TODO 3 durch X und Y ersetzen
                                 zug[0] = x;
                                 zug[1] = y;
                                 zug[2] = 0;
@@ -110,7 +119,7 @@ public class Client {
                     }
 
                 } else {
-                    //Todo Sinnvolle Zugauswahl
+
                     int[] zug = new int[3], temp;
                     if (zeit != 0) {
                         ende = System.currentTimeMillis();

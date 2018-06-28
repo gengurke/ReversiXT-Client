@@ -178,7 +178,7 @@ public class Spielbrett {
                         int number = t.getNumber( x, y, dir);
                         if (lastdir != dir) {
 
-                            bombZug(t.getX(number), t.getY(number), offset + 1, dir);
+                            bombZug(t.getX(number), t.getY(number), offset, dir,true);
 
                         }
                     }
@@ -190,41 +190,48 @@ public class Spielbrett {
 
 
     public void bombZug(int x, int y){
-        bombZug(x,y,0,(short)-1);
+        bombZug(x,y,0,(short)-1,false);
         firebomb();
         PrintSpielfeld();
     }
-            private void bombZug(int x, int y,int offset,short dir) {
+            private void bombZug(int x, int y,int offset,short dir,boolean trans) {
                 // if (x < Breite && y < Hoehe) {
                 if (Spielfeld[x][y][0] != '-') {
                     int staerke = Staerke - offset;
                     Spielfeld[x][y][0] = 'B';
                     if (staerke > 0) {
-                        transbombZug(x, y, offset, dir);
+                        if (trans) {
+
+                            transbombZug(x, y, offset+1, dir);
+                        }else{
+                            transbombZug(x,y,offset,dir);
+                        }
+
                         if (0 <= x - 1 && staerke > 0) {
-                            bombZug(x - 1, y, offset + 1, (short) -1);
+                            bombZug(x - 1, y, offset + 1, (short) -1,false);
                         }
                         if (0 <= x - 1 && 0 <= y - 1 && staerke > 0) {
-                            bombZug(x - 1, y - 1, offset + 1, (short) -1);
+                            bombZug(x - 1, y - 1, offset + 1, (short) -1,false);
                         }
                         if (Breite > x + 1 && staerke > 0) {
-                            bombZug(x + 1, y, offset + 1, (short) -1);
+                            bombZug(x + 1, y, offset + 1, (short) -1,false);
                         }
                         if (Breite > x + 1 && Hoehe > y + 1 && staerke > 0) {
-                            bombZug(x + 1, y + 1, offset + 1, (short) -1);
+                            bombZug(x + 1, y + 1, offset + 1, (short) -1,false);
                         }
                         if (0 <= x - 1 && Hoehe > y + 1 && staerke > 0) {
-                            bombZug(x - 1, y + 1, offset + 1, (short) -1);
+                            bombZug(x - 1, y + 1, offset + 1, (short) -1,false);
                         }
                         if (Breite > x + 1 && 0 <= y - 1 && staerke > 0) {
-                            bombZug(x + 1, y - 1, offset + 1, (short) -1);
+                            bombZug(x + 1, y - 1, offset + 1, (short) -1,false);
                         }
                         if (Hoehe > y + 1 && staerke > 0) {
-                            bombZug(x, y + 1, offset + 1, (short) -1);
+                            bombZug(x, y + 1, offset + 1, (short) -1,false);
                         }
                         if (0 < y - 1 && staerke > 0) {
-                            bombZug(x, y - 1, offset + 1, (short) -1);
+                            bombZug(x, y - 1, offset + 1, (short) -1,false);
                         }
+
 
 
                     }
@@ -256,6 +263,10 @@ public class Spielbrett {
 
             }
         }
+
+    }
+    public void getBombZug(){
+
 
     }
 
