@@ -18,6 +18,11 @@ public class TransitionenListe {
         return  head;
     }
 
+    public void Insert(Transition t){
+        t.setNext(head);
+        head = t;
+    }
+
     public void insert(Transition t) {
         head = insert(t, head);
     }

@@ -39,6 +39,7 @@ public class Client {
             empfangeNachricht(socket);
         }
 
+        System.exit(0);
 
     }
 
@@ -256,6 +257,7 @@ public class Client {
         return value;
 
     }
+
 }
 
 

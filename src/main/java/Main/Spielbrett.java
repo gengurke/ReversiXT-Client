@@ -138,11 +138,11 @@ public class Spielbrett {
                     while (trans != null) {
                         Spielfeld[trans.x1][trans.y1][2] = value1;
                         Spielfeld[trans.x2][trans.y2][2] = value1;
-                        Transitionen[value1].insert(trans);
+                        Transitionen[value1].Insert(trans);
                         trans = trans.getNext();
                     }
                 }
-                Transitionen[value1].insert(t);
+                Transitionen[value1].Insert(t);
 
             } else if (Spielfeld[x1][y1][2] != 0) {
                 char value = Spielfeld[x1][y1][2];
@@ -150,7 +150,7 @@ public class Spielbrett {
                 Spielfeld[x2][y2][2] = value;
             } else if (Spielfeld[x2][y2][2] != 0) {
                 char value = Spielfeld[x2][y2][2];
-                Transitionen[value].insert(t);
+                Transitionen[value].Insert(t);
                 Spielfeld[x1][y1][2] = value;
             } else {
                 Transitionen[counter].insert(t);
@@ -700,19 +700,16 @@ public class Spielbrett {
 
         this.gueltigeZuege(s);
         this.gueltigeZuege.SortMaxFirst();
-        printGueltigeZuege();
 
         if(gueltigeZuege.getSize() == 0) {
             if(ersatzsteine > 0) {
                 setUeberschreibsteine(1);
                 this.gueltigeZuege(s);
                 this.gueltigeZuege.SortMaxFirst();
-                System.out.println(ersatzsteine+" "+Ueberschreibsteine);
-                printGueltigeZuege();
             }
             if(this.gueltigeZuege.getSize() == 0) {
                 PrintSpielfeld();
-                System.exit(1);
+                System.exit(-1);
             }
         }
 
@@ -791,11 +788,11 @@ public class Spielbrett {
 
         if (x == -1 || y == -1) {
             PrintSpielfeld();
-            System.exit(1);
+            System.exit(-1);
         } else {
-            System.out.println("Zug: (" + x + "," + y + ")");
+            /*System.out.println("Zug: (" + x + "," + y + ")");
             System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine()+" Estein: "+getErsatzsteine());
-            PrintSpielfeld();
+            PrintSpielfeld();*/
             zug[0] = x;
             zug[1] = y;
             zug[2] = sonderfeld;
