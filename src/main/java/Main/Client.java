@@ -169,7 +169,7 @@ public class Client {
                 }
 
                 if(bomben){
-                     Spiel.bombZug(x,y);
+                     Spiel.bombZug(x,y,0,0,0);
                     //Spiel.leichtBombZug(x,y);
                 } else if (spieler == Spielernummer) {
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
