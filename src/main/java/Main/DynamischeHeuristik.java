@@ -24,7 +24,7 @@ public class DynamischeHeuristik implements Heuristik {
 
     //Spielvariablen
     private int brettsumme;
-    private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, bomben, bombenStaerke;
+    private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, ersatzsteine, bomben, bombenStaerke;
     private char[][][] spielfeld;
     private TransitionenListe[] transitionen;
 
@@ -41,6 +41,7 @@ public class DynamischeHeuristik implements Heuristik {
         spielfeld = spiel.getSpielfeld();
         transitionen = spiel.getTransitionen();
         ueberschreibsteine = spiel.getUeberschreibsteine();
+        ersatzsteine = spiel.getErsatzsteine();
         bomben = spiel.getBomben();
         bombenStaerke = spiel.getStaerke();
 
@@ -337,7 +338,7 @@ public class DynamischeHeuristik implements Heuristik {
     }
 
     private void ueberschreibsteine() {
-        brettsumme += ueberschreibsteine * wertUeberschreibstein;
+        brettsumme += (ueberschreibsteine + ersatzsteine) * wertUeberschreibstein;
     }
 
     private void bombenBewerten() {

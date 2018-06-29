@@ -761,6 +761,13 @@ public class Spielbrett {
                         return null;
                     } else {
                         wert = (int) temp;
+                        if(ustein) {
+                            if(wert < 0) {
+                                wert = wert * (-100);
+                            } else {
+                                wert = wert * 100;
+                            }
+                        }
                     }
                 } else {
                     DynamischeHeuristik h = new DynamischeHeuristik(this, s);
@@ -844,11 +851,14 @@ public class Spielbrett {
                             //System.out.println("Abbruch Tiefe: "+tiefe);
                             spiel.setSpielfeld(kopiereSpielfeld(feld));
                             spiel.setErsatzsteine(anzahlsteine);
-                            setUeberschreibsteine(anzahlsteine);
+                            setErsatzsteine(anzahlsteine);
                             spiel.setGueltigeZuege(gliste);
                             return null;
                         } else {
                             wert = (int) temp;
+                            if(spiel.Spielfeld[gzug.getX()][gzug.getY()][0] == 'b') {
+                                wert = wert*100;
+                            }
                         }
 
                         if (knoten.getWert() < wert) {
@@ -866,7 +876,7 @@ public class Spielbrett {
                             //System.out.println("Abbruch Tiefe: "+tiefe);
                             spiel.setSpielfeld(kopiereSpielfeld(feld));
                             spiel.setErsatzsteine(anzahlsteine);
-                            setUeberschreibsteine(anzahlsteine);
+                            setErsatzsteine(anzahlsteine);
                             spiel.setGueltigeZuege(gliste);
                             return null;
                         } else {
@@ -893,7 +903,7 @@ public class Spielbrett {
                     //System.out.println("Abbruch Tiefe: "+tiefe);
                     spiel.setSpielfeld(kopiereSpielfeld(feld));
                     spiel.setErsatzsteine(anzahlsteine);
-                    setUeberschreibsteine(anzahlsteine);
+                    setErsatzsteine(anzahlsteine);
                     spiel.setGueltigeZuege(gliste);
                     return null;
                 } else {
