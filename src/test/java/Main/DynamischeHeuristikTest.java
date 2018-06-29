@@ -118,7 +118,7 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 910);
+        assertEquals(heuristik.getSpielbewertung(), 1220);
 
     }
 
@@ -137,7 +137,27 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 910);
+        assertEquals(heuristik.getSpielbewertung(), 1130);
+
+    }
+
+
+    @Test
+    public void acht_gegeneinander() throws IOException {
+        //Einlesen des Dateinamens
+        String Datname = "maps/Heuristik_Test_Maps/JUnit_maps/8p_test_untereinander.map";
+        //Erzeugen des Spielbretts
+        Spielbrett Spiel = new Spielbrett(Datname, "Test");
+        //Ausgabe des Spielbretts
+        System.out.println(Spiel);
+
+        //gueltige Zuege
+        Spiel.gueltigeZuege(1);
+
+        //Heuristik
+        DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 3);
+        System.out.println(heuristik);
+        assertEquals(heuristik.getSpielbewertung(), -2160);
 
     }
 }
