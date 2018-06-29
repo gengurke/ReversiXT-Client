@@ -126,6 +126,10 @@ public class Spielbrett {
             y2 = Short.parseShort(textarray[5]);
             r2 = Short.parseShort(textarray[6]);
 
+            if(x1 == 9 && y1 == 0) {
+                System.out.println();
+            }
+
             t = new Transition(x1, y1, r1, x2, y2, r2);
 
             if (Transitionen[x1][y1] == null) {
@@ -167,6 +171,8 @@ public class Spielbrett {
             }*/
         }
 
+        System.out.println(transitionenToString());
+
         dir = new boolean[8];
         faerben = new boolean[Breite][Hoehe];
         gueltigeZuege = new GueltigerZugListe();
@@ -174,7 +180,8 @@ public class Spielbrett {
     }
 
     //TODO enfernen nach Heuristik Test
-    private void heuristikTestInit(String mapName) throws IOException {
+    private void heuristikTestInit(String mapName) throws IOException
+    {
         FileReader fr = new FileReader(mapName);
         BufferedReader br = new BufferedReader(fr);
         String text;

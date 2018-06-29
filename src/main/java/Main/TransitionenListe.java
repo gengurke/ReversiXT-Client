@@ -1,62 +1,50 @@
 package Main;
 
+import java.util.LinkedList;
+
 public class TransitionenListe {
-    private Transition head;
+    private LinkedList<Transition> liste;
 
     public TransitionenListe() {
-        head = null;
+        liste = new LinkedList<Transition>();
     }
 
     public boolean isEmpty() {
-        if (head != null) {
-            return false;
+        if (liste.isEmpty()) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Transition getHead(){
-        return  head;
+            if(isEmpty()) {
+                return null;
+            } else {
+                return liste.getFirst();
+            }
     }
 
     public void Insert(Transition t){
-        t.setNext(head);
-        head = t;
-    }
-
-    public void insert(Transition t) {
-        head = insert(t, head);
-    }
-
-    private Transition insert(Transition in, Transition temp) {
-        if (temp == null) {
-            return in;
-        } else {
-            temp.setNext(insert(in, temp.getNext()));
-            return temp;
-        }
+        liste.addFirst(t);
     }
 
     public Transition search(int x, int y, int dir) {
-        Transition temp = head;
-
-        while (temp != null) {
+        for(int i = 0; i < liste.size(); i++) {
+            Transition temp = liste.get(i);
             if (temp.getNumber(x, y, dir) != 0) {
                 return temp;
-            } else {
-                temp = temp.getNext();
             }
         }
-        return temp;
+        return null;
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        Transition temp = head;
-        while (temp != null) {
+        for(int i = 0; i < liste.size(); i++) {
+            Transition temp = liste.get(i);
             sb.append(temp.toString());
             sb.append("\n");
-            temp = temp.getNext();
         }
         return sb.toString();
     }
