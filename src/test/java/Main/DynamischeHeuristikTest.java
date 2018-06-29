@@ -118,7 +118,7 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 1220);
+        assertEquals(heuristik.getSpielbewertung(), 1620);
 
     }
 
@@ -137,7 +137,7 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 1130);
+        assertEquals(heuristik.getSpielbewertung(), 1530);
 
     }
 
@@ -157,7 +157,7 @@ public class DynamischeHeuristikTest {
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 3);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), -2160);
+        assertEquals(heuristik.getSpielbewertung(), -3900);
 
     }
 }
