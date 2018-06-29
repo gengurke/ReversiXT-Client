@@ -13,7 +13,7 @@ public class DynamischeHeuristik implements Heuristik {
     private final int keineRichtungSicher = 10;
 
     //// Mobilitaet
-    private final int wertGueltigerZug = 10;
+    private final int wertGueltigerZug = 20;
 
     //// Ueberschreibsteine
     private final int wertUeberschreibstein = 300;
@@ -87,7 +87,6 @@ public class DynamischeHeuristik implements Heuristik {
     }
 
     private void zelleUeberpruefen(int x, int y) {
-        int spielerInZelle = Character.getNumericValue(spielfeld[x][y][0]);
         for (Richtungen dir : Richtungen.values()) {
             switch (spielfeld[x][y][0]) {
                 case '1':
@@ -98,7 +97,7 @@ public class DynamischeHeuristik implements Heuristik {
                 case '6':
                 case '7':
                 case '8':
-                    richtungUeberpruefenUndSicherheitenFestlegen(x, y, x, y, dir, spielerInZelle, dir);
+                    ueberpruefenAufSicherheit(x, y, dir);
                     continue;
                 case '0':
                     continue;
@@ -118,38 +117,45 @@ public class DynamischeHeuristik implements Heuristik {
         }
     }
 
+    private void ueberpruefenAufSicherheit(int x, int y, Richtungen dir) {
+        int schrittCounter = 0;
+        int urSpieler = Character.getNumericValue(spielfeld[x][y][0]);
+
+        richtungUeberpruefenUndSicherheitenFestlegen(x, y, x, y, urSpieler, schrittCounter, dir, dir);
+    }
 
     /**
      * Kernfunktion in dieser Klasse. Sie ueberpfrueft die gegebene zelle strahlenmaessig in alle Richtungen auf
      * Faerbbarkeit und legt dann die Sicherheit im array sicherheit fest.
      *
-     * @param x
-     * @param y
-     * @param urX            unrspuengliches x von dem die ueberpruefung gestartet ist (um loops zu finden)
-     * @param urY            unrspuengliches y von dem die ueberpruefung gestartet ist (um loops zu finden)
-     * @param urDir          unrspuengliche richtung von dem die ueberpruefung gestartet ist (um loops zu finden)
-     * @param spielerInZelle
-     * @param dir
-     * @return
+     * @param x         x der zu ueberpruefenden Zelle
+     * @param y         y der zu ueberpruefenden Zelle
+     * @param urX       unrspuengliches x von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param urY       unrspuengliches y von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param urDir     unrspuengliche richtung von dem die ueberpruefung gestartet ist (um loops zu finden)
+     * @param urSpieler urspruenglicher spieler vom dem die ueberpruefung gestartet wurde
+     * @param dir       richtung der aktuellen ueberpruefung
+     * @return true wenn die Richtung der Zelle Sicher ist
      */
-    private boolean richtungUeberpruefenUndSicherheitenFestlegen(int x, int y, int urX, int urY, Richtungen urDir, int spielerInZelle, Richtungen dir) {
-        //Todo richtungUeberpruefenUndSicherheitenFestlegen refaktorieren, sodass man nicht immer urX usw angeben muss, sondern dass das intern funktioniert.
+    private boolean richtungUeberpruefenUndSicherheitenFestlegen(int x, int y, int urX, int urY, int urSpieler, int schrittCounter, Richtungen urDir, Richtungen dir) {
+
         //Wenn ueberpruefender Spieler gleich Spieler auf spielfeld
         int intDir = dir.ordinal(); // Int Repraesentation der Richtung
         int oppIntDir = getOppDir(dir).ordinal();
 
         //loop abfangen
-        if (x == urX && y == urY && dir == urDir) {
+        if (x == urX && y == urY && dir == urDir && schrittCounter != 0) {
             return true;
 
             //kein loop
         } else {
-            if (spielerInZelle == Character.getNumericValue(spielfeld[x][y][0])) {
+            schrittCounter++;
+            if (urSpieler == Character.getNumericValue(spielfeld[x][y][0])) {
                 //Schon sicher
-                if ((sicherheit[x][y][spielerInZelle][intDir] == 1) && (sicherheit[x][y][spielerInZelle][oppIntDir] == 1)) {
+                if ((sicherheit[x][y][urSpieler][intDir] == 1) && (sicherheit[x][y][urSpieler][oppIntDir] == 1)) {
                     return true;
                     //nicht sicher
-                } else if (sicherheit[x][y][spielerInZelle][intDir] == -1) {
+                } else if (sicherheit[x][y][urSpieler][intDir] == -1) {
                     return false;
                     //noch nicht ueberprueft
                 } else {
@@ -160,37 +166,36 @@ public class DynamischeHeuristik implements Heuristik {
                         if ((transi = getTransition(x, y, dir)) != null) {
                             switch (transi.getNumber(x, y, intDir)) {
                                 case 1:
-                                    //Todo StackOverflow loop Fehler bei zeile 170 und 145 (warscheinlich geloest durch loop implementierung)
-                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x2, transi.y2, urX, urY, urDir, spielerInZelle, getOppDir(Richtungen.values()[transi.dir2]))) {
-                                        sicherheit[x][y][spielerInZelle][intDir] = 1;
-                                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x2, transi.y2, urX, urY, urSpieler, schrittCounter, urDir, getOppDir(Richtungen.values()[transi.dir2]))) {
+                                        sicherheit[x][y][urSpieler][intDir] = 1;
+                                        sicherheit[x][y][urSpieler][oppIntDir] = 1;
                                         return true;
                                     }
                                     break;
                                 case 2:
-                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x1, transi.y1, urX, urY, urDir, spielerInZelle, getOppDir(Richtungen.values()[transi.dir1]))) {
-                                        sicherheit[x][y][spielerInZelle][intDir] = 1;
-                                        sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                                    if (richtungUeberpruefenUndSicherheitenFestlegen(transi.x1, transi.y1, urX, urY, urSpieler, schrittCounter, urDir, getOppDir(Richtungen.values()[transi.dir1]))) {
+                                        sicherheit[x][y][urSpieler][intDir] = 1;
+                                        sicherheit[x][y][urSpieler][oppIntDir] = 1;
                                         return true;
                                     }
                                     break;
                             }
-                            sicherheit[x][y][spielerInZelle][intDir] = -1;
+                            sicherheit[x][y][urSpieler][intDir] = -1;
                             return false;
                             //hat keine Transition
                         } else {
-                            sicherheit[x][y][spielerInZelle][intDir] = 1;
-                            sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                            sicherheit[x][y][urSpieler][intDir] = 1;
+                            sicherheit[x][y][urSpieler][oppIntDir] = 1;
                             return true;
                         }
                         //kein Rand
                     } else {
-                        if (richtungUeberpruefenUndSicherheitenFestlegen(getNewX(x, dir), getNewY(y, dir), urX, urY, urDir, spielerInZelle, dir)) {
-                            sicherheit[x][y][spielerInZelle][intDir] = 1;
-                            sicherheit[x][y][spielerInZelle][oppIntDir] = 1;
+                        if (richtungUeberpruefenUndSicherheitenFestlegen(getNewX(x, dir), getNewY(y, dir), urX, urY, urSpieler, schrittCounter, urDir, dir)) {
+                            sicherheit[x][y][urSpieler][intDir] = 1;
+                            sicherheit[x][y][urSpieler][oppIntDir] = 1;
                             return true;
                         } else {
-                            sicherheit[x][y][spielerInZelle][intDir] = -1;
+                            sicherheit[x][y][urSpieler][intDir] = -1;
                             return false;
                         }
                     }
