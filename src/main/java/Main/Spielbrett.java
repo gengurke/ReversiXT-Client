@@ -683,7 +683,7 @@ public class Spielbrett {
     public int[] alphaBeta(int tiefe, int s, Timer t, int alpha, int beta) {
         int x = -1, y = -1, anzahlsteine = this.getErsatzsteine(), anzahlbomben = this.getBomben();
         byte sonderfeld = 1;
-        int[] zug = new int[3];
+        int[] zug = new int[4];
         GueltigerZug gzug;
         ABKnoten knoten = new ABKnoten(alpha, beta, Integer.MIN_VALUE);
 
@@ -705,10 +705,21 @@ public class Spielbrett {
         char[][][] feld = kopiereSpielfeld(this.Spielfeld);
         GueltigerZugListe liste = this.kopiereGZugListe();
         if (tiefe == 0) {
+            int wert = 0;
+            TrivialeHeuristik h = new TrivialeHeuristik(this, s);
+            wert = h.getSpielbewertung();
             zug[0] = gueltigeZuege.get(0).getX();
             zug[1] = gueltigeZuege.get(0).getY();
+            zug[3] = wert;
             if (this.Spielfeld[zug[0]][zug[1]][0] == 'c') {
-                zug[2] = s;
+                for(int i = 1; i <= Spieler; i++) {
+                    h = new TrivialeHeuristik(this, i);
+                    if(wert < h.getSpielbewertung()) {
+                        wert = h.getSpielbewertung();
+                        zug[2] = i;
+                        zug[3] = wert;
+                    }
+                }
             } else if (this.Spielfeld[zug[0]][zug[1]][0] == 'b') {
                 zug[2] = 21;
                 ustein = true;
@@ -750,13 +761,13 @@ public class Spielbrett {
                         return null;
                     } else {
                         wert = (int) temp;
-                        if (ustein) {
+                        /*if (ustein) {
                             if (wert < 0) {
                                 wert = wert * (-100);
                             } else {
                                 wert = wert * 100;
                             }
-                        }
+                        }*/
                     }
                 } else {
                     DynamischeHeuristik h = new DynamischeHeuristik(this, s);
@@ -769,6 +780,7 @@ public class Spielbrett {
                     x = gx;
                     y = gy;
                     sonderfeld = i;
+
                 }
                 this.setSpielfeld(kopiereSpielfeld(feld));
                 this.setGueltigeZuege(liste.clone());
@@ -783,8 +795,7 @@ public class Spielbrett {
         this.setGueltigeZuege(liste);
 
         if (x == -1 || y == -1) {
-            PrintSpielfeld();
-            System.exit(-1);
+            zug[3] = Integer.MIN_VALUE;
         } else {
             /*System.out.println("Zug: (" + x + "," + y + ")");
             System.out.println("Spieler: "+s+" Ustein: "+getUeberschreibsteine()+" Estein: "+getErsatzsteine());
@@ -792,6 +803,7 @@ public class Spielbrett {
             zug[0] = x;
             zug[1] = y;
             zug[2] = sonderfeld;
+            zug[3] = knoten.getWert();
         }
         return zug;
     }

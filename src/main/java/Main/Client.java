@@ -117,7 +117,7 @@ public class Client {
 
                 } else {
 
-                    int[] zug = new int[3], temp;
+                    int[] zug = new int[4], temp;
                     int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
                     if (zeit != 0) {
                         ende = System.currentTimeMillis();
@@ -125,18 +125,35 @@ public class Client {
                         long ges = 0;
                         int counter = 0, size;
                         while (counter < 30) {
+                            System.out.println(counter);
                             temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha,beta);
                             if(temp == null) {
                                 sendeZug(zug, socket);
                                 return "";
                             } else {
-                                zug = temp;
+                                System.out.println("Alpha: "+alpha+" Beta: "+beta+" Wert: "+zug[3]);
+                                if(temp[3] <= alpha) {
+                                    alpha = Integer.MIN_VALUE;
+                                } else if(temp[3] >= beta) {
+                                    beta = Integer.MAX_VALUE;
+                                } else {
+                                    if(!clock.getStatus()) {
+                                        counter++;
+                                        alpha = temp[3] - (1000 / counter);
+                                        beta = temp[3] + (1000 / counter);
+                                        zug = temp;
+                                    } else {
+                                        sendeZug(zug, socket);
+                                        return "";
+                                    }
+                                }
+                                /*zug = temp;
+                                counter++;*/
                             }
                             size = Spiel.getGueltigeZuege().getSize();
                             ende = System.currentTimeMillis();
                             ges = ges + (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
-                            counter++;
                             if(zeit-ges < (ges*counter*size*Spiel.getHoehe()*Spiel.getBreite())/80000) {
                                 break;
                             }
@@ -163,10 +180,6 @@ public class Client {
                 byte sonderfeld = message[4];
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
-
-                if (x == 16 && y == 2) {
-                    int test = 1;
-                }
 
                 if(bomben){
                      Spiel.bombZug(x,y,0,0,0);

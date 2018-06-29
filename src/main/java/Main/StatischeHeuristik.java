@@ -64,10 +64,10 @@ public class StatischeHeuristik {
      * @return Liefert True oder False wenn Transition da ist oder nicht
      */
     private boolean hatTransition(int x, int y, Richtungen dir) {
-        TransitionenListe[] transitionen = spiel.getTransitionen();
+        TransitionenListe[][] transitionen = spiel.getTransitionen();
         Transition transition;
 
-        if ((transition = transitionen[spielfeld[x][y][2]].search((short) x, (short) y, (short) dir.ordinal())) != null) {
+        if ((transition = transitionen[x][y].search((short) x, (short) y, (short) dir.ordinal())) != null) {
             return true;
         } else {
             return false;
