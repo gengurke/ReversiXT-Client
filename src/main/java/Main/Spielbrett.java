@@ -11,7 +11,7 @@ public class Spielbrett {
             Hoehe,
             Breite;
     private char Spielfeld[][][];
-    private TransitionenListe[] Transitionen;
+    private TransitionenListe[][] Transitionen;
     private GueltigerZugListe gueltigeZuege;
     private boolean dir[], faerben[][];
     private int aktX = 0, aktY = 0, aktDir = 0;
@@ -29,7 +29,7 @@ public class Spielbrett {
         heuristikTestInit(mapName);
     }
 
-    public Spielbrett(int s, int u, int b, int st, int h, int br, char[][][] sp, TransitionenListe[] t, GueltigerZugListe gl) {
+    public Spielbrett(int s, int u, int b, int st, int h, int br, char[][][] sp, TransitionenListe[][] t, GueltigerZugListe gl) {
         Spieler = s;
         Ueberschreibsteine = 0;
         ersatzsteine = u;
@@ -113,11 +113,8 @@ public class Spielbrett {
             templiste.add(text);
         }
 
-        Transitionen = new TransitionenListe[templiste.size() + 1];
-        int counter = 1;
-        Transitionen[0] = new TransitionenListe();
+        Transitionen = new TransitionenListe[Breite][Hoehe];
         for (int i = 0; i < templiste.size(); i++) {
-            Transitionen[i + 1] = new TransitionenListe();
             String[] textarray = templiste.get(i).split(" ");
             int x1, y1, r1, x2, y2, r2;
             Transition t;
@@ -130,7 +127,18 @@ public class Spielbrett {
             r2 = Short.parseShort(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
-            if (Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {
+
+            if(Transitionen[x1][y1] == null) {
+                Transitionen[x1][y1] = new TransitionenListe();
+            }
+            if(Transitionen[x2][y2] == null) {
+                Transitionen[x2][y2] = new TransitionenListe();
+            }
+            Transitionen[x1][y1].Insert(t);
+            Transitionen[x2][y2].Insert(t);
+
+
+            /*if (Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {
                 char value1 = Spielfeld[x1][y1][2];
                 char value2 = Spielfeld[x2][y2][2];
                 if (value1 != value2) {
@@ -156,7 +164,7 @@ public class Spielbrett {
                 Transitionen[counter].insert(t);
                 Spielfeld[x1][y1][2] = (char) counter;              //der Wert von counter wir zu char gecastet und ins Spielfeld geschrieben
                 Spielfeld[x2][y2][2] = (char) counter++;            //da es mehr als 9 Transitionen geben kann und es bei chars nur bis Ziffer 9 geht
-            }
+            }*/
         }
 
         dir = new boolean[8];
@@ -201,50 +209,29 @@ public class Spielbrett {
             templiste.add(text);
         }
 
-        Transitionen = new TransitionenListe[templiste.size() + 1];
-        int counter = 1;
-        Transitionen[0] = new TransitionenListe();
+        Transitionen = new TransitionenListe[Breite][Hoehe];
         for (int i = 0; i < templiste.size(); i++) {
-            Transitionen[i + 1] = new TransitionenListe();
             String[] textarray = templiste.get(i).split(" ");
             int x1, y1, r1, x2, y2, r2;
             Transition t;
 
-            x1 = Integer.parseInt(textarray[0]);
-            y1 = Integer.parseInt(textarray[1]);
-            r1 = Integer.parseInt(textarray[2]);
-            x2 = Integer.parseInt(textarray[4]);
-            y2 = Integer.parseInt(textarray[5]);
-            r2 = Integer.parseInt(textarray[6]);
+            x1 = Short.parseShort(textarray[0]);
+            y1 = Short.parseShort(textarray[1]);
+            r1 = Short.parseShort(textarray[2]);
+            x2 = Short.parseShort(textarray[4]);
+            y2 = Short.parseShort(textarray[5]);
+            r2 = Short.parseShort(textarray[6]);
 
             t = new Transition(x1, y1, r1, x2, y2, r2);
-            if (Spielfeld[x1][y1][2] != 0 && Spielfeld[x2][y2][2] != 0) {
-                char value1 = Spielfeld[x1][y1][2];
-                char value2 = Spielfeld[x2][y2][2];
-                if (value1 != value2) {
-                    Transition trans = Transitionen[value2].getHead();
-                    while (trans != null) {
-                        Spielfeld[trans.x1][trans.y1][2] = value1;
-                        Spielfeld[trans.x2][trans.y2][2] = value1;
-                        Transitionen[value1].insert(trans);
-                        trans = trans.getNext();
-                    }
-                }
-                Transitionen[value1].insert(t);
 
-            } else if (Spielfeld[x1][y1][2] != 0) {
-                char value = Spielfeld[x1][y1][2];
-                Transitionen[value].insert(t);
-                Spielfeld[x2][y2][2] = value;
-            } else if (Spielfeld[x2][y2][2] != 0) {
-                char value = Spielfeld[x2][y2][2];
-                Transitionen[value].insert(t);
-                Spielfeld[x1][y1][2] = value;
-            } else {
-                Transitionen[counter].insert(t);
-                Spielfeld[x1][y1][2] = (char) counter;              //der Wert von counter wir zu char gecastet und ins Spielfeld geschrieben
-                Spielfeld[x2][y2][2] = (char) counter++;            //da es mehr als 9 Transitionen geben kann und es bei chars nur bis Ziffer 9 geht
+            if (Transitionen[x1][y1] == null) {
+                Transitionen[x1][y1] = new TransitionenListe();
             }
+            if (Transitionen[x2][y2] == null) {
+                Transitionen[x2][y2] = new TransitionenListe();
+            }
+            Transitionen[x1][y1].Insert(t);
+            Transitionen[x2][y2].Insert(t);
         }
 
 
@@ -259,14 +246,11 @@ public class Spielbrett {
     }
     private void transbombZug(int x, int y, int offset, short lastdir) {
 
-
-
-            char temp = Spielfeld[x][y][2];
-            if (temp != 0) {
+            TransitionenListe temp = Transitionen[x][y];
+            if (temp != null) {
                 for (short dir = 0; dir < 8; dir++) {
 
-
-                    Transition t = Transitionen[temp].search((short) x, (short) y, dir);
+                    Transition t = temp.search((short) x, (short) y, dir);
 
                     if (t != null) {
                         int number = t.getNumber( x, y, dir);
@@ -281,13 +265,12 @@ public class Spielbrett {
             }
         }
 
-
-
     public void bombZug(int x, int y){
         bombZug(x,y,0,(short)-1,false);
         firebomb();
         PrintSpielfeld();
     }
+
             private void bombZug(int x, int y,int offset,short dir,boolean trans) {
                 // if (x < Breite && y < Hoehe) {
                 if (Spielfeld[x][y][0] != '-') {
@@ -475,9 +458,9 @@ public class Spielbrett {
                     newx = x;
                     newy = y;
                     faerben[x][y] = true;
-                    char temp = Spielfeld[newx][newy][2];
-                    if (temp != 0) {
-                        Transition t = Transitionen[temp].search(x, y, i);
+                    TransitionenListe temp = Transitionen[newx][newy];
+                    if (temp != null) {
+                        Transition t = temp.search(x, y, i);
                         if (t != null) {
                             int number = t.getNumber(x, y, i);
                             boolean[] d = new boolean[8];
@@ -552,12 +535,12 @@ public class Spielbrett {
                         x = Breite;
                         y = Hoehe;
                     } else {
-                        char temp = Spielfeld[x][y][2];
-                        if (temp == 0) {
+                        TransitionenListe temp = Transitionen[x][y];
+                        if (temp == null) {
                             x = getNewX(x, dir);
                             y = getNewY(y, dir);
                         } else {
-                            Transition t = Transitionen[temp].search(x, y, dir);
+                            Transition t = temp.search(x, y, dir);
                             if (t != null) {
                                 int number = t.getNumber(x, y, dir);
                                 if (number == 1) {
@@ -609,11 +592,11 @@ public class Spielbrett {
                         }
                     }
 
-                    char t = Spielfeld[x][y][2];
+                    TransitionenListe t = Transitionen[x][y];
 
-                    if (t != 0) {
+                    if (t != null) {
                         for (int i = 0; i < 8; i++) {
-                            Transition trans = Transitionen[t].search(x, y, i);
+                            Transition trans = t.search(x, y, i);
                             if (trans != null) {
                                 int number = trans.getNumber(x, y, i);
                                 int newdir;
@@ -1077,7 +1060,7 @@ public class Spielbrett {
         Spielfeld = spielfeld;
     }
 
-    public void setTransitionen(TransitionenListe[] transitionen) {
+    public void setTransitionen(TransitionenListe[][] transitionen) {
         Transitionen = transitionen;
     }
 
@@ -1121,7 +1104,7 @@ public class Spielbrett {
         return Spielfeld;
     }
 
-    public TransitionenListe[] getTransitionen() {
+    public TransitionenListe[][] getTransitionen() {
         return Transitionen;
     }
 
@@ -1147,8 +1130,12 @@ public class Spielbrett {
 
     private String transitionenToString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 1; i < Transitionen.length; i++) {
-            sb.append(Transitionen[i].toString());
+        for (int i = 0; i < Breite; i++) {
+            for (int j = 0; j < Hoehe; j++) {
+                if(Transitionen[i][j] != null) {
+                    sb.append(Transitionen[i][j].toString());
+                }
+            }
         }
         return sb.toString();
     }

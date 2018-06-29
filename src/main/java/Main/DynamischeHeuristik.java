@@ -26,7 +26,7 @@ public class DynamischeHeuristik implements Heuristik {
     private int brettsumme;
     private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, ersatzsteine, bomben, bombenStaerke;
     private char[][][] spielfeld;
-    private TransitionenListe[] transitionen;
+    private TransitionenListe[][] transitionen;
 
     //Arrays fuer die Heuristikberechnung
     private int[][][][] sicherheit;
@@ -368,13 +368,12 @@ public class DynamischeHeuristik implements Heuristik {
     }
 
     private boolean hatTransition(int x, int y, Richtungen dir) {
-        return (transitionen[spielfeld[x][y][2]].search(x, y, dir.ordinal())) != null;
+        return (transitionen[x][y] != null) && ((transitionen[x][y].search(x, y, dir.ordinal())) != null);
     }
 
     private Transition getTransition(int x, int y, Richtungen dir) {
-
         if (hatTransition(x, y, dir)) {
-            return transitionen[spielfeld[x][y][2]].search(x, y, dir.ordinal());
+            return transitionen[x][y].search(x, y, dir.ordinal());
         } else {
             return null;
         }
