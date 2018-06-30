@@ -6,8 +6,8 @@ public class DynamischeHeuristik implements Heuristik {
 
     /*******************Einstellungen*******************/
     //// Sicherheiten
-    private final int vierRichtungenSicher = 250;
-    private final int dreiRichtungenSicher = 100;
+    private final int vierRichtungenSicher = 1000;
+    private final int dreiRichtungenSicher = 300;
     private final int zweiRichtungenSicher = 50;
     private final int eineRichtungenSicher = 20;
     private final int keineRichtungSicher = 10;
