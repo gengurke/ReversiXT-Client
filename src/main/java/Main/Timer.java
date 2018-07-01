@@ -11,10 +11,10 @@ public class Timer extends Thread{
 
     public void run() {
         try {
-            if(time < 0) {
+            if(time < 100) {
                 istFertig = true;
             } else {
-                sleep(time);
+                sleep(time-100);
                 ende = System.currentTimeMillis();
                 istFertig = true;
             }

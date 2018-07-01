@@ -87,37 +87,22 @@ public class Client {
                 tiefe = (byte) nachricht[4];
 
                 if(bomben){
-
-                    Spiel.gueltigeBombZuege(Spielernummer);
-                    //Todo Sinnvolle Zugauswahl
-                    Spielfeld = Spiel.getSpielfeld();
-
-                    for (int y = 0; y < Spiel.getHoehe(); y++) {
-                        for (int x = 0; x < Spiel.getBreite(); x++) {
-                            int[] zug = new int[3];
-                            //todo entfernen
-                            if(Spielfeld[3][3][1] == 'B'){
-                                zug[0] = 3;
-                                zug[1] = 1;
-                                zug[2] = 0;
-                                sendeZug(zug, socket);
-                                return "";
-
-                            }
-                            else if(Spielfeld[x][y][1] == 'B') {
-                                //TODO 3 durch X und Y ersetzen
-                                zug[0] = x;
-                                zug[1] = y;
-                                zug[2] = 0;
-                                sendeZug(zug, socket);
-                                return "";
-                            }
-                        }
+                    if(zeit != 0) {
+                        ende = System.currentTimeMillis();
+                        Timer clock = new Timer(zeit - (ende - start));
+                        Spiel.gueltigeBombZuege(Spielernummer, clock);
+                    } else {
+                        Spiel.gueltigeBombZuege(Spielernummer, null);
                     }
+                    GueltigerZug bombzug = Spiel.getGueltigeZuege().get(0);
+                    int[] zug = new int[3];
+                    zug[0] = bombzug.getX();
+                    zug[1] = bombzug.getY();
+                    sendeZug(zug, socket);
 
                 } else {
 
-                    int[] zug = new int[4], temp;
+                    int[] zug = new int[3], temp = new int[4];
                     int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
                     if (zeit != 0) {
                         ende = System.currentTimeMillis();
@@ -131,30 +116,20 @@ public class Client {
                                 sendeZug(zug, socket);
                                 return "";
                             } else {
-                                System.out.println("Alpha: "+alpha+" Beta: "+beta+" Wert: "+zug[3]);
-                                if(temp[3] <= alpha) {
-                                    alpha = Integer.MIN_VALUE;
-                                } else if(temp[3] >= beta) {
-                                    beta = Integer.MAX_VALUE;
-                                } else {
-                                    if(!clock.getStatus()) {
-                                        counter++;
-                                        alpha = temp[3] - (1000 / counter);
-                                        beta = temp[3] + (1000 / counter);
-                                        zug = temp;
-                                    } else {
-                                        sendeZug(zug, socket);
-                                        return "";
-                                    }
+                                zug[0] = temp[0];
+                                zug[1] = temp[1];
+                                zug[2] = temp[2];
+                                if(clock.getStatus()) {
+                                    sendeZug(zug, socket);
+                                    return "";
                                 }
-                                /*zug = temp;
-                                counter++;*/
                             }
                             size = Spiel.getGueltigeZuege().getSize();
                             ende = System.currentTimeMillis();
                             ges = ges + (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
-                            if(zeit-ges < (ges*counter*size*Spiel.getHoehe()*Spiel.getBreite())/80000) {
+                            counter++;
+                            if(zeit-ges < (ges*counter*(size+1)*Spiel.getHoehe()*Spiel.getBreite())/80000) {
                                 break;
                             }
                         }
@@ -182,8 +157,7 @@ public class Client {
                 Spielfeld = Spiel.getSpielfeld();
 
                 if(bomben){
-                     Spiel.bombZug(x,y,0,0,0);
-                    //Spiel.leichtBombZug(x,y);
+                    Spiel.BombZug(x,y, Spiel.getStaerke());
                 } else if (spieler == Spielernummer) {
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {
