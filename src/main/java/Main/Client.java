@@ -8,8 +8,13 @@ public class Client {
     private boolean isRunning;
     private boolean bomben;
     private long start, ende;
+    private boolean window, sortierung, aB;
 
-    public Client() throws IOException {
+    public Client(boolean w,boolean s,boolean a) throws IOException {
+        window = w;
+        sortierung = s;
+        aB = a;
+
 
     }
 
