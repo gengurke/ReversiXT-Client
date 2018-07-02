@@ -8,8 +8,13 @@ public class Client {
     private boolean isRunning;
     private boolean bomben;
     private long start, ende;
+    private boolean window, sortierung, aB;
 
-    public Client() throws IOException {
+    public Client(boolean w, boolean s, boolean a) throws IOException {
+        window = w;
+        sortierung = s;
+        aB = a;
+
 
     }
 
@@ -86,8 +91,8 @@ public class Client {
                 }
                 tiefe = (byte) nachricht[4];
 
-                if(bomben){
-                    if(zeit != 0) {
+                if (bomben) {
+                    if (zeit != 0) {
                         ende = System.currentTimeMillis();
                         Timer clock = new Timer(zeit - (ende - start));
                         Spiel.gueltigeBombZuege(Spielernummer, clock);
@@ -103,23 +108,28 @@ public class Client {
                 } else {
 
                     int[] zug = new int[3], temp = new int[4];
+
                     int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
                     if (zeit != 0) {
                         ende = System.currentTimeMillis();
-                        Timer clock = new Timer(zeit-(ende-start));
+                        Timer clock = new Timer(zeit - (ende - start));
                         long ges = 0;
                         int counter = 0, size;
                         while (counter < 30) {
                             System.out.println(counter);
-                            temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha,beta);
-                            if(temp == null) {
+                            temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha, beta);
+                            if (temp == null) {
+                                Spiel.getGueltigeZuege().listeLoeschen();
                                 sendeZug(zug, socket);
                                 return "";
                             } else {
+
                                 zug[0] = temp[0];
                                 zug[1] = temp[1];
                                 zug[2] = temp[2];
-                                if(clock.getStatus()) {
+
+                                if (clock.getStatus()) {
+                                    Spiel.getGueltigeZuege().listeLoeschen();
                                     sendeZug(zug, socket);
                                     return "";
                                 }
@@ -129,12 +139,13 @@ public class Client {
                             ges = ges + (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
                             counter++;
-                            if(zeit-ges < (ges*counter*(size+1)*Spiel.getHoehe()*Spiel.getBreite())/80000) {
+
+                            if (zeit - ges < (ges * counter * (size + 1) * Spiel.getHoehe() * Spiel.getBreite()) / 50000) {
                                 break;
                             }
                         }
 
-                    } else{
+                    } else {
                         zug = Spiel.alphaBeta(tiefe, Spielernummer, null, alpha, beta);
                         Spiel.getGueltigeZuege().listeLoeschen();
                     }
@@ -156,8 +167,8 @@ public class Client {
                 byte spieler = message[5];
                 Spielfeld = Spiel.getSpielfeld();
 
-                if(bomben){
-                    Spiel.BombZug(x,y, Spiel.getStaerke());
+                if (bomben) {
+                    Spiel.BombZug(x, y, Spiel.getStaerke());
                 } else if (spieler == Spielernummer) {
                     Spiel.ganzerZug(spieler, x, y, sonderfeld);
                 } else {

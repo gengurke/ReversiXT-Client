@@ -6,8 +6,10 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+         boolean a = true,w= true,s = true;
 
-         int port = 7777;
+
+        int port = 7777;
          String ip = "127.0.0.1";
 
 
@@ -15,21 +17,31 @@ public class Main {
 
 
         for (int i = 0; i < args.length; i++) {
-           if(args[i].equals("-i")){
+           switch(args[i]){
+            case "-i":
              ip  = args[i+1];
-            }
-            if(args[i].equals("-p")){
+            break;
+               case "-p":
               port  = Integer.parseInt(args[i+1]);
-            }
-            if(args[i].equals("-h")){
+            break;
+               case "-h":
                 System.out.println("-i ip");
                 System.out.println("-p port");
                 System.out.println("-h help");
+            break;
+            case "-a":
+                a = false;
+                break;
+               case "-w":
+                   w = false;
+                   break;
+               case "-s":
+                   s = false;
 
 
             }
         }
-            Client client = new Client();
+            Client client = new Client(a,w,s);
         //System.out.println("test");
 
         try {
