@@ -111,11 +111,13 @@ public class Client {
                         while (counter < 30) {
                             temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha,beta);
                             if(temp == null) {
+                                Spiel.getGueltigeZuege().listeLoeschen();
                                 sendeZug(zug, socket);
                                 return "";
                             } else {
                                 zug = temp;
                                 if(clock.getStatus()) {
+                                    Spiel.getGueltigeZuege().listeLoeschen();
                                     sendeZug(zug, socket);
                                     return "";
                                 }
@@ -125,7 +127,7 @@ public class Client {
                             ges = ges + (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
                             counter++;
-                            if(zeit-ges < (ges*counter*(size+1)*Spiel.getHoehe()*Spiel.getBreite())/80000) {
+                            if(zeit-ges < (ges*counter*(size+1)*Spiel.getHoehe()*Spiel.getBreite())/50000) {
                                 break;
                             }
                         }
