@@ -25,7 +25,7 @@ public class DynamischeHeuristik implements Heuristik {
     //Spielvariablen
     private int brettsumme;
     private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, ersatzsteine, bomben, bombenStaerke;
-    private char[][][] spielfeld;
+    private char[][] spielfeld;
     private TransitionenListe[][] transitionen;
 
     //Arrays fuer die Heuristikberechnung
@@ -89,7 +89,7 @@ public class DynamischeHeuristik implements Heuristik {
 
     private void zelleUeberpruefen(int x, int y) {
         for (Richtungen dir : Richtungen.values()) {
-            switch (spielfeld[x][y][0]) {
+            switch (spielfeld[x][y]) {
                 case '1':
                 case '2':
                 case '3':
@@ -120,7 +120,7 @@ public class DynamischeHeuristik implements Heuristik {
 
     private void ueberpruefenAufSicherheit(int x, int y, Richtungen dir) {
         int schrittCounter = 0;
-        int urSpieler = Character.getNumericValue(spielfeld[x][y][0]);
+        int urSpieler = Character.getNumericValue(spielfeld[x][y]);
 
         richtungUeberpruefenUndSicherheitenFestlegen(x, y, x, y, urSpieler, schrittCounter, dir, dir);
     }
@@ -151,7 +151,7 @@ public class DynamischeHeuristik implements Heuristik {
             //kein loop
         } else {
             schrittCounter++;
-            if (urSpieler == Character.getNumericValue(spielfeld[x][y][0])) {
+            if (urSpieler == Character.getNumericValue(spielfeld[x][y])) {
                 //Schon sicher
                 if ((sicherheit[x][y][urSpieler][intDir] == 1) && (sicherheit[x][y][urSpieler][oppIntDir] == 1)) {
                     return true;
@@ -215,10 +215,10 @@ public class DynamischeHeuristik implements Heuristik {
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
 
-                int spielerAufFeld = Character.getNumericValue(spielfeld[x][y][0]);
+                int spielerAufFeld = Character.getNumericValue(spielfeld[x][y]);
 
                 int anzahlSichereRichtungen = 0; //Max 4
-                switch (spielfeld[x][y][0]) {
+                switch (spielfeld[x][y]) {
                     case '1':
                     case '2':
                     case '3':
@@ -228,7 +228,7 @@ public class DynamischeHeuristik implements Heuristik {
                     case '7':
                     case '8':
                         //Eigener Spieler
-                        if (spieler == Character.getNumericValue(spielfeld[x][y][0])) {
+                        if (spieler == Character.getNumericValue(spielfeld[x][y])) {
                             if (sicherheit[x][y][spieler][0] == 1) {
                                 anzahlSichereRichtungen += 1;
                             }
@@ -288,7 +288,7 @@ public class DynamischeHeuristik implements Heuristik {
                         felderwerte[x][y] = -1 * vierRichtungenSicher;
                         continue;
                     case 0:
-                        switch (spielfeld[x][y][0]) {
+                        switch (spielfeld[x][y]) {
                             case '1':
                             case '2':
                             case '3':
@@ -297,7 +297,7 @@ public class DynamischeHeuristik implements Heuristik {
                             case '6':
                             case '7':
                             case '8':
-                                if (spieler == Character.getNumericValue(spielfeld[x][y][0])) {
+                                if (spieler == Character.getNumericValue(spielfeld[x][y])) {
                                     felderwerte[x][y] = keineRichtungSicher;
                                 } else {
                                     felderwerte[x][y] = -1 * keineRichtungSicher;
@@ -384,43 +384,43 @@ public class DynamischeHeuristik implements Heuristik {
             case OBEN:
                 if (y == 0) {
                     return true;
-                } else return spielfeld[x][y - 1][0] == '-';
+                } else return spielfeld[x][y - 1] == '-';
 
 
             case OBENRECHTS:
                 if ((y == 0 && x == breite - 1) || y == 0 || x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y - 1][0] == '-';
+                } else return spielfeld[x + 1][y - 1] == '-';
 
             case RECHTS:
                 if (x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y][0] == '-';
+                } else return spielfeld[x + 1][y] == '-';
 
             case UNTENRECHTS:
                 if ((y == hoehe - 1 && x == breite - 1) || y == hoehe - 1 || x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y + 1][0] == '-';
+                } else return spielfeld[x + 1][y + 1] == '-';
 
             case UNTEN:
                 if (y == hoehe - 1) {
                     return true;
-                } else return spielfeld[x][y + 1][0] == '-';
+                } else return spielfeld[x][y + 1] == '-';
 
             case UNTENLINKS:
                 if ((y == hoehe - 1 && x == 0) || y == hoehe - 1 || x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y + 1][0] == '-';
+                } else return spielfeld[x - 1][y + 1] == '-';
 
             case LINKS:
                 if (x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y][0] == '-';
+                } else return spielfeld[x - 1][y] == '-';
 
             case OBENLINKS:
                 if ((y == 0 && x == 0) || y == 0 || x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y - 1][0] == '-';
+                } else return spielfeld[x - 1][y - 1] == '-';
 
             default:
                 return false;
