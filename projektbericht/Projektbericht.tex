@@ -54,11 +54,27 @@
     \vspace{1em}
 
     %Leiten Sie in diesem Abschnitt in das Fach YIMB und das zu erstellende Projekt ein. %Beschreiben Sie kurz die Fragestellung, die in diesem Wahlpflichtfach gelöst werden %soll. Stellen Sie Ihr vorhandenes Vorwissen dar, das in dieser Veranstaltung für Sie %von Nutzen sein könnte/ist/war, etc.
-
-    Dieses Projekt basiert auf Reversi, ein ca. 100 Jahre altes Brettspiel. Ursprünglich ist es ein Spiel, bei dem zwei Spieler auf einem 8x8 großen Spielfeld um den Sieg fechten. Durch abwechselndes Legen von Spielsteinen versucht man so viel Fläche wie möglich zu besetzten. Der Kniff dabei ist, dass vom Gegner eingefärbte Felder durch geschicktes platzieren eigener Steine wieder invertiert werden können, daher auch der Name Reversi.
-
-    %TODO Reversi und ReversiXt bilder
-    Wie anfangs schon erwähnt, hat die Standardversion von Reversi ein relativ kleines Spielfeld und nur zwei Spieler. Es gibt nur zwei Arten von Spielsteinen, nämlich die der zwei Spieler. Das steht im starken Kontrast zu ReversiXT, für das dieses Projekt eine KI entwickelt. In der erweiterten Version des Spiels, sind bis zu acht Spieler erlaubt. Außerdem gibt einige Sonder-Spielsteine und Felder. Diese Steine bestehen aus \glqq Überschreibsteinen\grqq, die es ermöglichen gegnerische Spielsteine umzufärben und \glqq Bomben\grqq. Mit diesen kann man in der zweiten Phase des Spiels Bereiche des Spielbretts zerstören. Dazu folgt später mehr. Die neuen Spielfelder sind \glqq Wahlfeld\grqq{} (choice)(c), welches es dem besetzenden Spieler ermöglicht, mit einem Mitspieler seiner Wahl Spielsteine zu tauschen (auch mit sich selbst). \glqq Inversionsfelder\grqq (inversion)(i), wenn aktiviert, verschieben die Spielerfarben um eins. Besetzt ein Spieler ein \glqq Bonusfeld\grqq (bonus)(b) so hat er die Möglichkeit eine extra Bombe oder einen extra Überschreibstein zu erhalten. Zuletzt gibt es noch \glqq Expansionsfelder\grqq (expansion)(x). Diese agieren wie \glqq tote\grqq{} Spieler und können durch normale Züge oder das Platzieren von Überschreibsteinen eingefärbt werden.
+		
+    Dieses Projekt basiert auf Reversi, ein ca. 100 Jahre altes Brettspiel. Ursprünglich ist es ein Spiel, bei dem zwei Spieler auf einem 8x8 großen Spielfeld um den Sieg fechten. Durch abwechselndes Legen von Spielsteinen versucht man so viel Fläche wie möglich zu besetzten. Der Kniff dabei ist, dass vom Gegner eingefärbte Felder durch geschicktes platzieren eigener Steine wieder invertiert werden können, daher auch der Name Reversi. Abbildung \ref{fig:Reversi} zeigt das typische Spielfeld. In der Mitte liegen die Steine der zwei Spieler in der Startposition.
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=0.6\linewidth]{pics/Kapitel_1/Kapitel_1_pic1.png}
+    	\captionof{figure}[Reversi]{\glqq standard\grqq{} Reversi }
+    	\label{fig:Reversi}
+    \end{minipage}
+    
+    Wie anfangs schon erwähnt, hat die Standardversion von Reversi ein relativ kleines Spielfeld und nur zwei Spieler. Es gibt nur zwei Arten von Spielsteinen, nämlich die der zwei Spieler Das steht im starken Kontrast zu ReversiXT, für das dieses Projekt eine KI entwickelt. Abbildung \ref{fig:ReversiXT} zeigt die meisten, der nun genannten Features von ReversiXT. In der erweiterten Version des Spiels, sind bis zu acht Spieler erlaubt. Um verschiedene Teile der Karte zu verbinden, gibt es Transitionen, die wie \glqq Portale \grqq{} funktionieren (gelbe Linien auf Abb. \ref{fig:ReversiXT}). Spieler können durch diese, in die ausgehende Richtung, das Zielfeld über die dortige Richtung färben. Dadurch wird das Spielfeld nochmal komplexer und für den Menschen schwerer zu überblicken.  Außerdem gibt einige Sonder-Spielsteine und Felder. Diese Steine bestehen aus \glqq Überschreibsteinen\grqq, die es ermöglichen gegnerische Spielsteine umzufärben und \glqq Bomben\grqq. Mit diesen kann man in der zweiten Phase des Spiels Bereiche des Spielbretts zerstören. Dazu folgt später mehr. Die neuen Spielfelder sind \glqq Wahlfeld\grqq{} oder \glqq choise \grqq{} (hellgrünes Feld mit großem C auf Abb. \ref{fig:ReversiXT}), welches es dem besetzenden Spieler ermöglicht, mit einem Mitspieler seiner Wahl Spielsteine zu tauschen (auch mit sich selbst). \glqq Inversionsfelder\grqq, wenn besetzt, verschieben die Spielerfarben um eins. Besetzt ein Spieler ein \glqq Bonusfeld\grqq (oranges Feld mit großem B auf Abb. \ref{fig:ReversiXT}) so hat er die Möglichkeit eine extra Bombe oder einen extra Überschreibstein zu erhalten. Zuletzt gibt es noch \glqq Expansionsfelder\grqq (graues Feld mit großem X auf Abb. \ref{fig:ReversiXT}). Diese agieren wie \glqq tote\grqq{} Spieler und können durch normale Züge oder das Platzieren von Überschreibsteinen eingefärbt werden. Zuletzt gilt es noch die leeren Felder oder auch \glqq Löcher \grqq{} genannten Felder zu erwähnen (auf Abb. \ref{fig:ReversiXT} als dunkelgraue Felder zu erkennen). Diese verhalten sich wie der Spielfeldrand und man kann nicht auf sie ziehen.
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=0.6\linewidth]{pics/Kapitel_1/Kapitel_1_pic2.png}
+    	\captionof{figure}[ReversiXT]{ReversiXT mit neuen Features}
+    	\label{fig:ReversiXT}
+    \end{minipage}
+   
 
     Unsere Aufgabe in diesem Projekt ist es, einen künstlichen-Intelligenz Spieler Clienten zu programmieren. Dieser soll gegen andere KIs auf einem, von einem Server gehostetem Spiel antreten. Grundvoraussetzung ist natürlich, dass die KI nur gültige Züge berechnet und einer von uns entwickelten Heuristik folgt. Diese Heuristik ist das Herzstück des Projekts. Sie ist maßgeblich dafür verantwortlich, gute Zugentscheidungen zu treffen und schließlich das Spiel zu gewinnen. All die oben genannten Schritten sind Vorbereitung für einen großen Wettkampf gegen Ende des Semesters. In der Endphase des Wahlpflichtmoduls findet nämlich ein virtueller Wettstreit zwischen den KIs der Studenten der RWTH Aachen und der OTH Regensburg statt. Historisch ist die OTH schon oft als Sieger hervorgegangen und wir hoffen auch dieses Jahr auf einen Sieg.
 
@@ -116,7 +132,7 @@
 	%TODO eventuelle weitere Software eintagen
 	Die Implementierung unseres Projekts berührt viele Bereiche wie z.B: Netzwerke, Heuristiken, Algorithmen, usw., weswegen verschiedenste Tools zum Programmieren und Testen nötig sind. Nun folgt die Beschreibung dieser und der verwendeten Hardware.
 	
-    Die Implementierung gestaltet unser Team mit Java 9. Das ist eine der Sprachen, die unser Team im Studium gelernt hat und am besten beherrscht. Als Betriebssystem verwenden wir alle hauptsächlich Windows 10. Manchmal, vor allem zum Testen, kommt auch Linux (Ubuntu)(Version 18.04) zum Einsatz. Im Team benutzen wir alle IntelliJ (Version 2018.1.3) von JetBrains. Diese IDE hat viele nützliche Features und ist für uns als Studenten für nicht kommerzielle Projekte kostenlos. Neben Git (2.18.0 64-Bit) verwenden wir Sourcetree (2.6.9 64-Bit) für eine übersichtliche Verwaltung und Sicherung unseres Quellcodes. Dieser Projektbericht ist mit dem Textsatzsystem LaTeX geschrieben. Hauptsächlich verwenden wir TeXstudio 2.12.8 als Editor, testen aber auch andere wie TeXworks, um die beste Arbeitsumgebung zu finden.\\
+    Die Implementierung gestaltet unser Team mit Java 9. Das ist eine der Sprachen, die unser Team im Studium gelernt hat und am besten beherrscht. Als Betriebssystem verwenden wir alle hauptsächlich Windows 10. Manchmal, vor allem zum Testen, kommt auch Linux (Ubuntu)(Version 18.04) zum Einsatz. Im Team benutzen wir alle IntelliJ (Version 2018.1.3) von JetBrains. Diese IDE hat viele nützliche Features und ist für uns als Studenten für nicht kommerzielle Projekte kostenlos. Neben Git (2.18.0 64-Bit) verwenden wir Sourcetree (2.6.9 64-Bit) für eine übersichtliche Verwaltung und Sicherung unseres Quellcodes. Dieser Projektbericht ist mit dem Textsatzsystem LaTeX geschrieben. Hauptsächlich verwenden wir TeXstudio 2.12.8 als Editor, testen aber auch andere wie TeXworks, um die beste Arbeitsumgebung zu finden. Um Abbildungen für den Projektbericht zu gestalten verwenden wir Adobe Illustrator CC 22.1 64-Bit.\\
     Das letzte Tool zur Programmierung, ist das Buildtool Gradle (4.4). Es ist einfach zu benutzen und das Buildscript kann unter anderem, durch den Einsatz einer eigenen Sprache namens Groovy kurz und kompakt gestaltet werden. 
 
 	Herr Kern hat uns freundlicherweise folgende, für unser Projekt zugeschnittene Programme, zu Verfügung gestellt.\\
@@ -124,14 +140,17 @@
     
     Zum Testen der KI und vor allem zum bestimmen möglichst optimaler Parameter zur Berechnung der Heuristik, haben wir eigene Bash-Skripte programmiert, die automatisch, viele Spiele auf verschiedenen Karten durchspielen. 
 
-	%TODO Hardware
     Die Hardware auf denen wir programmieren und testen sind vor allem \glqq Mittelklasselaptops\grqq. Um den Rahmen nicht zu sprengen, sind hier die genauen Namen zu den Geräten aufgelistet, Details sind online zu finden.\\
     Florian benutzt ein Lenovo Yoga 720-15IKB-80X7.\footnotemark\\
-    Katharina verwendet ein ....\\ %TODO Name und nummer eintragen
+    Katharina verwendet ein HP 250 G4 T6P08ES.\footnotemark\\
     Tim setzt ein ... ein.\\ %TODO Name/nummer eintragen
 	
 	
 	\footnotetext{https://www.notebookcheck.com/Test-Lenovo-Yoga-720-15IKB-7700HQ-FHD-GTX-1050-Laptop.230060.0.html}
+	
+	\footnotetext{https://www.notebookcheck.com/Test-HP-250-G4-T6P08ES-Notebook.163379.0.html}
+	
+	
 
 
     \subsection{Datenstruktur}
@@ -176,26 +195,45 @@
 
     Beispiel 1: Liegt ein Stein in einer Ecke, so ist es weder horizontal, vertikal oder schräg möglich diesen Stein umzufärben. Somit ist dieses Feld zu 0/4 einfärbbar und damit sehr wichtig.
 
-    %\begin{wrapfigure}[10]{r}{0.5\textwidth}
-    %   \centering
-    %\vspace{-4cm}
-    \includegraphics[width=0.33\textwidth]{pics/Kapitel_3/Kapitel_3_pic1.png}
-    %\caption{}
-    %\hspace{-4cm}
-    %\label{fig1}
-    %\end{wrapfigure}
+	\vspace{1em}
+	\begin{minipage}{\linewidth}
+		\centering
+		\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic1.png}
+		\captionof{figure}[3.1.1]{}
+		\label{fig:3.1.1}
+	\end{minipage}
+
 
     Beispiel 2: Liegt ein Stein am rechten Rand, so ist es möglich den Stein vertikal umzufärben, aber nicht horizontal oder schräg. Somit ist dieses Feld zu 1/4 einfärbbar und somit wichtig.\newline
+    
+   	\vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic2.png}
+    	\captionof{figure}[3.1.2]{}
+    	\label{fig:3.1.2}
+    \end{minipage}
 
-    \includegraphics[width=6cm]{pics/Kapitel_3/Kapitel_3_pic2.png}
 
     Beispiel 3: Liegt ein Stein innerhalb des Spielfeldes, so ist es möglich den Stein horizontal, vertikal und schräg einzufärben. Somit ist dieses Feld zu 4/4 einfärbbar und damit nicht so wichtig.\newline
 
-    \includegraphics[width=4.2cm]{pics/Kapitel_3/Kapitel_3_pic3.png}
+   	\vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic3.png}
+    	\captionof{figure}[3.1.3]{}
+    	\label{fig:3.1.3}
+    \end{minipage}
 
     Beispiel 4: Liegt ein Stein innerhalb des Spielfeldes und zusätzlich ist links oben (Transitionenrichtung 7) ein Stein der selben Farbe der zu 0/4 einfärbbar ist, dann ist der Stein von links oben nach rechts unten und umgekehrt nicht einfärbbar. Somit ist dieses Feld zu 3/4 einfärbbar und damit wichtiger als ein Feld wie in Beispiel 3.\newline
 
-    \includegraphics[width=6cm]{pics/Kapitel_3/Kapitel_3_pic4.png}
+   	\vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic4.png}
+    	\captionof{figure}[3.1.4]{}
+    	\label{fig:3.1.4}
+    \end{minipage}
 
     Mit dieser Bewertung kann sowohl die Situation um ein Einzelfeld herum, als auch Transitionen betrachtet werden.
 
@@ -207,20 +245,38 @@
     Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren aber der Gegener hat auch nicht so viele Möglichkeiten Stein zu platzieren, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind.Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat wärend man selbst nur sehr wenige hat.
 
     Beispiel 1: Hier hat Blau keinen Zug mehr Blau muss also aussetzen.
-    \newline
-    \includegraphics[height=2cm]{pics/BlauKeinZug}
+
+   	\vspace{1em}
+	\begin{minipage}{\linewidth}
+		\centering
+		\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic5.png}
+		\captionof{figure}[3.2.1]{}
+		\label{fig:3.2.1}
+	\end{minipage}
 
     Beispiel 2: Blau hat nur einen möglichen Zug er hat also keinen Einfluss auf das Spiel mehr, da er nichts entscheiden kann.
-    \newline
-    \includegraphics[height=2cm]{pics/BlauEinZug}
+
+   	\vspace{1em}
+	\begin{minipage}{\linewidth}
+		\centering
+		\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic6.png}
+		\captionof{figure}[3.2.2]{}
+		\label{fig:3.2.2}
+	\end{minipage}
 
     Beispiel 3: Blau hat sehr viele Möglichkeiten Steine zu platzieren. Obwohl Rot hier mehr steine hat befindet sich blau in einer sehr guten Position da Blau deutlich mehr Zugmöglichkeiten hat als Rot.
-    \newline
-    \includegraphics[height=2cm]{pics/BlauVieleZuege}
+
+   	\vspace{1em}
+	\begin{minipage}{\linewidth}
+		\centering
+		\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic7.png}
+		\captionof{figure}[3.2.3]{}
+		\label{fig:3.2.3}
+	\end{minipage}
 
     Die Art der Bewertung soll verhindern, dass man die Möglichkeit verpasst gegnerische Steine zu färben.
 
-
+	%TODO bei tims vorschlag abbildungsbeschreibung und ref im text benutzen
 	%TODO Korrekturlesen
     \subsection{Final implementierte Spielfeldbewertung}
     \vspace{1em}
@@ -232,7 +288,7 @@
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
 		\centering
-		\includegraphics[width=0.4\linewidth]{pics/Kapitel_3/Kapitel_3_pic5.png}
+		\includegraphics[width=0.4\linewidth]{pics/Kapitel_3/Kapitel_3_pic8.png}
 		\captionof{figure}[Heuristik_3.3.1]{Spielsituation mit Heuristikwerten\footnotemark }
 		\label{fig:heuristik_3.3.1}
 	\end{minipage}
@@ -252,11 +308,11 @@
     % ----------------------------------------------------------------------------------
     \section{Statistiken}
     \vspace{1em}
-    Integrieren Sie in diesen Abschnitt alle Ergebnisse von Projektaufgaben, die mit Erstellungen von Statistiken zu tun haben. Geben Sie dabei auch Diagramme an und interpretieren Sie die darin dargestellten Kurven. Beschreiben Sie zu jedem implementierten Verfahren, ob und welchen Nutzen es aus Ihrer Sicht gebracht hat.
-
+    %Integrieren Sie in diesen Abschnitt alle Ergebnisse von Projektaufgaben, die mit Erstellungen von Statistiken zu tun haben. Geben Sie dabei auch Diagramme an und interpretieren Sie die darin dargestellten Kurven. Beschreiben Sie zu jedem implementierten Verfahren, ob und welchen Nutzen es aus Ihrer Sicht gebracht hat.
+	Dieser Abschnitt des Berichts zählt zu den wichtigsten, wenn es um den KI-Clienten selbst geht. Es werden Werte zu verschiedenen Optimierungen und Algorithmen verglichen. So kann gezeigt werden, welchen Einfluss bestimmte \grqq Verbesserungen\glqq{} haben und ob diese wirklich den Clienten kompetitiver machen. Oft denken wir, kann es sinnvoll sein, manche Optimierungen abzuschalten, da z.B. durch zu viel Overhead oder ungünstige Situationen im Spiel, die KI schlechter abschneidet. Diese und weitere Fragestellungen werden in diesem Kapitel hoffentlich beantwortet.
 	%TODO - Digramme für Rechenzeit für Zustand, Anzahl Zustände, Gesamtzeit pro Zug
 
-	%TODO - Vergleich Normale Zugsuche (aus übung 1) und Paranoid
+	%TODO - Vergleich Paranoid und alpha beta
 
 	%TODO - Vergleich zugsortierung mit und ohne anhand Rechenzeit für Zustand, Anzahl Zustände, Gesamtzeit pro Zug and min 10 maps
 
@@ -264,15 +320,17 @@
 	
 	%TODO - Vergleich Aspiration windows und alpha beta pruning mit statistiken
 
-    \subsection{Vergleich ... und ...}
+    \subsection{Vergleich Paranoid und Alpha-Beta Pruning}
     \vspace{1em}
 
-    \subsection{Vergleich ..., ... und ...}
+    \subsection{Vergleich zwischen Zugsortierung und keine Zugsortierung}
     \vspace{1em}
 
-    \subsection{...}
+    \subsection{Vergleich verschiedener Aspiration-Window-Größen}
     \vspace{1em}
 
+	\subsection{weitere tolle vergleiche}
+	\vspace{1em}
 
     \newpage
     % ----------------------------------------------------------------------------------
@@ -331,27 +389,33 @@
 	%TODO Korrekturlesen
 	%Stellen Sie in der Gruppe eine Liste von mindestens f¨unf unterschiedlichen Anforderungen an einen Reversi-Replayer bzw. an das von Herrn Krapﬂ (Bachelorand) vorgestellte Tool zusammen.
 	
-	In diesem Kapitel geht es um die Anforderungen die ein Reversi-Replayer aus Sicht der Gruppe 7 hat.
+	In diesem Kapitel geht es um Ideen zu Features, für einen ReversiXT-Replayer. Wir hoffen, dass dadurch zukünftige ReversiXT-Generationen bessere Clienten programmieren können und sich beim Fehlerfinden leichter tun.
 	
 	\textbf{Anforderung 1:} Ein Spiel sollte von Anfang bis Ende vorwärts und rückwärts schrittweise durchgehbar sein. Dabei sollen alle Daten wie Bomben, Überschreibsteine, Punkte usw. aktuell gehalten werden.
 	
-	\textbf{Anforderung 2:} Eine weitere Idee ist es, die Standardausgabe jedes Klienten sichtbar zu machen und diese auch schrittweise nachvollziehbar zu machen. Das würde das Debugging erleichtern und den Gruppen die Möglichkeit geben, durch übersichtliche Ausgaben den Ablauf des Spiels Verständlicher zu machen.
+	\textbf{Anforderung 2:} Eine weitere Idee ist es, die Standardausgabe jedes Clienten sichtbar zu machen und diese auch schrittweise nachvollziehbar zu machen. Das würde das Debugging erleichtern und den Gruppen die Möglichkeit geben, durch übersichtliche Ausgaben den Ablauf des Spiels Verständlicher zu machen.
 	
 	\textbf{Anforderung 3:} Den Gruppen durch ein Interface erlauben, online eigene Spiele mit eigenen Parametern wie Tiefe und Zeit zu starten. Dort sollen die Spieler außerdem ihre Gegner und die Karte auf der gespielt werden soll ausgewählt werden. Natürlich muss das Testen durch eine Art Kontingentsystem limitiert sein, dass die Gruppen das Spielsystem nicht ausnützen können. 
 	
 	\textbf{Anforderung 4:} Eine Profilsystem würde sich anbieten. In diesem System werden alle vergangenen Spiele gespeichert. Ein Vergleichsfeature macht es möglich Spiele miteinander zu vergleichen. Z.B Spiele auf der gleichen Karte gegen den gleichen Gegner könnte man über den Verlauf des Semesters vergleichen und so eine Verbesserung/Verschlechterung feststellen.
 	
-	\textbf{Anforderung 5:} Als Erweiterung der Anforderung 3 \& 4 könnte man dem System zusätzlich zu Karte und Gegner, Parameter für den eigenen Klienten mitgeben, z.B. verschiedene Werte um die Heuristik zu testen. Im Zusammenspielt mit dem Vergleichsfeature und vielen Spielen könnte man so ein gutes Tool bauen um optimale Werte für Heuristik, aspiration windows und iterative deepening zu finden.
+	\textbf{Anforderung 5:} Als Erweiterung der Anforderung 3 \& 4 könnte man dem System zusätzlich zu Karte und Gegner, Parameter für den eigenen Clienten mitgeben, z.B. verschiedene Werte um die Heuristik zu testen. Im Zusammenspielt mit dem Vergleichsfeature und vielen Spielen könnte man so ein gutes Tool bauen um optimale Werte für Heuristik, aspiration windows und iterative deepening zu finden.
 	
-	Insgesamt ist der Replayer eine super Idee, um die Teams bei der Fehlerfindung und der Verbesserung ihrer KI-Klienten zu unterstützen. Wir hoffen Herr Krapfl kann aus unseren Vorschäge für seine Bachelorarbeit nützliche Ideen ziehen.
+	Insgesamt ist der Replayer eine super Idee, um die Teams bei der Fehlerfindung und der Verbesserung ihrer KI-Clienten zu unterstützen. Wir hoffen Herr Krapfl kann aus unseren Vorschäge für seine Bachelorarbeit nützliche Ideen ziehen.
 	
     \newpage
     % ----------------------------------------------------------------------------------
     % Kapitel: Fazit
     % ----------------------------------------------------------------------------------
     \section{Fazit}
-    Beschreiben Sie in diesem Abschnitt u.a.\ was Ihnen an diesem Fach gefallen hat und welche Verbesserungsvorschläge Sie für künftige Veranstaltungen haben. Was konnten Sie dazulernen, in welchen Bereichen haben Sie sich verbessert. Welche Problemsituationen gab es während der Projekterstellung, wie sind Sie diese angegangen und wie haben Sie diese gelöst. Was haben Sie evtl.\ vermisst.
-	%TODO - Fazit wie oben beschrieben
+    \vspace{1em}
+    %Beschreiben Sie in diesem Abschnitt u.a.\ was Ihnen an diesem Fach gefallen hat und welche Verbesserungsvorschläge Sie für künftige Veranstaltungen haben. Was konnten Sie dazulernen, in welchen Bereichen haben Sie sich verbessert. Welche Problemsituationen gab es während der Projekterstellung, wie sind Sie diese angegangen und wie haben Sie diese gelöst. Was haben Sie evtl.\ vermisst.
+	Die Vorfreude in unserem Team auf diese Projekt war groß. Die Vorstellung, ein eigenes Projekt von Anfang bis Ende zu gestalten, hat alle motiviert. Am Ende des Semesters angekommen, kann man sagen, dass Vorstellung und Realität sich aber doch sehr von einander unterscheiden. In der Überlegung ist immer alles einfacher und funktioniert problemloser. In der Realität komm es aber doch immer anders. Im Verlauf der Zeit, sind wir auf Probleme, fachspezifischer aber auch menschlicher Art, gestoßen die uns auf die Probe gestellt haben. Vor allem in der mittleren Phase haben uns viel nervenaufreibende Bugs geplagt und teilweise schien nichts mehr zu funktionieren. Dazu hatten wir Probleme eine gute Heuristik zu erstellen und mussten diese mehrfach neu konzipieren und programmieren. Aber gerade durch diese schwierigere Zeit haben wir gelernt nicht aufzuhören und am nächsten Tag nochmal strukturiert das Problem zu analysieren. Auch unsere Programmierfähigkeiten haben sich dadurch verbessert. Vor allem haben wir viel für den späteren Berufsalltag gelernt denke ich. Dort sind Deadlines und Bugs an der Tagesordnung und es gilt diese möglichst stressfrei und strukturiert zu bearbeiten.\\
+	Insgesamt kann man sagen, dass wir mehr mitgenommen haben als anfangs gedacht und das vor allem aus verschiedenen unerwarteten Bereichen. Das ist einer der Gründe warum uns \grqq ZOCK\glqq{} gut gefallen hat. Ein weiterer ist der Wettbewerbsgedanke unter den Teams und Aachen. Auch Herr Kern selbst, der durch konstruktive Kritik alle immer \glqq auf zack\grqq{} hält, hat dazu beigetragen, dass es auch Spass macht. So war die Motivation trotz zwischenzeitlichen Schwierigkeiten hoch.\\
+	Die Ergebnisse des Projekts können sich auch sehen lassen. Die KI wird nicht mehr disqualifiziert und erreicht gute Punktewerte. Zum Zeitpunkt der Abgabe dieses Berichts haben wir noch Ideen zur Verbesserung der Heuristik und hoffen diese bis zum großen Endspiel noch umsetzten zu können. Es geht dabei darum mehr Überschreibsteine zu erspielen, da wir diese oft für spielentscheidend halten.\\
+	Allgemein schien mir das Fach gut durchdacht und erprobt. Deswegen haben wir nur einen Verbesserungsvorschlag. Die Deadline für die Abgabe des Projektberichts sollte etwas früher sein. Dadurch entstehen bei schlechtem Zeitmanagement weniger, Interessenskonflikte zwischen für die Prüfungen lernen und den Bericht fertig schreiben.\\
+	Abschließend können wir \glqq ZOCK \grqq{} früheren Semestern nur empfehlen. Wir haben einiges gelernt und hatten viel Spass. Wer gern etwas mehr Zeit als bei anderen Fächern investieren möchte, dafür aber viel mitnehmen will ist hier genau richtig.
+	 %TODO Hier weiter machen
 
     \newpage
     
