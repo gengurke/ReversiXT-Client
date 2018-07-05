@@ -470,15 +470,19 @@ public class Spielbrett {
         }
     }
 
-    public void gueltigeZuege(int s) {
+    public void gueltigeZuege(int s, boolean sort) {
         for (int zeile = 0; zeile < Hoehe; zeile++) {
             for (int spalte = 0; spalte < Breite; spalte++) {
                 if (Zug(s, spalte, zeile)) {
-                    char[][] temp = kopiereSpielfeld(this.Spielfeld);
-                    Faerben(s, spalte, zeile);
-                    TrivialeHeuristik h = new TrivialeHeuristik(this, s);
-                    Spielfeld = temp;
-                    gueltigeZuege.hinzufuegen(spalte, zeile, h.getSpielbewertung());
+                    if(sort) {
+                        char[][] temp = kopiereSpielfeld(this.Spielfeld);
+                        Faerben(s, spalte, zeile);
+                        TrivialeHeuristik h = new TrivialeHeuristik(this, s);
+                        Spielfeld = temp;
+                        gueltigeZuege.hinzufuegen(spalte, zeile, h.getSpielbewertung());
+                    } else {
+                        gueltigeZuege.hinzufuegen(spalte, zeile, 0);
+                    }
                 } else {
                     //Spielfeld[spalte][zeile][1] = '0';
                 }
@@ -661,7 +665,7 @@ public class Spielbrett {
         ABKnoten knoten = new ABKnoten(alpha, beta, Integer.MIN_VALUE);
         zustaende = 0;
 
-        this.gueltigeZuege(s);
+        this.gueltigeZuege(s,sort);
         if (sort) {
             this.gueltigeZuege.SortMaxFirst();
         }
@@ -669,7 +673,7 @@ public class Spielbrett {
         if (gueltigeZuege.getSize() == 0) {
             if (ersatzsteine > 0) {
                 setUeberschreibsteine(1);
-                this.gueltigeZuege(s);
+                this.gueltigeZuege(s,sort);
                 this.gueltigeZuege.SortMaxFirst();
             }
             if (this.gueltigeZuege.getSize() == 0) {
@@ -805,7 +809,7 @@ public class Spielbrett {
             }
             GueltigerZug gzug;
             spiel.gueltigeZuege.listeLoeschen();
-            spiel.gueltigeZuege(aktS);
+            spiel.gueltigeZuege(aktS,sort);
             if (sort) {
                 if (maxFirst) {
                     spiel.gueltigeZuege.SortMaxFirst();
@@ -903,7 +907,7 @@ public class Spielbrett {
         ABKnoten knoten = new ABKnoten(alpha, beta, Integer.MIN_VALUE);
         zustaende = 0;
 
-        this.gueltigeZuege(s);
+        this.gueltigeZuege(s,sort);
         if (sort) {
             this.gueltigeZuege.SortMaxFirst();
         }
@@ -911,7 +915,7 @@ public class Spielbrett {
         if (gueltigeZuege.getSize() == 0) {
             if (ersatzsteine > 0) {
                 setUeberschreibsteine(1);
-                this.gueltigeZuege(s);
+                this.gueltigeZuege(s,sort);
                 this.gueltigeZuege.SortMaxFirst();
             }
             if (this.gueltigeZuege.getSize() == 0) {
@@ -1041,7 +1045,7 @@ public class Spielbrett {
             }
             GueltigerZug gzug;
             spiel.gueltigeZuege.listeLoeschen();
-            spiel.gueltigeZuege(aktS);
+            spiel.gueltigeZuege(aktS,sort);
             if (sort) {
                 if (maxFirst) {
                     spiel.gueltigeZuege.SortMaxFirst();
