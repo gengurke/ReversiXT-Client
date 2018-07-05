@@ -101,7 +101,8 @@
 
     Florian Klamer hat Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2 die grundsätzlich wichtig für die Implementierung und Strukturierung der KI sind. Aus Algorithmen und Datenstrukturen sind die Teile wichtig, bei denen es um effiziente und sichere Algorithmen für z.B die Berechnung der Heuristik oder der gültigen Züge geht. Neben dem Studium hilft Florian außerdem ehrenamtlich beim Connecta e.V. mit. Dort ist er im EDV Ressort mit der Betreuung des Intra-, Extranets, der Datenbank und der Webseite beschäftigt. Die dort erworbenen Fähigkeiten sind z.B. in Git, SQL oder Teamarbeit, können aber ebenso wichtig für das Projekt sein.
 
-    Tim Lechner hat die für das Projekt erforderlichen Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2, Algorithmen und Datenstrukturen erworben.
+    Tim Lechner hat die für das Projekt erforderlichen Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2, Algorithmen und Datenstrukturen erworben. 
+    
 
     Der letzte Teil in diesem Abschnitt ist eine Liste (Tabelle 1) der Übungsaufgaben und von wem sie bearbeitet wurden.
 
@@ -161,11 +162,14 @@
 
     Die Hardware auf denen wir programmieren und testen sind vor allem \glqq Mittelklasselaptops\grqq. Um den Rahmen nicht zu sprengen, sind hier die genauen Namen zu den Geräten aufgelistet, Details sind online zu finden.\\
     Florian benutzt ein Lenovo Yoga 720-15IKB-80X7.\footnotemark\\
+
+    Tim setzt ein Lenovo ideapad Y700 ein.\footnotemark\\
     Katharina verwendet ein HP 250 G4 T6P08ES.\footnotemark\\
-    Tim setzt ein ... ein.\\ %TODO Name/nummer eintragen
+
 	
 	
 	\footnotetext{https://www.notebookcheck.com/Test-Lenovo-Yoga-720-15IKB-7700HQ-FHD-GTX-1050-Laptop.230060.0.html}
+	\footnotetext{https://www.notebookcheck.com/Test-Lenovo-Ideapad-Y700-15ISK-80NW-Notebook.156295.0.html}
 	
 	\footnotetext{https://www.notebookcheck.com/Test-HP-250-G4-T6P08ES-Notebook.163379.0.html}
 	
@@ -260,11 +264,14 @@
 	Dieser Ansatz bewertet das Zusammenspiel von Spielfeldrand und den Spielsteinen untereinander und schafft damit eine hoffentlich gute Abschätzung des tatsächlichen Wertes der aktuellen Spielsituation.
 
     \subsection{Spielfeldbewertung: 2. Vorschlag}
-    \vspace{1em}
-    Die Idee der zweiten Spielfeldbewertung ist die eigene Mobilität einzuschätzen. Denn wenn man nur sehr wenige Möglichkeiten hat einen Zug zu machen kann der Gegner bestimmen wo man hinsetzten muss und hat selbst keinen oder nur einen geringen einfluss auf den Spielverlauf. Im schlimmsten Fall hat man gar keine Möglichkeit zu ziehen und ermöglicht so den Gegnern mehrmals zu färben wärend man nichts färben kann.
 
-    Hierbei ist zu beachten, dass der Sprung von einen möglichen Zug zu zwei möglichen Zügen eine größerer verbesserung ist als von 10 auf 20 mögliche Züge.
-    Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren aber der Gegener hat auch nicht so viele Möglichkeiten Stein zu platzieren, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind.Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat wärend man selbst nur sehr wenige hat.
+    Die Idee der zweiten Spielfeldbewertung ist die eigene Mobilität einzuschätzen. Denn wenn man nur sehr wenige Möglichkeiten hat einen Zug zu machen kann der Gegner bestimmen wo man hinsetzten muss und hat selbst keinen oder nur einen geringen Einfluss auf den Spielverlauf. Im schlimmsten Fall hat man gar keine Möglichkeit zu ziehen und ermöglicht so den Gegnern mehrmals zu färben während man nichts färben kann.
+
+    \vspace{1em}
+
+
+    Hierbei ist zu beachten, dass der Sprung von einen möglichen Zug zu zwei möglichen Zügen eine größere Verbesserung ist als von 10 auf 20 mögliche Züge.
+    Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren aber der Gegner hat auch nicht so viele Möglichkeiten Stein zu platzieren, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind.Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat während man selbst nur sehr wenige hat.
 
     Beispiel 1: Hier hat Blau keinen Zug mehr Blau muss also aussetzen.
 
@@ -405,6 +412,9 @@
 
     %Beschreiben Sie außerdem, warum sie die jeweiligen Karten eingereicht haben: in welcher Hinsicht versprechen Sie sich von den eingereichten Karten Vorteile; in wie weit sind diese Karten auf Ihren Client und die darin implementierte Heuristik zugeschnitten, etc.
 	%TODO Karten erstellen und wie oben beschreiben
+	Als 2-Spielermap haben wir einen kleine Karte bestehend aus zwei Pixel-Art Figuren ausgewählt. Die Figuren stellen einen Creeper und ein Skellet aus dem Spiel Minecraft da. Außerdem sind die Figuren mit einigen Transitionen verbunden. Im Skellett befinden sich noch vier Choice-Steine.
+	
+	Unsere 4-Spielermap ist eine große Karte mit einem kleinen Tannenbaum in der Mitte. Da unsere KI auf großen Karten mit einigen Überschreibsteinen besonders gut zu sein scheint haben wir versucht das mit dieser Karte umzusetzen.
 	
 	% ----------------------------------------------------------------------------------
 	% Kapitel: Anforderungen an einen Reversi-Replayer
