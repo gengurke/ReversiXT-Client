@@ -1,0 +1,3 @@
+Tiefe: 0 Zeit: 2
+AlphaBeta: true Zugsortierung: true Aspiration Windows: true
+

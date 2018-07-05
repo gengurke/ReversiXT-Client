@@ -5,7 +5,7 @@ public class TrivialeHeuristik implements Heuristik {
     //Spielvariablen
     private int brettsumme;
     private int breite, hoehe, spieler;
-    private char[][][] spielfeld;
+    private char[][] spielfeld;
 
 
     public TrivialeHeuristik(Spielbrett spiel, int spieler) {
@@ -22,7 +22,7 @@ public class TrivialeHeuristik implements Heuristik {
         for (int x = 0; x < breite; x++) {
             for (int y = 0; y < hoehe; y++) {
 
-                switch (spielfeld[x][y][0]) {
+                switch (spielfeld[x][y]) {
                     case '1':
                     case '2':
                     case '3':
@@ -32,7 +32,7 @@ public class TrivialeHeuristik implements Heuristik {
                     case '7':
                     case '8':
                         //Eingener Spieler
-                        if (Character.getNumericValue(spielfeld[x][y][0]) == spieler) {
+                        if (Character.getNumericValue(spielfeld[x][y]) == spieler) {
                             brettsumme += 10;
                             //Anderer Spieler
                         } else {

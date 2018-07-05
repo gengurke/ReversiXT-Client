@@ -6,7 +6,7 @@ public class DynamischeHeuristik implements Heuristik {
 
     /*******************Einstellungen*******************/
     //// Sicherheiten
-    private final int vierRichtungenSicher = 1000;
+    private final int vierRichtungenSicher = 2000;
     private final int dreiRichtungenSicher = 300;
     private final int zweiRichtungenSicher = 50;
     private final int eineRichtungenSicher = 20;
@@ -16,16 +16,15 @@ public class DynamischeHeuristik implements Heuristik {
     private final int wertGueltigerZug = 20;
 
     //// Ueberschreibsteine
-    private final int wertUeberschreibstein = 500;
+    private final int wertUeberschreibstein = 10000;
 
-    //// Bomben
-    private final int wertBomben = bombenStaerkeBewerten();
+
     /****************Einstellungen Ende*****************/
 
     //Spielvariablen
     private int brettsumme;
-    private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, ersatzsteine, bomben, bombenStaerke;
-    private char[][][] spielfeld;
+    private int breite, hoehe, spieler, anzahlGueltigeZuege, ueberschreibsteine, ersatzsteine;
+    private char[][] spielfeld;
     private TransitionenListe[][] transitionen;
 
     //Arrays fuer die Heuristikberechnung
@@ -42,10 +41,8 @@ public class DynamischeHeuristik implements Heuristik {
         transitionen = spiel.getTransitionen();
         ueberschreibsteine = spiel.getUeberschreibsteine();
         ersatzsteine = spiel.getErsatzsteine();
-        bomben = spiel.getBomben();
-        bombenStaerke = spiel.getStaerke();
 
-        //gueltige Zuege
+        //gueltige Zuege TODO gueltige zuege fuer den gegener mit aufnehmen
         GueltigerZugListe gueltigeZuege = spiel.getGueltigeZuege();
         anzahlGueltigeZuege = gueltigeZuege.getSize();
 
@@ -58,69 +55,46 @@ public class DynamischeHeuristik implements Heuristik {
         heuristikAufsummieren();
     }
 
+    //TODO - Statische Wellenbewertung um bonussteine, eventuell ecken.
+
     private void heuristikwertBerechnen() {
-
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
-                zelleUeberpruefen(x, y);
-            }
-        }
-    }
-
-    /**
-     * Addiert die Verschiedenen Aspekte der Heuristik auf. Z.B. die Faerbbarkeit, Mobilitaet...
-     */
-    private void heuristikAufsummieren() {
-        /*---------------------Sicherheit----------------------*/
-        felderwerteAusSicherheiten();
-        /*---------------------Mobilitaet----------------------*/
-        mobilitaet();
-        /*-----------------Ueberschreibsteine------------------*/
-        ueberschreibsteine();
-        /*-----------------------Bomben------------------------*/
-        bombenBewerten();
-        /*--------------------Aufsummieren---------------------*/
-        for (int y = 0; y < hoehe; y++) {
-            for (int x = 0; x < breite; x++) {
-                brettsumme += felderwerte[x][y];
-            }
-        }
-    }
-
-    private void zelleUeberpruefen(int x, int y) {
-        for (Richtungen dir : Richtungen.values()) {
-            switch (spielfeld[x][y][0]) {
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                    ueberpruefenAufSicherheit(x, y, dir);
-                    continue;
-                case '0':
-                    continue;
-                case 'x':
-                    continue;
-                case 'b':
-                    continue;
-                case 'c':
-                    continue;
-                case 'i':
-                    continue;
-                case '-':
-                    continue;
-                default:
-                    break;
+                for (Richtungen dir : Richtungen.values()) {
+                    switch (spielfeld[x][y]) {
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                            ueberpruefenAufSicherheit(x, y, dir);
+                            continue;
+                        case '0':
+                            continue;
+                        case 'x':
+                            continue;
+                        case 'b':
+                            continue;
+                        case 'c':
+                            continue;
+                        case 'i':
+                            continue;
+                        case '-':
+                            continue;
+                        default:
+                            break;
+                    }
+                }
             }
         }
     }
 
     private void ueberpruefenAufSicherheit(int x, int y, Richtungen dir) {
         int schrittCounter = 0;
-        int urSpieler = Character.getNumericValue(spielfeld[x][y][0]);
+        int urSpieler = Character.getNumericValue(spielfeld[x][y]);
 
         richtungUeberpruefenUndSicherheitenFestlegen(x, y, x, y, urSpieler, schrittCounter, dir, dir);
     }
@@ -151,7 +125,7 @@ public class DynamischeHeuristik implements Heuristik {
             //kein loop
         } else {
             schrittCounter++;
-            if (urSpieler == Character.getNumericValue(spielfeld[x][y][0])) {
+            if (urSpieler == Character.getNumericValue(spielfeld[x][y])) {
                 //Schon sicher
                 if ((sicherheit[x][y][urSpieler][intDir] == 1) && (sicherheit[x][y][urSpieler][oppIntDir] == 1)) {
                     return true;
@@ -215,10 +189,10 @@ public class DynamischeHeuristik implements Heuristik {
         for (int y = 0; y < hoehe; y++) {
             for (int x = 0; x < breite; x++) {
 
-                int spielerAufFeld = Character.getNumericValue(spielfeld[x][y][0]);
+                int spielerAufFeld = Character.getNumericValue(spielfeld[x][y]);
 
                 int anzahlSichereRichtungen = 0; //Max 4
-                switch (spielfeld[x][y][0]) {
+                switch (spielfeld[x][y]) {
                     case '1':
                     case '2':
                     case '3':
@@ -228,7 +202,7 @@ public class DynamischeHeuristik implements Heuristik {
                     case '7':
                     case '8':
                         //Eigener Spieler
-                        if (spieler == Character.getNumericValue(spielfeld[x][y][0])) {
+                        if (spieler == Character.getNumericValue(spielfeld[x][y])) {
                             if (sicherheit[x][y][spieler][0] == 1) {
                                 anzahlSichereRichtungen += 1;
                             }
@@ -288,7 +262,7 @@ public class DynamischeHeuristik implements Heuristik {
                         felderwerte[x][y] = -1 * vierRichtungenSicher;
                         continue;
                     case 0:
-                        switch (spielfeld[x][y][0]) {
+                        switch (spielfeld[x][y]) {
                             case '1':
                             case '2':
                             case '3':
@@ -297,7 +271,7 @@ public class DynamischeHeuristik implements Heuristik {
                             case '6':
                             case '7':
                             case '8':
-                                if (spieler == Character.getNumericValue(spielfeld[x][y][0])) {
+                                if (spieler == Character.getNumericValue(spielfeld[x][y])) {
                                     felderwerte[x][y] = keineRichtungSicher;
                                 } else {
                                     felderwerte[x][y] = -1 * keineRichtungSicher;
@@ -346,27 +320,6 @@ public class DynamischeHeuristik implements Heuristik {
         brettsumme += (ueberschreibsteine + ersatzsteine) * wertUeberschreibstein;
     }
 
-    private void bombenBewerten() {
-        brettsumme += bomben * wertBomben;
-    }
-
-    private int bombenStaerkeBewerten() {
-        switch (bombenStaerke) {
-            case 0:
-                return 50;
-            case 1:
-                return 100;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                return 200;
-            default:
-                return 100;
-
-        }
-    }
-
     private boolean hatTransition(int x, int y, Richtungen dir) {
         return (transitionen[x][y] != null) && ((transitionen[x][y].search(x, y, dir.ordinal())) != null);
     }
@@ -384,46 +337,64 @@ public class DynamischeHeuristik implements Heuristik {
             case OBEN:
                 if (y == 0) {
                     return true;
-                } else return spielfeld[x][y - 1][0] == '-';
+                } else return spielfeld[x][y - 1] == '-';
 
 
             case OBENRECHTS:
                 if ((y == 0 && x == breite - 1) || y == 0 || x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y - 1][0] == '-';
+                } else return spielfeld[x + 1][y - 1] == '-';
 
             case RECHTS:
                 if (x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y][0] == '-';
+                } else return spielfeld[x + 1][y] == '-';
 
             case UNTENRECHTS:
                 if ((y == hoehe - 1 && x == breite - 1) || y == hoehe - 1 || x == breite - 1) {
                     return true;
-                } else return spielfeld[x + 1][y + 1][0] == '-';
+                } else return spielfeld[x + 1][y + 1] == '-';
 
             case UNTEN:
                 if (y == hoehe - 1) {
                     return true;
-                } else return spielfeld[x][y + 1][0] == '-';
+                } else return spielfeld[x][y + 1] == '-';
 
             case UNTENLINKS:
                 if ((y == hoehe - 1 && x == 0) || y == hoehe - 1 || x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y + 1][0] == '-';
+                } else return spielfeld[x - 1][y + 1] == '-';
 
             case LINKS:
                 if (x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y][0] == '-';
+                } else return spielfeld[x - 1][y] == '-';
 
             case OBENLINKS:
                 if ((y == 0 && x == 0) || y == 0 || x == 0) {
                     return true;
-                } else return spielfeld[x - 1][y - 1][0] == '-';
+                } else return spielfeld[x - 1][y - 1] == '-';
 
             default:
                 return false;
+        }
+    }
+
+    /**
+     * Addiert die Verschiedenen Aspekte der Heuristik auf. Z.B. die Faerbbarkeit, Mobilitaet...
+     */
+    private void heuristikAufsummieren() {
+        /*---------------------Sicherheit----------------------*/
+        felderwerteAusSicherheiten();
+        /*---------------------Mobilitaet----------------------*/
+        mobilitaet();
+        /*-----------------Ueberschreibsteine------------------*/
+        ueberschreibsteine();
+        /*--------------------Aufsummieren---------------------*/
+        for (int y = 0; y < hoehe; y++) {
+            for (int x = 0; x < breite; x++) {
+                brettsumme += felderwerte[x][y];
+            }
         }
     }
 
