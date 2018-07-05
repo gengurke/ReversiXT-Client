@@ -341,7 +341,8 @@
     \section{Statistiken}
     \vspace{1em}
     %Integrieren Sie in diesen Abschnitt alle Ergebnisse von Projektaufgaben, die mit Erstellungen von Statistiken zu tun haben. Geben Sie dabei auch Diagramme an und interpretieren Sie die darin dargestellten Kurven. Beschreiben Sie zu jedem implementierten Verfahren, ob und welchen Nutzen es aus Ihrer Sicht gebracht hat.
-	Dieser Abschnitt des Berichts zählt zu den wichtigsten, wenn es um den KI-Clienten selbst geht. Es werden Werte zu verschiedenen Optimierungen und Algorithmen verglichen. So kann gezeigt werden, welchen Einfluss bestimmte \grqq Verbesserungen\glqq{} haben und ob diese wirklich den Clienten kompetitiver machen. Oft denken wir, kann es sinnvoll sein, manche Optimierungen abzuschalten, da z.B. durch zu viel Overhead oder ungünstige Situationen im Spiel, die KI schlechter abschneidet. Diese und weitere Fragestellungen werden in diesem Kapitel hoffentlich beantwortet.
+	Dieser Abschnitt des Berichts zählt zu den wichtigsten, wenn es um den KI-Clienten selbst geht. Es werden Werte zu verschiedenen Optimierungen und Algorithmen verglichen. So kann gezeigt werden, welchen Einfluss bestimmte \grqq Verbesserungen\glqq{} haben und ob diese wirklich den Clienten kompetitiver machen. Oft denken wir, kann es sinnvoll sein, manche Optimierungen abzuschalten, da z.B. durch zu viel Overhead oder ungünstige Situationen im Spiel, die KI schlechter abschneidet. Diese und weitere Fragestellungen werden in diesem Kapitel hoffentlich beantwortet.\newline
+	Im Laufe des Projektes wurden sehr viele verschiedene Maps getestet. Die Daten aus den folgenden Statistiken sind durch die Durchschnittswerte aus mehreren Spielen auf 7 ausgewählten Maps entstanden. Um die Unterschiede in den Ergebnissen richtig interpretieren zu können, werden die Eckdaten der Maps kurz vorgestellt.\newline\newline
 	%TODO - Digramme für Rechenzeit für Zustand, Anzahl Zustände, Gesamtzeit pro Zug
 
 	%TODO - Vergleich Paranoid und alpha beta
@@ -351,11 +352,114 @@
 	%TODO - Vergleich verschiedener Fenstergrößen für Aspiration Windows um das beste zu finden.(nicht unbedingt viel statistiken)
 	
 	%TODO - Vergleich Aspiration windows und alpha beta pruning mit statistiken
-
+	\subsection{Getestete Maps}
+	\textbf{Norm12x12}\newline
+	Das Spielfeld ist 12 mal 12 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt weder Überschreibsteine, Expansionsteine, Bomben, Choice-, Inversions- und Bonusfelder noch Transitionen.\newline
+	\textbf{Endlosrohr}\newline
+	Das Spielfeld ist 10 mal 20 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt zwei Überschreibsteine und eine Bombe mit Stärke eins pro Spieler. Es werden keine Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet, dafür aber 88 Transitionen.\newline
+	\textbf{Comp2017\_04\_4p}\newline
+	Das Spielfeld ist 24 mal 32 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt drei Überschreibsteine und zwei Bombe mit Stärke eins pro Spieler. Es werden Bonusfelder und Expansionssteine verwendet, dafür aber keine Choice- und Inversionsfelder. Zusätzlich gibt es noch 40 Transitionen. Eine Besonderheit der Map ist ihre kreisförmige Anordnung.\newline
+	\textbf{2014\_comp\_1\_4p}\newline
+	Das Spielfeld ist 22 mal 40 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt zwei Überschreibsteine und keine Bomben pro Spieler. Es werden keine Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet, dafür aber 24 Transitionen. Eine Besonderheit der Map ist, dass sie wie eine Weltkarte aussieht.\newline
+	\textbf{2013\_comp\_5\_2p}\newline
+	Das Spielfeld ist 18 mal 19 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt vier Überschreibsteine und fünf Bomben mit Stärke eins pro Spieler. Es werden Bonus- und Choicefelder verwendet, dafür aber keine Inversionsfelder und Expansionssteine. Zusätzlich gibt es noch 15 Transitionen.\newline
+	\textbf{2012\_Map\_fuenf}\newline
+	Das Spielfeld ist 15 mal 15 Einheiten groß und ist für drei Spieler vorgesehen. Es gibt zwei Überschreibsteine und zwei Bomben mit Stärke zwei pro Spieler. Es werden Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet. Zusätzlich gibt es noch sechs Transitionen. Eine Besonderheit der Map ist ihre 'X'-förmige Anordnung.\newline
+	\textbf{2014\_comp\_2\_4p}\newline
+	Das Spielfeld ist 33 mal 33 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt einen Überschreibstein und eine Bombe mit Stärke drei pro Spieler. Es werden Bonusfelder verwendet, dafür aber keine Expansionsteine, Choice- und Inversionsfelder. Es gibt keine Transitionen. Eine Besonderheit der Map sind ihre quadratischen 'Löcher'.\newline
+	\vspace{1em}
+	
+	%TODO Bild mit Maps einfügen
+	
     \subsection{Vergleich Paranoid und Alpha-Beta Pruning}
+    
+    %TODO kurze Beschreibung Unterschied Paranoid und Alpha-Beta
+    
+    Um die Verbesserung durch das Alpha-Beta-Pruning gegenüber der Paranoidsuche zu untersuchen, wurden auf den oben genannten Maps Spiele auf Tiefe 3 und Spiele mit einer Zeitbegrenzung von 2 Sekunden gespielt. Die dabei interessanten Kenngrößen sind bei den Spielen auf Tiefe zum einem die Anzahl der durchlaufenen Zustände (Knoten im Suchbaum) und zum anderem die dafür benötigte Zeit pro Zug (gesamt). Bei Spielen auf Zeit ist die erreichte Tiefe ausschlaggebend. Durch das Alpha-Beta-Pruning wird eine geringere Anzahl an Zuständen und eine schneller Zugausführung erwartet (Zustands- und Zeitersparnis). Außerdem sollte eine Erhöhung der Tiefe zu erkennen sein (Tiefenerweiterung).\newline
+    
+    In Abbildung \ref{fig:zustaende1} wird die Anzahl der Zustände, die bei Spielen ohne und mit Alpha-Beta-Pruning durchlaufen wurden, ins Verhältnis gesetzt. Auf der vertikalen Achse werden die Namen der getesteten Maps gezeigt. Auf der horizontalen Achse wird die Anzahl der Zustände in Prozent angegeben. Ein Beispiel zum besseren Verständnis:\newline
+    Bei der Map 'norm12x12' wurden 80\% der Zustände während der Paranoidsuche durchlaufen und die restlichen 20\% bei der Suche mit Alpha-Beta-Pruning. Das bedeutet, dass auf dieser Map bei Spielen mit Paranoidsuche im Durchschnitt viermal mehr Zustände durchlaufen werden, als bei Spielen mit Alpha-Beta-Pruning.\newline
+    Allgemein ist zu erkennen, dass bei der Paranoidsuche zwei- bis neunmal so viele Zustände vorhanden sind im Vergleich zum Alpha-Beta-Pruning.
+    
     \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZustandParaAlpha.png}
+    	\captionof{figure}[zustaende1]{Anzahl der Zustände mit und ohne Alpha-Beta-Pruning}
+    	\label{fig:zustaende1}
+    \end{minipage}
+    \vspace{1em}
+    
+    Die Darstellung in Abbildung \ref{fig:zeit1} ist ähnlich wie in Abbildung \ref{fig:zustaende1}. Auch hier sind die verschiedenen Maps angegeben und es wird das Verhältnis der Kenngröße bei der Paranoidsuche und beim Alpha-Beta-Pruning angegeben. Nur wird diesmal die Zeit pro Zug betrachtet.
+    Auch hier erkennt man eine, wie erwartet, deutliche Verbesserung durch das Alpha-Beta-Pruning. Ähnlich wie in der Auswertung zuvor, ist eine zwei- bis neunfach längere Zugdauer bei der Paranoidsuche zu sehen.
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZeitParaAlpha.png}
+    	\captionof{figure}[zeit1]{Zeit pro Zug mit und ohne Alpha-Beta-Pruning}
+    	\label{fig:zeit1}
+    \end{minipage}
+    \vspace{1em}
+  
+	 Die nächste Abbildung (\ref{fig:tiefe1}) zeigt die Tiefe, die noch in der vorgegebenen Zeit (hier 2 Sekunden) komplett berechnet wurde. Das bedeutet, wenn innerhalb einer Tiefe die Suche abgebrochen werden muss, dann wird diese Tiefe nicht mehr berücksichtigt. Die vertikale Achse nennt wieder die Namen der Maps, die horizontale Achse zeigt die Tiefe, die erreicht wurde. Ein Beispiel zum besseren Verständnis:\newline
+	 Bei der Map '2014\_comp\_1\_4p' wurde mit der Paranoidsuche durchschnittlich eine Tiefe von 6 erreicht, mit der Alpha-Beta-Optimierung wurde im Durchschnitt sogar die Tiefe 8 erreicht. Das bedeutet es gab eine Tiefenerweiterung von ca. 2 Tiefen. \newline
+	 Allgemein gab es eine Tiefenerweiterung von 0,5 bis knapp über 2.\newline
+	 Die einzige Ausnahme ist die Map '2014\_comp\_2\_4p', die sogar einen Tiefenverlust von ca 0,2 hatte. Da man aber in den Statistiken zuvor schon eine Zustands- und Zeitersparnis erkennen konnte, wäre eine mögliche Erklärung, dass die Map aufgrund ihrer Spielfeldgröße (33x33) eine deutlichere Senkung der Zeit pro Zug benötigt, um eine komplette neue Tiefe zu berechnen. Stattdessen führt die zusätzliche Zeit häufig dazu, dass die Berechnung der nächsten Tiefe fälschlicherweise als möglich eingeschätzt wird, was dann zu einem Abbruch in der Zugsuche führt. Dadurch wird wiederum Zeit verschwendet, die in den nächsten Zugberechnungen fehlt. Dadurch entsteht ein geringer Tiefenverlust, der allerdings nicht direkt durch das Alpha-Beta-Pruning, sondern durch eine schlechte Zeitabschätzung bei großen Maps, entstanden ist. 
+	 
+	 \vspace{1em}
+	 \begin{minipage}{\linewidth}
+	 	\centering
+	 	\includegraphics[width=1\linewidth]{pics/Kapitel_4/TiefeParaAlpha.png}
+	 	\captionof{figure}[tiefe1]{Erreichte Tiefe mit und ohne Alpha-Beta-Pruning}
+	 	\label{fig:tiefe1}
+	 \end{minipage}
+	 \vspace{1em}
 
     \subsection{Vergleich zwischen Zugsortierung und keine Zugsortierung}
+    
+    Eine weitere Optimierung, die zum Alpha-Beta-Pruning ergänzt werden kann, ist die Zugsortierung. Dabei werden die gültigen Züge, die bei der Zugsuche nacheinander überprüft werden, vorab mit einer schnellen Heuristik (z.B. Steine zählen) bewertet und anhand der Bewertung sortiert. Je nachdem, ob man sich in einem 'Maximierer-Knoten' oder 'Minimierer-Knoten' befindet, auf- oder absteigend. Damit kann die Effizienz des Alpha-Beta-Prunings verbessert werden, da sich der beste Zug dadurch schon weiter vorne in der Liste der gültigen Züge befindet und auch früher durchlaufen wird. Somit können schneller Cutoffs entstehen, was zu einer schnelleren Zugsuche führt. Wie groß der Vorteil wirklich ist, wird in folgenden Statistiken beurteilt.
+    
+    Die Abbildung \ref{fig:zustaende2} zeigt wie viele Zustände bei der Suche mit und ohne Zugsortierung durchlaufen wurden. Die vertikale Achse zeigt, welche Maps dafür verwendet wurden. Die horizontale Achse zeigt, wie das Verhältnis der Anzahl der Zustände zwischen den beiden Verfahren ist. Ein Beispiel zum besseren Verständnis:\newline
+    Die Map 'endlosrohr' hat bei der Zugsuche mit Sortierung viermal mehr Zustände durchlaufen müssen als bei der Suche ohne Zugsortierung.\newline
+    Bei der Map '2014\_comp\_2\_4p' wurden ohne Sortierung mehr als doppelt so viele Zustände besucht, wie bei der Suche mit Zugsortierung.\newline
+    Allgemein ist zu erkennen, dass die Anzahl der Zustände durch die Sortierung mal größer und mal kleiner wird und im Mittel ziemlich genau gleich bleibt.
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZustandZugSort.png}
+    	\captionof{figure}[zustaende2]{Anzahl der Zustände mit und ohne Zugsortierung}
+    	\label{fig:zustaende2}
+    \end{minipage}
+    \vspace{1em}
+    
+    Abbildung \ref{fig:zeit2} kann ähnlich wie Abbildung \ref{fig:zustaende2} gelesen werden. Nur dass es sich diesmal nicht um die Anzahl der Zustände, sondern um die verbrauchte Zeit pro Zug handelt. Auch hier ist zu sehen, dass die Zugsortierung mal eine Verbesserung und mal eine Verschlechterung der verbrauchten Zeit bringt. Die Änderungen für die jeweiligen Maps sind ziemlich genau wie in Abbildung \ref{fig:zustaende2}. Dadurch ergibt sich auch hier im Mittel wieder ein Ausgleich zwischen Sortierung und keiner Sortierung.\newline
+    
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZeitZugSort.png}
+    	\captionof{figure}[zeit2]{Zeit pro Zug mit und ohne Zugsortierung}
+    	\label{fig:zeit2}
+    \end{minipage}
+    \vspace{1em}
+    
+    Die jeweils erreichten Tiefen mit und ohne Zugsortierung sind in Abbildung \ref{fig:tiefe2} dargestellt. Die auf der horizontalen Achse angezeigten Tiefen unterscheiden sich bei allen Maps nur minimal und lassen tendenziell eine Verringerung der Tiefe mit Zugsortierung erkennen.\newline\newline
+    Alle Ergebnisse der drei betrachteten Kenngrößen lassen sich dadurch erklären, dass durch die Sortierung zum einem, mehr Zeitaufwand nötig ist um die Sortierung durchzuführen. Zum anderem kann dadurch der bestmögliche Zug auch jedes mal weit nach 'hinten', also ans Ende der Liste gelegt werden. Das passiert, wenn die bei der Sortierung verwendete Heuristik sich sehr von der Heuristik, die ganz am Ende eines Astes im Suchbaum verwendet wird, unterscheidet. Dass passiert zum Beispiel, wenn man wenige aber dafür sehr gut platzierte Steine hat, die hoch bewertet werden, aber von der trivialen Heuristik (Steine zählen) als schlecht bewertet werden, da es sehr wenige sind.
+    So kommt ein vermeintlich schlechter Zug an den Anfang der Liste, der sich später aber doch als guter Zug herausstellt.\newline
+    Daher wäre es bei den meisten Spielen wahrscheinlich sinnvoller, die Zugsortierung nicht durchzuführen.
+    
+    \vspace{1em}
+    \begin{minipage}{\linewidth}
+    	\centering
+    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/TiefeZugSort.png}
+    	\captionof{figure}[tiefe2]{Erreichte Tiefe mit und ohne Zugsortierung}
+    	\label{fig:tiefe2}
+    \end{minipage}
+    \vspace{1em}
+    
     \vspace{1em}
 
     \subsection{Vergleich verschiedener Aspiration-Window-Größen}
