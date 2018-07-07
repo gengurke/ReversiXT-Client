@@ -14,7 +14,7 @@ public class Timer extends Thread{
             if(time < 100) {
                 istFertig = true;
             } else {
-                sleep(time-100);
+                sleep(time-200);
                 ende = System.currentTimeMillis();
                 istFertig = true;
             }

@@ -18,7 +18,7 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
@@ -37,7 +37,7 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
@@ -56,8 +56,7 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
-
+        Spiel.gueltigeZuege(1,false);
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
@@ -75,7 +74,7 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
@@ -94,7 +93,7 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
@@ -113,12 +112,12 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 1620);
+        assertEquals(heuristik.getSpielbewertung(), 20570);
 
     }
 
@@ -132,12 +131,12 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(1,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 1);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), 1530);
+        assertEquals(heuristik.getSpielbewertung(), 20480);
 
     }
 
@@ -152,12 +151,12 @@ public class DynamischeHeuristikTest {
         System.out.println(Spiel);
 
         //gueltige Zuege
-        Spiel.gueltigeZuege(1);
+        Spiel.gueltigeZuege(3,false);
 
         //Heuristik
         DynamischeHeuristik heuristik = new DynamischeHeuristik(Spiel, 3);
         System.out.println(heuristik);
-        assertEquals(heuristik.getSpielbewertung(), -3900);
+        assertEquals(heuristik.getSpielbewertung(), -21540);
 
     }
 }
