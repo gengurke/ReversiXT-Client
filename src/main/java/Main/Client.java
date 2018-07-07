@@ -11,7 +11,7 @@ public class Client {
     private long start, ende;
     private boolean window, sortierung, AB, info;
     private BufferedWriter bwZustaende, bwTiefe, bwZeitGesamt, bwZeitProTiefe, bwInfo;
-    private int windowSize;
+    private int windowSize = Integer.MAX_VALUE;
 
 
     public Client(boolean a, boolean w, boolean s, boolean i, int tiefe, int zeit) throws IOException {
@@ -19,7 +19,7 @@ public class Client {
         sortierung = s;
         AB = a;
         info = i;
-        FileWriter fwInfo = new FileWriter("Info.txt");
+        /*FileWriter fwInfo = new FileWriter("Info.txt");
         FileWriter fwZustaende = new FileWriter("Zustaende_pro_Tiefe.txt");
         FileWriter fwZeitGesamt = new FileWriter("Zeit_Gesamt_pro_Zug.txt");
         bwInfo = new BufferedWriter(fwInfo);
@@ -35,7 +35,7 @@ public class Client {
         bwInfo.newLine();
         bwInfo.write("AlphaBeta: " + a + " Zugsortierung: " + s + " Aspiration Windows: " + w);
         bwInfo.newLine();
-        bwInfo.newLine();
+        bwInfo.newLine();*/
     }
 
 
@@ -55,18 +55,15 @@ public class Client {
 
         schreibeNachricht(socket, zuSendendeNachricht);
         Spiel = new Spielbrett(empfangeNachricht(socket));
-        if (window) {
-            windowSize = windowSize(Spiel);
-        }
 
         while (isRunning) {
             empfangeNachricht(socket);
         }
-        bwInfo.close();
+        /*bwInfo.close();
         bwZustaende.close();
         bwZeitGesamt.close();
         bwTiefe.close();
-        bwZeitProTiefe.close();
+        bwZeitProTiefe.close();*/
         System.exit(0);
 
     }
@@ -116,9 +113,6 @@ public class Client {
                     zeit += Byte.toUnsignedInt(message[i]);
                 }
                 tiefe = (byte) nachricht[4];
-                if (window) {
-                    windowSize = windowSize(Spiel);
-                }
 
                 if (bomben) {
                     if (zeit != 0) {
@@ -149,7 +143,9 @@ public class Client {
                                 temp = Spiel.sucheZug(counter, Spielernummer, clock, alpha, beta, sortierung);
                             }
                             if (temp == null) {
-                                System.out.println("Abbruch Tiefe: "+counter);
+                                System.out.println("Abbruch Tiefe: " + counter);
+                                //bwTiefe.write("" + (counter - 1));
+                                //bwTiefe.newLine();
                                 if (info) {
                                     ende = System.currentTimeMillis();
                                     ges = (ende - start);
@@ -165,7 +161,8 @@ public class Client {
                                 return "";
                             } else {
                                 if (window) {
-                                    System.out.println("Tiefe" + counter);
+
+                                    //System.out.println("Tiefe" + counter);
                                     //System.out.println("Alpha: " + alpha + " Beta: " + beta + " Wert: " + temp[3]);
                                     if (temp[3] <= alpha) {
                                         alpha = Integer.MIN_VALUE;
@@ -176,6 +173,7 @@ public class Client {
                                         Spiel.setZustaende(0);
                                         continue;
                                     } else {
+                                        windowSize = windowSize(temp[3]);
                                         zug[0] = temp[0];
                                         zug[1] = temp[1];
                                         zug[2] = temp[2];
@@ -194,9 +192,9 @@ public class Client {
                                         bwZustaende.write("" + Spiel.getZustaende());
                                         bwZustaende.newLine();
                                         ende = System.currentTimeMillis();
-                                        bwZeitProTiefe.write("" + ((ende - start)-ges));
+                                        bwZeitProTiefe.write("" + ((ende - start) - ges));
                                         bwZeitProTiefe.newLine();
-                                        bwZeitGesamt.write("" + (ende-start));
+                                        bwZeitGesamt.write("" + (ende - start));
                                         bwZeitGesamt.newLine();
                                         bwTiefe.write("" + (counter));
                                         bwTiefe.newLine();
@@ -211,18 +209,19 @@ public class Client {
                             size = Spiel.getGueltigeZuege().getSize();
                             ende = System.currentTimeMillis();
                             if (info) {
-                                bwZeitProTiefe.write("" + ((ende - start)-ges));
+                                bwZeitProTiefe.write("" + ((ende - start) - ges));
                                 bwZeitProTiefe.newLine();
                                 bwZustaende.write("" + Spiel.getZustaende());
                                 bwZustaende.newLine();
-                                //System.out.println(Spiel.getZustaende());
                             }
                             ges = (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
-                            if (zeit - ges < (ges * counter * (size + 1) * Spiel.getHoehe() * Spiel.getBreite()) / 1000) {
+                            if (zeit - ges < (ges * counter * (size + 1) * Spiel.getHoehe() * Spiel.getBreite()) / 5000) {
                                 break;
                             }
                         }
+                        //bwTiefe.write("" + (counter - 1));
+                        //bwTiefe.newLine();
                         if (info) {
                             bwZeitGesamt.write("" + ges);
                             bwZeitGesamt.newLine();
@@ -296,9 +295,13 @@ public class Client {
 
     }
 
-    private int windowSize(Spielbrett spiel) {
-        int size = (spiel.getBreite() * spiel.getHoehe()*100 + spiel.getErsatzsteine() * 1000);
-        System.out.println("Windowsize: " + size);
+    private int windowSize(int wert) {
+        double faktor = 2;
+        if (wert == 0) {
+            wert = 10;
+        }
+        int size = (int) (wert * faktor);
+        //System.out.println("Windowsize: " + size + " Counter: " + windowcounter);
         return size;
     }
 

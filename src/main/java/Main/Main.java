@@ -5,7 +5,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         boolean a = true, w = false, s = false, info = false; //Alpha-Beta und Zugsortierung an, Aspiration Windows aus
-        int tiefe = 3, zeit = 0; //Nur fuer die Infodatei
+        int tiefe = 0, zeit = 2; //Nur fuer die Infodatei
 
         int port = 7777;
         String ip = "127.0.0.1";
