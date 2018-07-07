@@ -101,7 +101,7 @@
 
     Florian Klamer hat Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2 die grundsätzlich wichtig für die Implementierung und Strukturierung der KI sind. Aus Algorithmen und Datenstrukturen sind die Teile wichtig, bei denen es um effiziente und sichere Algorithmen für z.B die Berechnung der Heuristik oder der gültigen Züge geht. Neben dem Studium hilft Florian außerdem ehrenamtlich beim Connecta e.V. mit. Dort ist er im EDV Ressort mit der Betreuung des Intra-, Extranets, der Datenbank und der Webseite beschäftigt. Die dort erworbenen Fähigkeiten sind z.B. in Git, SQL oder Teamarbeit, können aber ebenso wichtig für das Projekt sein.
 
-    Tim Lechner hat die für das Projekt erforderlichen Vorkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2, Algorithmen und Datenstrukturen erworben. 
+    Tim Lechner hat die für das Projekt erforderlichen Programmierkenntnisse aus früheren Vorlesungen wie Programmieren 1 \& 2. Insbesondere das objektorientierte Programmieren. Aus Algorithmen und Datenstrukturen sind Kenntnisse über die Effizienz eines Algorithmus´s bekannt.  
     
 
     Der letzte Teil in diesem Abschnitt ist eine Liste (Tabelle 1) der Übungsaufgaben und von wem sie bearbeitet wurden.
@@ -272,8 +272,8 @@
 
     Hierbei ist zu beachten, dass der Sprung von einen möglichen Zug zu zwei möglichen Zügen eine größere Verbesserung ist als von 10 auf 20 mögliche Züge.
     Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren aber der Gegner hat auch nicht so viele Möglichkeiten Stein zu platzieren, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind.Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat während man selbst nur sehr wenige hat.
+    die schlechteste Situation ist hierbei wenn man gar keine Zugmöglichkeit hat.(Abbildung \ref{fig:3.2.1} 
 
-    Beispiel 1: Hier hat Blau keinen Zug mehr Blau muss also aussetzen.
 
    	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -284,7 +284,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-    Beispiel 2: Blau hat nur einen möglichen Zug er hat also keinen Einfluss auf das Spiel mehr, da er nichts entscheiden kann.
+   Bei nur einen möglichen Zug ist die Situation auch nicht gut, da keine Zugauswahl mehr getroffen werden kann. Ein Beispiel einer solchen Situation ist in Abbildung \ref{fig3.2.2} zu erkennen
 
    	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -295,7 +295,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-    Beispiel 3: Blau hat sehr viele Möglichkeiten Steine zu platzieren. Obwohl Rot hier mehr steine hat befindet sich blau in einer sehr guten Position da Blau deutlich mehr Zugmöglichkeiten hat als Rot.
+   Es ist wichtiger mehr Zugmöglichkeiten als der Gegnerische Spieler zu haben. Ein Beispiel hierzu ist Abbildung \ref{fig:3.2.3}, denn obwohl der rote Spieler mehr Steine hat wird der blaue Spieler in den nächsten Zügen Rot überholen, da er deutlich mehr Zugmöglichkeiten hat.
 
    	\vspace{1em}
 	\begin{minipage}{\linewidth}
