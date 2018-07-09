@@ -290,6 +290,7 @@ public class Client {
             case 9:
                 isRunning = false;
                 //bw.close();
+                System.exit();
                 break;
         }
         return "";
