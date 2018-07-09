@@ -64,7 +64,7 @@
     \vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.6\linewidth]{pics/Kapitel_1/Kapitel_1_pic1.png}
+    	\includegraphics[width=0.4\linewidth]{pics/Kapitel_1/Kapitel_1_pic1.png}
     	\captionof{figure}[Reversi]{\glqq Standard\grqq{} Reversi }
     	\label{fig:Reversi}
     \end{minipage}
@@ -75,7 +75,7 @@
     \vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.6\linewidth]{pics/Kapitel_1/Kapitel_1_pic2.png}
+    	\includegraphics[width=0.45\linewidth]{pics/Kapitel_1/Kapitel_1_pic2.png}
     	\captionof{figure}[ReversiXT]{ReversiXT mit neuen Features}
     	\label{fig:ReversiXT}
     \end{minipage}
@@ -84,6 +84,8 @@
     Unsere Aufgabe in diesem Projekt ist es, einen künstlichen-Intelligenz Spieler Clienten zu programmieren. Dieser soll gegen andere KIs auf einem, von einem Server gehostetem Spiel antreten. Grundvoraussetzung ist natürlich, dass die KI nur gültige Züge berechnet und einer von uns entwickelten Heuristik folgt. Diese Heuristik ist das Herzstück des Projekts. Sie ist maßgeblich dafür verantwortlich, gute Zugentscheidungen zu treffen und schließlich das Spiel zu gewinnen. All die oben genannten Schritten sind Vorbereitung für einen großen Wettkampf gegen Ende des Semesters. In der Endphase des Wahlpflichtmoduls findet nämlich ein virtueller Wettstreit zwischen den KIs der Studenten der RWTH Aachen und der OTH Regensburg statt. Historisch ist die OTH schon oft als Sieger hervorgegangen und wir hoffen auch dieses Jahr auf einen Sieg.
 
     Insgesamt sieht unser Team dieses Projekt als gute Lernmöglichkeit um unsere Programmier-, Team- und weitere Fähigkeiten zu erweitern. Wir kommen alle mit relativ wenig Erfahrung in dieses Projekt und hoffen deswegen, die oben genannten und viele weitere Dinge zu vertiefen.
+
+	\newpage
 
     % ----------------------------------------------------------------------------------
     % Kapitel: Allgemeine Informationen
@@ -118,7 +120,7 @@
             \textbf{Übung} & \textbf{Bearbeiter} \\ \hline
             1 & Alle  \\ \hline
             1.5 & Katharina, Florian   \\ \hline
-            2.1 &  Katharina      \\ \hline
+            2.1 &  Katharina, Florian     \\ \hline
             2.2 &  Alle      \\ \hline
             2.3 &  Katharina      \\ \hline
             3 &    Florian    \\ \hline
@@ -136,7 +138,7 @@
             11.1 &   Katharina     \\ \hline
             11.2 &   Katharina, Florian     \\ \hline
             11.3 &   Florian    \\ \hline
-            12.1 &     Katharina, Tim    \\ \hline
+            12.1 &    Alle    \\ \hline
             12.2 &    Alle    \\ \hline
         \end{tabular}
     \end{table}
@@ -180,6 +182,8 @@
     Für die Berechnung unserer Heuristik benötigen wir ein 4D-Int-Array, in dem wir Werte zur gegenseitigen Beeinflussung von Spielern untereinander und der Karte speichern. Wir erhoffen uns durch diese \glqq schlanke\grqq{} Speicherung, möglichst tief rechnen zu können.\\
     Das sind die wichtigsten Datenstrukturen unserer Implementierung. Natürlich gibt es noch weitere, weniger Wichtige wie einfache 2D-Array, die aber hier nicht erwähnenswert sind. 
 
+	\newpage
+
     % ----------------------------------------------------------------------------------
     % Kapitel: Spielfeldbewertung
     % ----------------------------------------------------------------------------------
@@ -200,13 +204,12 @@
     3. von links oben nach rechts unten oder umgekehrt \newline
     4. von rechts oben nach links unten oder umgekehrt \newline
 
-
     \textbf{Beispiel 1:} Liegt ein Stein in einer Ecke, so ist es weder horizontal, vertikal oder schräg möglich diesen Stein umzufärben. Somit ist dieses Feld zu 0/4 einfärbbar und damit sehr wichtig. Beispiel siehe Abbildung \ref{fig:3.1.1}. Die hier ausgegrauten Pfeile sollen diese Sicherheit darstellen.
 
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
 		\centering
-		\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic1.png}
+		\includegraphics[width=0.30\linewidth]{pics/Kapitel_3/Kapitel_3_pic1.png}
 		\captionof{figure}[3.1.1]{Ecksituation}
 		\label{fig:3.1.1}
 	\end{minipage}
@@ -217,7 +220,7 @@
    	\vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic2.png}
+    	\includegraphics[width=0.30\linewidth]{pics/Kapitel_3/Kapitel_3_pic2.png}
     	\captionof{figure}[3.1.2]{Randsituation}
     	\label{fig:3.1.2}
     \end{minipage}
@@ -228,7 +231,7 @@
    	\vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic3.png}
+    	\includegraphics[width=0.30\linewidth]{pics/Kapitel_3/Kapitel_3_pic3.png}
     	\captionof{figure}[3.1.3]{Situation auf offenem Spielfeld}
     	\label{fig:3.1.3}
     \end{minipage}
@@ -239,7 +242,7 @@
    	\vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic4.png}
+    	\includegraphics[width=0.30\linewidth]{pics/Kapitel_3/Kapitel_3_pic4.png}
     	\captionof{figure}[3.1.4]{Der mittlere Stein wird teils durch den Eckstein geschützt}
     	\label{fig:3.1.4}
     \end{minipage}
@@ -248,30 +251,26 @@
 	Dieser Ansatz bewertet das Zusammenspiel von Spielfeldrand und den Spielsteinen untereinander und schafft damit eine hoffentlich gute Abschätzung des tatsächlichen Wertes der aktuellen Spielsituation.
 
     \subsection{Spielfeldbewertung: 2. Vorschlag}
-
+     \vspace{1em}
+     
     Die Idee der zweiten Spielfeldbewertung ist die eigene Mobilität einzuschätzen. Denn wenn man nur sehr wenige Möglichkeiten hat einen Zug zu machen kann der Gegner bestimmen wo man hinsetzten muss und hat selbst keinen oder nur einen geringen Einfluss auf den Spielverlauf. Im schlimmsten Fall hat man gar keine Möglichkeit zu ziehen und ermöglicht so den Gegnern mehrmals zu färben während man nichts färben kann.
-
-    
-    \vspace{1em}
-    
-    
-    Hierbei ist zu beachten, dass der Sprung von einen möglichen Zug zu zwei möglichen Zügen eine größere Verbesserung ist als von 10 auf 20 mögliche Züge.
-    Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren aber der Gegner hat auch nicht so viele Möglichkeiten Stein zu platzieren, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind.Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat während man selbst nur sehr wenige hat.
-    die schlechteste Situation ist hierbei wenn man gar keine Zugmöglichkeit hat.(Abbildung \ref{fig:3.2.1} 
+        
+    Hierbei ist zu beachten, dass der Sprung von einen möglichen Zug zu zwei möglichen Zügen, eine größere Verbesserung ist als von 10 auf 20 mögliche Züge.
+    Zu Beginn eines Spieles hat man natürlich wenig Möglichkeiten Steine zu platzieren, aber der Gegner hat auch nicht so viele Möglichkeiten, so dass es schwierig ist den anderen Spieler zu gewissen Aktionen zu bewegen da alle Spieler eingeschränkt sind. Eine besonders schlechte Situation ist es also wenn ein feindlicher Spieler viele Zugmöglichkeiten hat während man selbst nur sehr wenige hat.
+    Die schlechteste Situation ist hierbei wenn man gar keine Zugmöglichkeit hat.(Abbildung \ref{fig:3.2.1}).
     
     
     
     \vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=0.33\linewidth]{pics/Kapitel_3/Kapitel_3_pic5.png}
+    	\includegraphics[width=0.27\linewidth]{pics/Kapitel_3/Kapitel_3_pic5.png}
     	\captionof{figure}[3.2.1]{Situation ohne mögliche Züge für blau}
     	\label{fig:3.2.1}
     \end{minipage}
-    \vspace{1em}
     
     
-    Bei nur einen möglichen Zug ist die Situation auch nicht gut, da keine Zugauswahl mehr getroffen werden kann. Ein Beispiel einer solchen Situation ist in Abbildung \ref{fig3.2.2} zu erkennen
+    Bei nur einen möglichen Zug ist die Situation auch nicht gut, da keine Zugauswahl mehr getroffen werden kann. Die KI ist den anderen Team so zusagen hilflos ausgeliefert. Ein Beispiel einer solchen Situation ist in Abbildung \ref{fig:3.2.2} zu erkennen
     
     \vspace{1em}
     \begin{minipage}{\linewidth}
@@ -283,7 +282,7 @@
     \vspace{1em}
     
     
-    Es ist wichtiger mehr Zugmöglichkeiten als der Gegnerische Spieler zu haben. Ein Beispiel hierzu ist Abbildung \ref{fig:3.2.3}, denn obwohl der rote Spieler mehr Steine hat wird der blaue Spieler in den nächsten Zügen Rot überholen, da er deutlich mehr Zugmöglichkeiten hat.
+    Es ist wichtiger mehr Zugmöglichkeiten als der gegnerische Spieler zu haben. Dadurch kann man das Spiel besser in die eigene Richtung lenken. Ein Beispiel hierzu ist Abbildung \ref{fig:3.2.3}, denn obwohl der rote Spieler mehr Steine hat wird der blaue Spieler in den nächsten Zügen Rot überholen, da er deutlich mehr Zugmöglichkeiten hat.
     
     
     \vspace{1em}
@@ -295,9 +294,10 @@
     \end{minipage}
     \vspace{1em}
     
-    Die Art der Bewertung soll verhindern, dass man die Möglichkeit verpasst gegnerische Steine zu färben.
+    Die Art der Bewertung soll verhindern, dass die KI in die Situation gerät, wenig Einfluss auf das Spiel zu haben. Außerdem soll so der schlimmste Fall, wie in Abbildung \ref{fig:3.2.1} beschrieben, verhindert werden, bei dem der Client so lange aussetzten muss, bis anderen Spieler so ziehen, dass unsere KI wieder einen gültigen Zug machen kann.
     
-	%TODO bei tims vorschlag abbildungsbeschreibung und ref im text benutzen
+    \newpage
+    
     \subsection{Final implementierte Spielfeldbewertung}
     \vspace{1em}
 	%Beschreiben Sie abschließend, welche Heuristik final in Ihrem Client umgesetzt ist. Beschreiben Sie dazu auch Werte von Parametern (Kriterien und Gewichtungen), die Sie in den einzelnen Implementierungen nutzen. Welche statischen Vorberechnungen Sie machen, um z.B.\ das Spielfeld zu analysieren, etc.
@@ -345,22 +345,29 @@
 
 	\subsection{Getestete Maps}
 	\vspace{1em}
-	Im Laufe des Projektes wurden sehr viele verschiedene Maps getestet. Die Daten aus den folgenden Statistiken sind durch die Durchschnittswerte aus mehreren Spielen auf sieben ausgewählten Maps entstanden. Um die Unterschiede in den Ergebnissen richtig interpretieren zu können, werden die Eckdaten der Maps kurz vorgestellt. Auf Abbildung \ref{fig:statistik_maps} sind außerdem Bilder dieser sieben Maps zu sehen.
+	Im Laufe des Projektes wurden sehr viele verschiedene Maps getestet. Die Daten aus den folgenden Statistiken sind durch die Durchschnittswerte aus mehreren Spielen auf sieben ausgewählten Maps entstanden. Um die Unterschiede in den Ergebnissen richtig interpretieren zu können, werden die Eckdaten der Maps kurz vorgestellt. Auf Abbildung \ref{fig:statistik_maps} sind außerdem Bilder dieser sieben Maps zu sehen.\newline
 	
 	\textbf{Norm12x12}\newline
 	Das Spielfeld ist 12 mal 12 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt weder Überschreibsteine, Expansionsteine, Bomben, Choice-, Inversions- und Bonusfelder noch Transitionen.\newline
+	
 	\textbf{Endlosrohr}\newline
 	Das Spielfeld ist 10 mal 20 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt zwei Überschreibsteine und eine Bombe mit Stärke eins pro Spieler. Es werden keine Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet, dafür aber 88 Transitionen. Eine Besonderheit der Map ist, dass die Anordnung der Transitionen praktisch alle Ränder verschwinden lässt, da an jeder Wand eine Transition zu finden ist. \newline
+	
 	\textbf{Comp2017\_04\_4p}\newline
 	Das Spielfeld ist 24 mal 32 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt drei Überschreibsteine und zwei Bombe mit Stärke eins pro Spieler. Es werden Bonusfelder und Expansionssteine verwendet, dafür aber keine Choice- und Inversionsfelder. Zusätzlich gibt es noch 40 Transitionen. Eine Besonderheit der Map ist ihre kreisförmige Anordnung.\newline
+	
 	\textbf{2014\_comp\_1\_4p}\newline
 	Das Spielfeld ist 22 mal 40 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt zwei Überschreibsteine und keine Bomben pro Spieler. Es werden keine Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet, dafür aber 24 Transitionen. Eine Besonderheit der Map ist, dass sie wie eine Weltkarte aussieht.\newline
+	
 	\textbf{2013\_comp\_5\_2p}\newline
 	Das Spielfeld ist 18 mal 19 Einheiten groß und ist für zwei Spieler vorgesehen. Es gibt vier Überschreibsteine und fünf Bomben mit Stärke eins pro Spieler. Es werden Bonus- und Choicefelder verwendet, dafür aber keine Inversionsfelder und Expansionssteine. Zusätzlich gibt es noch 15 Transitionen.\newline
+	
 	\textbf{2012\_Map\_fuenf}\newline
 	Das Spielfeld ist 15 mal 15 Einheiten groß und ist für drei Spieler vorgesehen. Es gibt zwei Überschreibsteine und zwei Bomben mit Stärke zwei pro Spieler. Es werden Expansionsteine, Choice-, Inversions- und Bonusfelder verwendet. Zusätzlich gibt es noch sechs Transitionen. Eine Besonderheit der Map ist ihre 'X'-förmige Anordnung.\newline
+	
 	\textbf{2014\_comp\_2\_4p}\newline
 	Das Spielfeld ist 33 mal 33 Einheiten groß und ist für vier Spieler vorgesehen. Es gibt einen Überschreibstein und eine Bombe mit Stärke drei pro Spieler. Es werden Bonusfelder verwendet, dafür aber keine Expansionsteine, Choice- und Inversionsfelder. Es gibt keine Transitionen. Eine Besonderheit der Map sind ihre quadratischen 'Löcher'.\newline
+	
 	\vspace{1em}
 	\begin{figure}
 		\centering
@@ -396,11 +403,10 @@
     \vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZustandParaAlpha.png}
+    	\includegraphics[width=0.9\linewidth]{pics/Kapitel_4/ZustandParaAlpha.png}
     	\captionof{figure}[zustaende1]{Anzahl der Zustände mit und ohne Alpha-Beta-Pruning}
     	\label{fig:zustaende1}
     \end{minipage}
-    \vspace{1em}
     
     Die Darstellung in Abbildung \ref{fig:zeit1} ist ähnlich wie in Abbildung \ref{fig:zustaende1}. Auch hier sind die verschiedenen Maps angegeben und es wird das Verhältnis der Kenngröße bei der Paranoidsuche und beim Alpha-Beta-Pruning angegeben. Nur wird diesmal die Zeit pro Zug betrachtet.
     Auch hier erkennt man eine, wie erwartet, deutliche Verbesserung durch das Alpha-Beta-Pruning. Ähnlich wie in der Auswertung zuvor, ist eine zwei- bis neunfach längere Zugdauer bei der Paranoidsuche zu sehen.
@@ -428,6 +434,8 @@
 	 \end{minipage}
 	 \vspace{1em}
 
+	\newpage
+
     \subsection{Vergleich zwischen Zugsortierung und keine Zugsortierung}
     \vspace{1em}
     
@@ -441,7 +449,7 @@
     \vspace{1em}
     \begin{minipage}{\linewidth}
     	\centering
-    	\includegraphics[width=1\linewidth]{pics/Kapitel_4/ZustandZugSort.png}
+    	\includegraphics[width=0.9\linewidth]{pics/Kapitel_4/ZustandZugSort.png}
     	\captionof{figure}[zustaende2]{Anzahl der Zustände mit und ohne Zugsortierung}
     	\label{fig:zustaende2}
     \end{minipage}
@@ -528,7 +536,8 @@
 	In diesem Fall wie auf Abbildung \ref{fig:bomben2} jedoch wählt die KI den falschen Zug, da aufgrund der Sortierung der speichernden Liste der letzte maximale Zug (dicker Rahmen) realisiert wird. Der eigentlich beste Zug (gestrichelter Rahmen) wird in dieser Runde so nicht getätigt.
 	
 	Insgesamt funktioniert unsere Implementierung zur Bombenphase gut, jedoch nicht optimal. Bis zum finalen Spiel können wir hoffentlich noch einige Verbesserungen daran vornehmen.
-
+	
+	\newpage
     
     % ----------------------------------------------------------------------------------
     % Kapitel: Eigene Spielfelder
@@ -538,7 +547,7 @@
     %Beschreiben Sie in diesem Abschnitt die Spielfelder, die Sie für den Wettbewerb eingereicht haben/einreichen wollen. Fügen Sie in diesen Abschnitt auch die entsprechenden Bilder der Karten ein, geben Sie Zusatzinformationen wie Spieleranzahl, Bombenanzahl und -stärke, Anzahl Überschreibsteine etc.\ an.
 
     %Beschreiben Sie außerdem, warum sie die jeweiligen Karten eingereicht haben: in welcher Hinsicht versprechen Sie sich von den eingereichten Karten Vorteile; in wie weit sind diese Karten auf Ihren Client und die darin implementierte Heuristik zugeschnitten, etc.
-	%TODO Karten beschreiben
+	Im folgenden Kapitel stellen wir vier Karten vor, die unser Team für Wettkämpfe gebaut hat. Sie beinhalten Features, die unsere KI im Vergleich zu anderen, besonders gut bespielen kann. Diese Besonderheiten sind Ecken, eine fixe Anzahl von Überschreibsteinen, keine Inversions- /Choisefelder und ein großes Spielfeld. Nähere Beschreibungen zu den genannten Punkten, befinden sich in den Beschreibungen der Karten. Diese Karten sollen jedem Team die Chance geben, die Stärken der eigenen KI zu erkunden und diese durch den Entwurf der Karten, im Wettkampf für sich zu nutzen.
 	
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -549,7 +558,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	Als 2-Spielermap haben wir einen kleine Karte bestehend aus zwei Pixel-Art Figuren ausgewählt. Wie in der Abbildung \ref{fig:6.1} zu sehen ist besteht die Karte aus einem Creeper und einem Skellet aus dem Spiel Minecraft. Außerdem sind die Figuren mit einigen Transitionen verbunden. Im Skellett befinden sich noch vier Choice-Steine.
+	Als 2-Spielermap haben wir einen kleine Karte bestehend aus zwei Pixel-Art Figuren ausgewählt. Wie in der Abbildung \ref{fig:6.1} zu sehen ist besteht die Karte aus einem Creeper und einem Skellet aus dem Spiel Minecraft. Die Karte besteht aus vielen Ecken und engen Passagen. Unsere KI sollte dadurch einen Vorteil haben. Außerdem gibt es nur 4 Choisefelder, die sehr schlecht zu erreichen sind. Wie in der Einleitung zu diesem Kapitel schon angedeutet, gibt es auch hier eine feste Anzahl von Überschreibsteinen. Dadurch hat unsere KI keinen Nachteil, da sie momentan Bonusfelder nicht optimal nutzt. Insgesamt kann unsere KI zwar ihre \glqq Vorliebe \grqq{} für große Spielfelder hier nicht ausleben, sollte jedoch wegen den vielen Ecken erfolgreich sein.
 	
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -571,7 +580,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	Unsere 4-Spielermap ist eine große Karte mit einem kleinen Tannenbaum in der Mitte. Da unsere KI auf großen Karten mit einigen Überschreibsteinen besonders gut zu sein scheint haben wir versucht das mit dieser Karte umzusetzen. Eine Schwierigkeit für die KIs bei dieser Karte könnte sein, dass die 4 echten Ecken deutlich wertvoller sind als die ebenfalls nicht mehr färbbaren Ecken des Tannenbaums.
+	Unsere 4-Spielermap ist eine große Karte mit einem kleinen Tannenbaum in der Mitte. Da unsere KI auf großen Karten mit einigen Überschreibsteinen besonders gut zu sein scheint haben wir versucht das mit dieser Karte umzusetzen. Eine Schwierigkeit für die KIs bei dieser Karte könnte sein, dass die 4 \glqq echten\grqq{} Ecken deutlich wertvoller sind, als die vielen \glqq unwichtigen \grqq{} Ecken im Tannenbaum. Diese haben eher weniger Relevanz, da durch sie nicht besonders viele Steine umgefärbt werden können.
 	
 		\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -581,14 +590,14 @@
 		\label{fig:6.4}
 	\end{minipage}
 	\vspace{1em}
-	 Auf Abbildung \ref{fig:6.4} erkennt man, dass unsere 8-Spielermap das Supermanlogo ist. Die Ecken auf dieser Karte wurden auch bei dieser Karte von Transitionen freigehalten, damit unsere KI ihre Stärke beim erkennen und erobern von Ecken ausspielen kann.
+	
+	 Auf Abbildung \ref{fig:6.4} erkennt man, dass unsere 8-Spielermap das Supermanlogo abbildet. Dadurch dass, das Logo viele schräge und runde Elemente hat, entstehen sehr viele sichere Felder und Ecken. Die fixe Anzahl von Überschreibsteinen kommt unserer KI auch entgegen, da sie momentan manchmal noch schlecht auf Bonussteine zieht. Die Transitionen sind auf dem Bild ausgeblendet, da sie sonst verdecken würden. Sie verbinden von allen Seiten die verschiedenen abgeschnittenen Teile der Karte, sodass die Spieler gut in sie vordringen können. Dabei helfen auch die zahlreichen Expansionssteine. Das fehlen von Inversionssteinen und die mit nur zwei Fällen vertretenen Choisesteine, zeigen die Präferenz unseres Teams, diese nicht zu verwenden, da uns sonst die wichtigen Ecken, zu oft weggenommen werden und das Spielergebnis zufälliger wird.
 	
 	% ----------------------------------------------------------------------------------
 	% Kapitel: Anforderungen an einen Reversi-Replayer
 	% ----------------------------------------------------------------------------------
 	\section{Anforderungen an einen Reversi-Replayer}
 	\vspace{1em}
-	%TODO Korrekturlesen
 	%Stellen Sie in der Gruppe eine Liste von mindestens f¨unf unterschiedlichen Anforderungen an einen Reversi-Replayer bzw. an das von Herrn Krapﬂ (Bachelorand) vorgestellte Tool zusammen.
 	
 	In diesem Kapitel geht es um Ideen zu Features, für einen ReversiXT-Replayer. Wir hoffen, dass dadurch zukünftige ReversiXT-Generationen bessere Clienten programmieren können und sich beim Fehlerfinden leichter tun.
@@ -619,162 +628,5 @@
 	Abschließend können wir \glqq ZOCK \grqq{} früheren Semestern nur empfehlen. Wir haben einiges gelernt und hatten viel Spass. Wer gern etwas mehr Zeit als bei anderen Fächern investieren möchte, dafür aber viel mitnehmen will ist hier genau richtig.
 
     \newpage
-    
-    
-    %TODO - Folgenden Teil vor Abgabe löschen!!!!!
-    % ----------------------------------------------------------------------------------
-    % Kleine Einführung in LaTeX-Elemente
-    % ----------------------------------------------------------------------------------
-    \section{\LaTeX-Elemente}
-    Dieser Abschnitt soll nicht Bestandteil des Projektberichtes sein, sondern beinhaltet lediglich einige Informationen über \LaTeX-Distributionen, Editoren und \LaTeX-Elemente, die Ihnen beim Einstieg in das \LaTeX-Textsatzsystem helfen sollen.
-
-    \subsection{\LaTeX-Distributionen nach Betriebssystemen}
-
-    \subsubsection{\LaTeX-Distributionen}
-    Folgende Haupt-\LaTeX-Distributionen stehen Ihnen zur Verfügung:
-    \begin{itemize}
-        \item Windows:\quad \texttt{MiKTeX}\quad Webseite:\quad\url{http://www.miktex.org}
-        \item Linux/Unix:\quad \texttt{TeX Live}\quad Webseite:\quad\url{http://tug.org/texlive/}
-        \item Mac OS:\quad \texttt{MacTeX}\quad Webseite:\quad\url{http://www.tug.org/mactex/}
-    \end{itemize}
-
-    \subsubsection{\LaTeX-Editoren}
-    Auf folgenden Webseiten können Sie einige hilfreiche \LaTeX-Editoren finden:
-    \begin{itemize}
-        \item Windows/Linux/Mac OS: \url{http://www.xm1math.net/texmaker/}
-        \item Windiws: \url{http://www.texniccenter.org/}
-        \item Mac OS: \url{http://pages.uoregon.edu/koch/texshop/}
-    \end{itemize}
-
-    Falls bei den oben genannten Editoren kein passender vorhanden war, findet sich auf Wikipedia eine Zusammenstellung vieler weiterer \LaTeX-Editoren:\\[1em]
-    \hspace*{3cm}\url{https://en.wikipedia.org/wiki/Comparison_of_TeX_editors}
-
-
-    \subsection{Unterabschnitt}
-    Zum Einfügen eines Bildes, siehe Abbildung \ref{fig:reversi01}, wird die \textit{minipage}-Umgebung genutzt, da die Bilder so gut positioniert werden können.
-
-    \vspace{1em}
-    \begin{minipage}{\linewidth}
-        \centering
-        \includegraphics[width=0.6\linewidth]{pics/gamefield01.png}
-        \captionof{figure}[Spielfeld 01]{Unbespieltes Spielfeld\footnotemark }
-        \label{fig:reversi01}
-    \end{minipage}
-    \footnotetext{Diesem Spielfeld wurden noch keine Spieler zugewiesen (daher die dunklen Spielsteine)}
-
-    Nachdem das Spielt gestartet wurde und beiden Spielphasen durchlaufen wurden, siegt schließlich der Spieler mit der Farbe rot.
-
-    \vspace{1em}
-    \begin{minipage}{\linewidth}
-        \centering
-        \includegraphics[width=0.6\linewidth]{pics/gamefield02.png}
-        \captionof{figure}[Spielfeld 02]{Finales Spielfeld\footnotemark }
-        \label{fig:reversi2}
-    \end{minipage}
-    \footnotetext{Das Spielfeld nach der Zug- und Bombenphase. Spieler rot gewinnt eindeutig.}
-    
-    \begin{wrapfigure}{r}{0.25\textwidth}
-    	\centering
-    	\includegraphics[width=0.25\textwidth]{pics/gamefield02.png}
-    	\caption{kleines Bild}
-    	\label{fig:test11111111111111}
-    \end{wrapfigure}
-Toller Text nebem dem rechts ein Tolles Bild ist. Toller Text nebem dem rechts ein Tolles Bild ist. Toller Text nebem dem rechts ein Tolles Bild ist. Toller Text nebem dem rechts ein Tolles Bild ist. Toller Text nebem dem rechts ein Tolles Bild ist.
-    \subsection{Tabellen}
-    In diesem Abschnitt wird eine Tabelle (siehe Tabelle \ref{tab:beispiel}) dargestellt.
-
-    \vspace{1em}
-    \begin{table}[!h]
-        \centering
-        \begin{tabular}{|l|l|l|}
-            \hline
-            \textbf{Name} & \textbf{Name} & \textbf{Name}\\
-            \hline
-            1 & 2 & 3\\
-            \hline
-            4 & 5 & 6\\
-            \hline
-            7 & 8 & 9\\
-            \hline
-        \end{tabular}
-        \caption{Beispieltabelle}
-        \label{tab:beispiel}
-    \end{table}
-
-
-    \subsection{Auflistung}
-    Für Auflistungen wird die \textit{enumerate}- oder \textit{itemize}-Umgebung genutzt.
-
-    \begin{itemize}
-        \item Nur
-        \item ein
-        \item Beispiel.
-    \end{itemize}
-
-    \subsection{Listings}
-    Zuletzt ein Beispiel für ein Listing, in dem Quellcode eingebunden werden kann, siehe Listing \ref{lst:arduino}.
-
-    \vspace{1em}
-    \begin{lstlisting}[caption=Arduino Beispielprogramm, label=lst:arduino]
-        int ledPin = 13;
-        void setup() {
-        pinMode(ledPin, OUTPUT);
-        }
-        void loop() {
-        digitalWrite(ledPin, HIGH);
-        delay(500);
-        digitalWrite(ledPin, LOW);
-        delay(500);
-        }
-    \end{lstlisting}
-
-    \subsection{Tipps}
-    Die Quellen befinden sich in der Datei \textit{quellen.bib}. Eine Buch- und eine Online-Quelle sind beispielhaft eingefügt. [Vgl. \cite{buch}, \cite{online}]
-
-    \pagebreak
-
-    % ----------------------------------------------------------------------------------------------------------
-    % Kapitel
-    % ----------------------------------------------------------------------------------------------------------
-    \section{Kapitel}
-    Lorem ipsum dolor sit amet.
-
-    \subsection{Unterkapitel}
-    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-    \subsection{Unterkapitel}
-    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-    \pagebreak
-
-    % ----------------------------------------------------------------------------------------------------------
-    % Literatur
-    % ----------------------------------------------------------------------------------------------------------
-    \renewcommand\refname{Quellenverzeichnis}
-    \bibliographystyle{alpha}
-    \bibliography{quellen}
-    \pagebreak
-
-    % ----------------------------------------------------------------------------------------------------------
-    % Anhang
-    % ----------------------------------------------------------------------------------------------------------
-    \pagenumbering{Roman}
-    \setcounter{page}{1}
-    \lhead{Anhang \thesection}
-
-    \begin{appendix}
-        \section*{Anhang}
-        \phantomsection
-        \addcontentsline{toc}{section}{Anhang}
-        \addtocontents{toc}{\vspace{-0.5em}}
-
-        \section{GUI}
-        Ein toller Anhang.
-
-        \subsection*{Screenshot}
-        \label{app:screenshot}
-        Unterkategorie, die nicht im Inhaltsverzeichnis auftaucht.
-
-    \end{appendix}
-
 
 \end{document}
