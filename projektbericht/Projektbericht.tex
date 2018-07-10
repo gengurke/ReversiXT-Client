@@ -521,7 +521,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	Der oben in Abbildung \ref{fig:bomben1} gezeigte Fall zeigt, mehr oder weniger was normalerweise passiert. Die KI wählt einen Zug (dicker schwarzer Rahmen), der möglichst viele gegnerische Steine umfasst, trifft dabei notwendigerweise einige unserer Steine.
+	Der oben in Abbildung \ref{fig:bomben1} gezeigte Fall zeigt, mehr oder weniger was normalerweise bei Bombenstärke 1 passiert. Die KI wählt einen Zug (dicker schwarzer Rahmen), der möglichst viele gegnerische Steine umfasst, trifft dabei notwendigerweise einige unserer Steine.
 
 	
 	\vspace{1em}
@@ -533,7 +533,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	In diesem Fall wie auf Abbildung \ref{fig:bomben2} jedoch wählt die KI den falschen Zug, da aufgrund der Sortierung der speichernden Liste der letzte maximale Zug (dicker Rahmen) realisiert wird. Der eigentlich beste Zug (gestrichelter Rahmen) wird in dieser Runde so nicht getätigt.
+	In diesem Fall wie auf Abbildung \ref{fig:bomben2} gezeigt, wählt die KI jedoch den falschen Zug, da aufgrund der Sortierung der speichernden Liste der letzte maximale Zug (dicker Rahmen) realisiert wird. Der eigentlich beste Zug (gestrichelter Rahmen) wird in dieser Runde so nicht getätigt.
 	
 	Insgesamt funktioniert unsere Implementierung zur Bombenphase gut, jedoch nicht optimal. Bis zum finalen Spiel können wir hoffentlich noch einige Verbesserungen daran vornehmen.
 	
@@ -547,7 +547,7 @@
     %Beschreiben Sie in diesem Abschnitt die Spielfelder, die Sie für den Wettbewerb eingereicht haben/einreichen wollen. Fügen Sie in diesen Abschnitt auch die entsprechenden Bilder der Karten ein, geben Sie Zusatzinformationen wie Spieleranzahl, Bombenanzahl und -stärke, Anzahl Überschreibsteine etc.\ an.
 
     %Beschreiben Sie außerdem, warum sie die jeweiligen Karten eingereicht haben: in welcher Hinsicht versprechen Sie sich von den eingereichten Karten Vorteile; in wie weit sind diese Karten auf Ihren Client und die darin implementierte Heuristik zugeschnitten, etc.
-	Im folgenden Kapitel stellen wir vier Karten vor, die unser Team für Wettkämpfe gebaut hat. Sie beinhalten Features, die unsere KI im Vergleich zu anderen, besonders gut bespielen kann. Diese Besonderheiten sind Ecken, eine fixe Anzahl von Überschreibsteinen, keine Inversions- /Choisefelder und ein großes Spielfeld. Nähere Beschreibungen zu den genannten Punkten, befinden sich in den Beschreibungen der Karten. Diese Karten sollen jedem Team die Chance geben, die Stärken der eigenen KI zu erkunden und diese durch den Entwurf der Karten, im Wettkampf für sich zu nutzen.
+	Im folgenden Kapitel stellen wir vier Karten vor, die unser Team für Wettkämpfe gebaut hat. Sie beinhalten Features, die unsere KI im Vergleich zu anderen, besonders gut bespielen kann. Diese Besonderheiten sind Ecken, eine fixe Anzahl von Überschreibsteinen, keine Inversions- /Choisefelder und ein großes Spielfeld. Nähere Beschreibungen zu den genannten Punkten, befinden sich in den Texten der einzelnen Karten. Diese Maps sollen jedem Team die Chance geben, die Stärken der eigenen KI zu erkunden und diese durch den Entwurf der Karten, im Wettkampf für sich zu nutzen.
 	
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -558,7 +558,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	Als 2-Spielermap haben wir einen kleine Karte bestehend aus zwei Pixel-Art Figuren ausgewählt. Wie in der Abbildung \ref{fig:6.1} zu sehen ist besteht die Karte aus einem Creeper und einem Skellet aus dem Spiel Minecraft. Die Karte besteht aus vielen Ecken und engen Passagen. Unsere KI sollte dadurch einen Vorteil haben. Außerdem gibt es nur 4 Choisefelder, die sehr schlecht zu erreichen sind. Wie in der Einleitung zu diesem Kapitel schon angedeutet, gibt es auch hier eine feste Anzahl von Überschreibsteinen. Dadurch hat unsere KI keinen Nachteil, da sie momentan Bonusfelder nicht optimal nutzt. Insgesamt kann unsere KI zwar ihre \glqq Vorliebe \grqq{} für große Spielfelder hier nicht ausleben, sollte jedoch wegen den vielen Ecken erfolgreich sein.
+	Als 2-Spielermap haben wir einen kleine Karte bestehend aus zwei Pixel-Art Figuren erstellt. Wie in der Abbildung \ref{fig:6.1} zu sehen ist besteht die Karte aus einem Creeper und einem Skellet aus dem Spiel Minecraft. Die Karte besteht aus vielen Ecken und engen Passagen. Unsere KI sollte dadurch einen Vorteil haben. Außerdem gibt es nur 4 Choisefelder, die sehr schlecht zu erreichen sind. Wie in der Einleitung zu diesem Kapitel schon angedeutet, gibt es auch hier eine feste Anzahl von Überschreibsteinen. Dadurch hat unsere KI keinen Nachteil, da sie momentan Bonusfelder nicht optimal nutzt. Insgesamt kann unsere KI zwar ihre \glqq Vorliebe \grqq{} für große Spielfelder hier nicht ausleben, sollte jedoch wegen den vielen Ecken erfolgreich sein.
 	
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -569,7 +569,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	In den bisher gespielten Matches haben wir herausgefunden, dass unsere KI besonders gut ist die Ecken einer Karte zu erobern. Aufgrund der Tatsache, dass Ecken besonders wertvolle Felder auf der Karte sind, haben wir unsere 3-Spielermap so erstellt, dass es mehr Ecken als bei der Standardkarte gibt. In Abbildung \ref{fig:6.3} kann man erkennen, dass wir hierfür 2 Ringe aus Mauern in die Karte eingebaut haben und dadurch die Anzahl der Ecken auf 12 erhöht haben.
+	In den bisher gespielten Matches haben wir herausgefunden, dass unsere KI besonders gut die Ecken einer Karte erobert. Aufgrund der Tatsache, dass Ecken besonders wertvolle Felder auf der Karte sind, haben wir unsere 3-Spielermap so erstellt, dass es mehr Ecken als bei der Standardkarte gibt. In Abbildung \ref{fig:6.3} kann man erkennen, dass wir hierfür 2 Ringe aus Mauern in die Karte eingebaut haben und dadurch die Anzahl der Ecken auf 12 erhöht haben.
 	
 	\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -580,7 +580,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	Unsere 4-Spielermap ist eine große Karte mit einem kleinen Tannenbaum in der Mitte. Da unsere KI auf großen Karten mit einigen Überschreibsteinen besonders gut zu sein scheint haben wir versucht das mit dieser Karte umzusetzen. Eine Schwierigkeit für die KIs bei dieser Karte könnte sein, dass die 4 \glqq echten\grqq{} Ecken deutlich wertvoller sind, als die vielen \glqq unwichtigen \grqq{} Ecken im Tannenbaum. Diese haben eher weniger Relevanz, da durch sie nicht besonders viele Steine umgefärbt werden können.
+	Unsere 4-Spielermap ist eine große Karte mit einem kleinen Tannenbaum in der Mitte. Da unsere KI auf großen Karten mit einigen Überschreibsteinen besonders gut zu sein scheint, haben wir versucht, das mit dieser Karte umzusetzen. Eine Schwierigkeit für die KIs bei dieser Karte könnte sein, dass die 4 \glqq echten\grqq{} Ecken deutlich wertvoller sind, als die vielen \glqq unwichtigen \grqq{} Ecken im Tannenbaum. Diese haben eher weniger Relevanz, da durch sie nicht besonders viele Steine umgefärbt werden können.
 	
 		\vspace{1em}
 	\begin{minipage}{\linewidth}
@@ -591,7 +591,7 @@
 	\end{minipage}
 	\vspace{1em}
 	
-	 Auf Abbildung \ref{fig:6.4} erkennt man, dass unsere 8-Spielermap das Supermanlogo abbildet. Dadurch dass, das Logo viele schräge und runde Elemente hat, entstehen sehr viele sichere Felder und Ecken. Die fixe Anzahl von Überschreibsteinen kommt unserer KI auch entgegen, da sie momentan manchmal noch schlecht auf Bonussteine zieht. Die Transitionen sind auf dem Bild ausgeblendet, da sie sonst verdecken würden. Sie verbinden von allen Seiten die verschiedenen abgeschnittenen Teile der Karte, sodass die Spieler gut in sie vordringen können. Dabei helfen auch die zahlreichen Expansionssteine. Das fehlen von Inversionssteinen und die mit nur zwei Fällen vertretenen Choisesteine, zeigen die Präferenz unseres Teams, diese nicht zu verwenden, da uns sonst die wichtigen Ecken, zu oft weggenommen werden und das Spielergebnis zufälliger wird.
+	 Auf Abbildung \ref{fig:6.4} erkennt man, dass unsere 8-Spielermap das Supermanlogo abbildet. Dadurch dass, das Logo viele schräge und runde Elemente hat, entstehen sehr viele sichere Felder und Ecken. Die fixe Anzahl von Überschreibsteinen kommt unserer KI ebenfalls entgegen, da sie momentan manchmal noch schlecht auf Bonussteine zieht. Die Transitionen sind auf dem Bild ausgeblendet, da sie sonst verdecken würden. Sie verbinden von allen Seiten die verschiedenen, abgeschnittenen Teile der Karte, sodass die Spieler gut in sie vordringen können. Dabei helfen auch die zahlreichen Expansionssteine. Das fehlen von Inversionssteinen und die mit nur zwei Fällen vertretenen Choisesteine, zeigen die Präferenz unseres Teams, diese nicht zu verwenden, da uns sonst die wichtigen Ecken, zu oft weggenommen werden und das Spielergebnis zufälliger wird.
 	
 	% ----------------------------------------------------------------------------------
 	% Kapitel: Anforderungen an einen Reversi-Replayer
@@ -606,11 +606,11 @@
 	
 	\textbf{Anforderung 2:} Eine weitere Idee ist es, die Standardausgabe jedes Clienten sichtbar zu machen und diese auch schrittweise nachvollziehbar zu machen. Das würde das Debugging erleichtern und den Gruppen die Möglichkeit geben, durch übersichtliche Ausgaben den Ablauf des Spiels Verständlicher zu machen.
 	
-	\textbf{Anforderung 3:} Den Gruppen durch ein Interface erlauben, online eigene Spiele mit eigenen Parametern wie Tiefe und Zeit zu starten. Dort sollen die Spieler außerdem ihre Gegner und die Karte auf der gespielt werden soll ausgewählt werden. Natürlich muss das Testen durch eine Art Kontingentsystem limitiert sein, dass die Gruppen das Spielsystem nicht ausnützen können. 
+	\textbf{Anforderung 3:} Den Gruppen sollte es durch ein Interface erlaubt sein, online eigene Spiele mit eigenen Parametern wie Tiefe und Zeit zu starten. Dort sollen die Spieler außerdem ihre Gegner und die Karte auf der gespielt werden soll ausgewählten dürfen. Natürlich müssen diese Spiele durch eine Art Kontingentsystem limitiert sein, sodass die Gruppen das Spielsystem nicht ausnützen können. 
 	
-	\textbf{Anforderung 4:} Eine Profilsystem würde sich anbieten. In diesem System werden alle vergangenen Spiele gespeichert. Ein Vergleichsfeature macht es möglich Spiele miteinander zu vergleichen. Z.B Spiele auf der gleichen Karte gegen den gleichen Gegner könnte man über den Verlauf des Semesters vergleichen und so eine Verbesserung/Verschlechterung feststellen.
+	\textbf{Anforderung 4:} Eine Profilsystem würde sich außerdem anbieten. In diesem System werden alle vergangenen Spiele gespeichert. Ein Vergleichsfeature macht es möglich Spiele miteinander zu vergleichen. Z.B Spiele auf der gleichen Karte gegen den gleichen Gegner könnte man über den Verlauf des Semesters vergleichen und so eine Verbesserung/Verschlechterung feststellen.
 	
-	\textbf{Anforderung 5:} Als Erweiterung der Anforderung 3 \& 4 könnte man dem System zusätzlich zu Karte und Gegner, Parameter für den eigenen Clienten mitgeben, z.B. verschiedene Werte um die Heuristik zu testen. Im Zusammenspielt mit dem Vergleichsfeature und vielen Spielen könnte man so ein gutes Tool bauen um optimale Werte für Heuristik, aspiration windows und iterative deepening zu finden.
+	\textbf{Anforderung 5:} Als Erweiterung der Anforderung 3 \& 4 könnte man dem System zusätzlich zu Karte und Gegner, Parameter für den eigenen Clienten mitgeben, z.B. verschiedene Werte um die Heuristik zu testen. Im Zusammenspielt mit dem Vergleichsfeature und automatisierten Spielen, könnte man so ein gutes Tool bauen um optimale Werte für Heuristik, aspiration windows und iterative deepening zu finden.
 	
 	Insgesamt ist der Replayer eine super Idee, um die Teams bei der Fehlerfindung und der Verbesserung ihrer KI-Clienten zu unterstützen. Wir hoffen Herr Krapfl kann aus unseren Vorschäge für seine Bachelorarbeit nützliche Ideen ziehen.
 	
@@ -621,10 +621,10 @@
     \section{Fazit}
     \vspace{1em}
     %Beschreiben Sie in diesem Abschnitt u.a.\ was Ihnen an diesem Fach gefallen hat und welche Verbesserungsvorschläge Sie für künftige Veranstaltungen haben. Was konnten Sie dazulernen, in welchen Bereichen haben Sie sich verbessert. Welche Problemsituationen gab es während der Projekterstellung, wie sind Sie diese angegangen und wie haben Sie diese gelöst. Was haben Sie evtl.\ vermisst.
-	Die Vorfreude in unserem Team auf diese Projekt war groß. Die Vorstellung, ein eigenes Projekt von Anfang bis Ende zu gestalten, hat alle motiviert. Am Ende des Semesters angekommen, kann man sagen, dass Vorstellung und Realität sich aber doch sehr von einander unterscheiden. In der Überlegung ist immer alles einfacher und funktioniert problemloser. In der Realität komm es aber doch immer anders. Im Verlauf der Zeit, sind wir auf Probleme, fachspezifischer aber auch menschlicher Art, gestoßen die uns auf die Probe gestellt haben. Vor allem in der mittleren Phase haben uns viel nervenaufreibende Bugs geplagt und teilweise schien nichts mehr zu funktionieren. Dazu hatten wir Probleme eine gute Heuristik zu erstellen und mussten diese mehrfach neu konzipieren und programmieren. Aber gerade durch diese schwierigere Zeit haben wir gelernt nicht aufzuhören und am nächsten Tag nochmal strukturiert das Problem zu analysieren. Auch unsere Programmierfähigkeiten haben sich dadurch verbessert. Vor allem haben wir viel für den späteren Berufsalltag gelernt denke ich. Dort sind Deadlines und Bugs an der Tagesordnung und es gilt diese möglichst stressfrei und strukturiert zu bearbeiten.\\
-	Insgesamt kann man sagen, dass wir mehr mitgenommen haben als anfangs gedacht und das vor allem aus verschiedenen unerwarteten Bereichen. Das ist einer der Gründe warum uns \grqq ZOCK\glqq{} gut gefallen hat. Ein weiterer ist der Wettbewerbsgedanke unter den Teams und Aachen. Auch Herr Kern selbst, der durch konstruktive Kritik alle immer \glqq auf zack\grqq{} hält, hat dazu beigetragen, dass es auch Spass macht. So war die Motivation trotz zwischenzeitlichen Schwierigkeiten hoch.\\
-	Die Ergebnisse des Projekts können sich auch sehen lassen. Die KI wird nicht mehr disqualifiziert und erreicht gute Punktewerte. Zum Zeitpunkt der Abgabe dieses Berichts haben wir noch Ideen zur Verbesserung der Heuristik und hoffen diese bis zum großen Endspiel noch umsetzten zu können. Es geht dabei darum mehr Überschreibsteine zu erspielen, da wir diese oft für spielentscheidend halten.\\
-	Allgemein schien mir das Fach gut durchdacht und erprobt. Deswegen haben wir nur einen Verbesserungsvorschlag. Die Deadline für die Abgabe des Projektberichts sollte etwas früher sein. Dadurch entstehen bei schlechtem Zeitmanagement weniger, Interessenskonflikte zwischen für die Prüfungen lernen und den Bericht fertig schreiben.\\
+	Die Vorfreude in unserem Team auf diese Projekt war groß. Die Vorstellung, ein eigenes Projekt von Anfang bis Ende zu gestalten, hat alle motiviert. Am Ende des Semesters angekommen, kann man sagen, dass Vorstellung und Realität sich aber doch sehr von einander unterscheiden. In der Überlegung ist immer alles einfacher und funktioniert problemloser. In der Realität komm es aber doch immer anders. Im Verlauf der Zeit, sind wir auf Probleme, fachspezifischer aber auch menschlicher Art, gestoßen die uns auf die Probe gestellt haben. Vor allem in der mittleren Phase haben uns viel, nervenaufreibende Bugs geplagt und teilweise schien nichts mehr zu funktionieren. Dazu hatten wir Probleme eine gute Heuristik zu erstellen und mussten diese mehrfach neu konzipieren und programmieren. Aber gerade durch diese schwierigere Zeit haben wir gelernt, nicht aufzuhören und am nächsten Tag nochmal strukturiert das Problem zu analysieren. Auch unsere Programmierfähigkeiten haben sich dadurch verbessert. Vor allem haben wir viel für den späteren Berufsalltag gelernt denke ich. Dort sind Deadlines und Bugs an der Tagesordnung und es gilt diese möglichst stressfrei und strukturiert zu bearbeiten.\\
+	Insgesamt kann man sagen, dass \grqq ZOCK\glqq{} uns gut gefallen hat, da wir so viel gelernt haben. Ein weiterer Grund ist der Wettbewerbsgedanke unter den Teams und Aachen. Auch Herr Kern selbst, der durch konstruktive Kritik alle immer \glqq auf zack\grqq{} hält, hat dazu beigetragen, dass es Spass macht. So war die Motivation trotz zwischenzeitlichen Schwierigkeiten hoch.\\
+	Die Ergebnisse des Projekts können sich auch sehen lassen. Die KI wird nicht mehr disqualifiziert und erreicht gute Punktewerte. Zum Zeitpunkt der Abgabe dieses Berichts haben wir noch Ideen zur Verbesserung der Heuristik und hoffen diese bis zum großen Endspiel noch umsetzten zu können. Es geht dabei darum mehr Überschreibsteine zu erspielen, da wir diese in den meisten Fällen für spielentscheidend halten.\\
+	Allgemein schien mir das Fach gut durchdacht und erprobt. Deswegen haben wir nur einen Verbesserungsvorschlag. Die Deadline für die Abgabe des Projektberichts, sollte etwas früher sein. Dadurch entstehen bei schlechtem Zeitmanagement, weniger Interessenskonflikte zwischen für die Prüfungen lernen und den Bericht fertig schreiben.\\
 	Abschließend können wir \glqq ZOCK \grqq{} früheren Semestern nur empfehlen. Wir haben einiges gelernt und hatten viel Spass. Wer gern etwas mehr Zeit als bei anderen Fächern investieren möchte, dafür aber viel mitnehmen will ist hier genau richtig.
 
     \newpage
