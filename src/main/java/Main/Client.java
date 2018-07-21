@@ -219,7 +219,7 @@ public class Client {
                             }
                             ges = (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
-                            if (zeit - ges < (ges * counter * (size + 1) * Spiel.getHoehe() * Spiel.getBreite()) / 1000) {
+                            if (zeit - ges < (ges * counter * (size + 1) * Spiel.getHoehe() * Spiel.getBreite()) / 10000) {
                                 break;
                             }
                         }
