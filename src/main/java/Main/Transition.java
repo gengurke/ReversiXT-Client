@@ -1,5 +1,8 @@
 package Main;
 
+/**
+ * Diese Klasse stellt Transitionen mit jeweils zwei X, Y und Richtungen als Attributen dar
+ */
 public class Transition {
     public int x1, y1, dir1, x2, y2, dir2;
     private Transition next;
@@ -14,6 +17,13 @@ public class Transition {
         next = null;
     }
 
+    /**
+     * Gibt zurueck ob die gegebene Transition die Ein- oder Ausgangstransition ist
+     * @param x X Koordinate der Transition
+     * @param y Y Koordinate der Transition
+     * @param dir Richtung der Tranition
+     * @return 1 falls Eingangstransition, 2 falls Ausgangstransition, 0 sonst
+     */
     public int getNumber(int x, int y, int dir) {
         if ((x == x1) && (y == y1) && (dir == dir1)) {
             return 1;
@@ -23,6 +33,11 @@ public class Transition {
         return 0;
     }
 
+    /**
+     * Gibt X Koordinate an die sich nach Durchlaufen der Transition ergibt
+     * @param number 1 Einganstransition, 2 Ausgangstransition
+     * @return neue X Koordinate
+     */
     public int getX(int number) {
         if (number == 1) {
             return x2;
@@ -33,6 +48,11 @@ public class Transition {
         }
     }
 
+    /**
+     * Gibt Y Koordinate an die sich nach Durchlaufen der Transition ergibt
+     * @param number 1 Einganstransition, 2 Ausgangstransition
+     * @return neue Y Koordinate
+     */
     public int getY(int number) {
         if (number == 1) {
             return y2;
@@ -43,6 +63,11 @@ public class Transition {
         }
     }
 
+    /**
+     * Gibt Ausgangsrichtung bei gegebender Eingangsrichtung an (entgegengesetzt)
+     * @param dir Eingangsrichtung
+     * @return Ausgangsruchtung
+     */
     public int getOppDir(int dir) {
         switch (dir) {
             case 0:
@@ -67,6 +92,9 @@ public class Transition {
         return -1;
     }
 
+    /**
+     * Set und toString Methoden der Transitionen
+     */
     public Transition getNext() {
         return next;
     }

@@ -1,5 +1,8 @@
 package Main;
 
+/**
+ * Diese Klasse ueberprueft die verbleibende Zeit eines Zuges
+ */
 public class Timer extends Thread{
     private long time,start, ende;
     private boolean istFertig = false;

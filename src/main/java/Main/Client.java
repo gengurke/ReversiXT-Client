@@ -3,6 +3,9 @@ package Main;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * In der Klasse Client findet die Kommunikation zum Server statt.
+ */
 public class Client {
     private Spielbrett Spiel;
     private byte Spielernummer;
@@ -14,31 +17,50 @@ public class Client {
     private int windowSize;
 
 
-    public Client(boolean a, boolean w, boolean s, boolean i, int tiefe, int zeit) throws IOException {
-        window = w;
-        sortierung = s;
-        AB = a;
-        info = i;
-        FileWriter fwInfo = new FileWriter("Info.txt");
-        FileWriter fwZustaende = new FileWriter("Zustaende_pro_Tiefe.txt");
-        FileWriter fwZeitGesamt = new FileWriter("Zeit_Gesamt_pro_Zug.txt");
-        bwInfo = new BufferedWriter(fwInfo);
-        bwZustaende = new BufferedWriter(fwZustaende);
-        bwZeitGesamt = new BufferedWriter(fwZeitGesamt);
-        if (zeit != 0) {
-            FileWriter fwTiefe = new FileWriter("Erreichte_Tiefe.txt");
-            FileWriter fwZeitProTiefe = new FileWriter("Zeit_pro_Tiefe.txt");
-            bwTiefe = new BufferedWriter(fwTiefe);
-            bwZeitProTiefe = new BufferedWriter(fwZeitProTiefe);
+    /**
+     * Im Konstuktor werden Informationen uebergeben, ob das Alpha-Beta-Pruning, die Zugsortierung,
+     * die Aspiration Windows und die Infoausgaben an oder ausgeschalten werden sollen
+     * @param alphaBeta true falls Alpha-Beta-Pruning an
+     * @param aspirationWindows true falls Aspiration Windows an
+     * @param zugsortierung true falls Zugsortierung an
+     * @param info true falls Infoausgabe an
+     * @param tiefe gibt an auf welche Tiefe gespilet wird (ist 0 falls auf Zeit gespielt wird)
+     * @param zeit gibt an auf welche Zeit gespilet wird (ist 0 falls auf Tiefe gespielt wird)
+     * @throws IOException
+     */
+    public Client(boolean alphaBeta, boolean aspirationWindows, boolean zugsortierung, boolean info, int tiefe, int zeit) throws IOException {
+        window = aspirationWindows;
+        sortierung = zugsortierung;
+        AB = alphaBeta;
+        this.info = info;
+        if(info) {
+            FileWriter fwInfo = new FileWriter("Info.txt");
+            FileWriter fwZustaende = new FileWriter("Zustaende_pro_Tiefe.txt");
+            FileWriter fwZeitGesamt = new FileWriter("Zeit_Gesamt_pro_Zug.txt");
+            bwInfo = new BufferedWriter(fwInfo);
+            bwZustaende = new BufferedWriter(fwZustaende);
+            bwZeitGesamt = new BufferedWriter(fwZeitGesamt);
+            if (zeit != 0) {
+                FileWriter fwTiefe = new FileWriter("Erreichte_Tiefe.txt");
+                FileWriter fwZeitProTiefe = new FileWriter("Zeit_pro_Tiefe.txt");
+                bwTiefe = new BufferedWriter(fwTiefe);
+                bwZeitProTiefe = new BufferedWriter(fwZeitProTiefe);
+            }
+            bwInfo.write("Tiefe: " + tiefe + " Zeit: " + zeit);
+            bwInfo.newLine();
+            bwInfo.write("AlphaBeta: " + alphaBeta + " Zugsortierung: " + zugsortierung + " Aspiration Windows: " + aspirationWindows);
+            bwInfo.newLine();
+            bwInfo.newLine();
         }
-        bwInfo.write("Tiefe: " + tiefe + " Zeit: " + zeit);
-        bwInfo.newLine();
-        bwInfo.write("AlphaBeta: " + a + " Zugsortierung: " + s + " Aspiration Windows: " + w);
-        bwInfo.newLine();
-        bwInfo.newLine();
     }
 
 
+    /**
+     * Stellt Verbindung zum Server her mit Hilfe von Portnummer und IP Adresse
+     * @param port Portnummer des Servers
+     * @param ip IP Adresse des Servers
+     * @throws IOException
+     */
     public void netzwerk(int port, String ip) throws IOException {
         java.net.Socket socket = new java.net.Socket(ip, port); // verbindet sich mit Server
         byte Gruppennummer = 7;
@@ -62,27 +84,39 @@ public class Client {
         while (isRunning) {
             empfangeNachricht(socket);
         }
-        bwInfo.close();
-        bwZustaende.close();
-        bwZeitGesamt.close();
-        bwTiefe.close();
-        bwZeitProTiefe.close();
+        if(info) {
+            bwInfo.close();
+            bwZustaende.close();
+            bwZeitGesamt.close();
+            bwTiefe.close();
+            bwZeitProTiefe.close();
+        }
         System.exit(0);
 
     }
 
+    /**
+     * Schreibt Nachricht an Server
+     * @param socket Socket
+     * @param nachricht zu sendende Nachricht
+     * @throws IOException
+     */
     public void schreibeNachricht(java.net.Socket socket, byte[] nachricht) throws IOException {
 
         OutputStream socketOutputStream = socket.getOutputStream();
         socketOutputStream.write(nachricht);
     }
 
+    /**
+     * Empfaengt Nachricht vom Server
+     * @param socket Socket
+     * @return gibt leeren String zurueck
+     * @throws IOException
+     */
     public String empfangeNachricht(java.net.Socket socket) throws IOException {
         InputStream socketInputStream = socket.getInputStream();
 
         byte stream[] = new byte[5];
-
-        //ArrayList <Byte> nachricht = new ArrayList<>();
 
         socketInputStream.read(stream, 0, 5);
 
@@ -97,7 +131,7 @@ public class Client {
         for (int i = 0; i < laenge; i++) {
             nachricht[i] = (char) message[i];
         }
-        // System.out.println(art);
+        //Unterscheidet nach Nachrichtentyp
         switch (art) {
             case 2:
                 return String.valueOf(nachricht);
@@ -146,10 +180,9 @@ public class Client {
                             if (AB) {
                                 temp = Spiel.alphaBeta(counter, Spielernummer, clock, alpha, beta, sortierung);
                             } else {
-                                temp = Spiel.sucheZug(counter, Spielernummer, clock, alpha, beta, sortierung);
+                                temp = Spiel.Paranoid(counter, Spielernummer, clock, alpha, beta, sortierung);
                             }
                             if (temp == null) {
-                                System.out.println("Abbruch Tiefe: "+counter);
                                 if (info) {
                                     ende = System.currentTimeMillis();
                                     ges = (ende - start);
@@ -166,7 +199,6 @@ public class Client {
                             } else {
                                 if (window) {
                                     System.out.println("Tiefe" + counter);
-                                    //System.out.println("Alpha: " + alpha + " Beta: " + beta + " Wert: " + temp[3]);
                                     if (temp[3] <= alpha) {
                                         alpha = Integer.MIN_VALUE;
                                         Spiel.setZustaende(0);
@@ -215,7 +247,6 @@ public class Client {
                                 bwZeitProTiefe.newLine();
                                 bwZustaende.write("" + Spiel.getZustaende());
                                 bwZustaende.newLine();
-                                //System.out.println(Spiel.getZustaende());
                             }
                             ges = (ende - start);
                             Spiel.getGueltigeZuege().listeLoeschen();
@@ -235,12 +266,11 @@ public class Client {
                         if (AB) {
                             zug = Spiel.alphaBeta(tiefe, Spielernummer, null, alpha, beta, sortierung);
                         } else {
-                            zug = Spiel.sucheZug(tiefe, Spielernummer, null, alpha, beta, sortierung);
+                            zug = Spiel.Paranoid(tiefe, Spielernummer, null, alpha, beta, sortierung);
                         }
                         if (info) {
                             bwZustaende.write("" + Spiel.getZustaende());
                             bwZustaende.newLine();
-                            //System.out.println(Spiel.getZustaende());
                             ende = System.currentTimeMillis();
                             bwZeitGesamt.write("" + (ende - start));
                             bwZeitGesamt.newLine();
@@ -250,7 +280,6 @@ public class Client {
 
                     sendeZug(zug, socket);
                     return "";
-                    //Todo unterscheidung zwischen Ueberschreibsteinzuegen und normalen Zuegen wieder rueckgaengig mache
                 }
                 break;
 
@@ -289,7 +318,6 @@ public class Client {
                 break;
             case 9:
                 isRunning = false;
-                //bw.close();
                 System.exit(1);
                 break;
         }
@@ -297,25 +325,23 @@ public class Client {
 
     }
 
+    /**
+     * Berechnet die Windowsize fuer Aspiration Windows
+     * @param spiel aktuelles Spielfeld
+     * @return
+     */
     private int windowSize(Spielbrett spiel) {
         int size = (spiel.getBreite() * spiel.getHoehe()*100 + spiel.getErsatzsteine() * 1000);
         System.out.println("Windowsize: " + size);
         return size;
     }
 
-    private double durchschnitt(ArrayList<Long> d) {
-        long summe = 0, counter = 0;
-        double erg;
-        for (int j = 0; j < d.size(); j++) {
-            if (d.get(j) != 0) {
-                summe = summe + d.get(j);
-                counter++;
-            }
-        }
-        erg = ((double) summe / (double) counter);
-        return erg;
-    }
-
+    /**
+     * Sendet Zug an Server
+     * @param zug int Array mit X und Y Koordinaten des Zuges und mit Wahl des Sonderfeldes
+     * @param socket Socket
+     * @throws IOException
+     */
     public void sendeZug(int[] zug, java.net.Socket socket) throws IOException {
         byte laenge = 5;
         byte nachricht[];
@@ -340,6 +366,11 @@ public class Client {
     }
 
 
+    /**
+     * Gibt Laenge der Nachricht zurueck
+     * @param bytes byte Array mit Nachricht
+     * @return
+     */
     private int getlaenge(byte[] bytes) {
 
         int value = 0;

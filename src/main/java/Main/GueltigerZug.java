@@ -1,5 +1,8 @@
 package Main;
 
+/**
+ * Diese Klasse stellt Gueltige Zuege dar, mit den Attributen X und Y Koordinate und trivialer Heuristik Wert
+ */
 public class GueltigerZug {
     private int x, y, wert;
     private GueltigerZug next;
@@ -10,6 +13,10 @@ public class GueltigerZug {
         this.wert = w;
         next = null;
     }
+
+    /**
+     * Get und Set Methoden der Attribute
+     */
 
     public int getX() {
         return x;
