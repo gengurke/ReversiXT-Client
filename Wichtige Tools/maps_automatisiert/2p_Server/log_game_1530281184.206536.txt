@@ -1,0 +1,76 @@
+Starting game with map ../maps_2p/2014_comp_2_2p.map
+Server is listening on port 7777
+
+2
+0
+0 3
+29 29
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 0
+0 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 1 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 b 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 b 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 0
+0 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 1 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+Player 1 is group 0
+Player 2 is group 7
+
+timelimit 2.000000, depthlimit 1
+
+move 0: player 1 moved (26,28,0). time left: 1258 msecs
+move 1: player 2 moved (25,26,0). time left: 911 msecs
+move 2: player 1 moved (24,25,0). time left: 2225 msecs
+move 3: player 2 moved (24,26,0). time left: 1149 msecs
+move 4: player 1 moved (1,28,0). time left: 3762 msecs
+move 5: player 2 moved (23,24,0). time left: 1671 msecs
+move 6: player 1 moved (22,23,0). time left: 4888 msecs
+move 7: player 2 moved (27,3,0). time left: 1687 msecs
+move 8: player 1 moved (28,26,0). time left: 5312 msecs
+move 9: player 2 moved (2,3,0). time left: 1182 msecs
+move 10: player 1 moved (24,27,0). time left: 6056 msecs
+move 11: player 2 moved (0,28,0). time left: 2092 msecs
+move 12: player 1 moved (3,26,0). time left: 5585 msecs
+move 13: player 2 moved (3,25,0). time left: 2461 msecs
+move 14: player 1 moved (3,24,0). time left: 5766 msecs
+move 15: player 2 moved (25,1,0). time left: 1813 msecs
+move 16: player 1 moved (3,3,0). time left: 6633 msecs
+move 17: player 2 moved (4,3,0). time left: 1092 msecs
+move 18: player 1 moved (4,4,21). time left: 7434 msecs
+move 19: player 2 moved (4,5,0). time left: 105 msecs
+move 20: player 1 moved (0,28,0). time left: 5397 msecs
+move 21: player 2 moved (0,0,0). time left: 1555 msecs
+reached terminal phase
+
+Scores:
+Player 1: 21 points
+Player 2: 16 points
+
+reached final phase
+
+Scores:
+Player 1: 21 points
+Player 2: 16 points
+

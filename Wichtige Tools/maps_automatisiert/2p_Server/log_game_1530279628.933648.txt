@@ -1,0 +1,217 @@
+Starting game with map ../maps_2p/2013_comp_9_2p.map
+Server is listening on port 7777
+
+2
+0
+1 2
+14 14
+- x b 0 0 0 0 0 0 0 0 b x -
+x - 0 0 0 0 0 0 0 0 0 0 - x
+b 0 - 0 0 0 0 0 0 0 0 - 0 b
+0 0 0 - 0 0 0 0 0 0 - 0 0 0
+0 0 0 0 c 0 0 0 0 c 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 2 1 0 0 0 0 0 0
+0 0 0 0 0 0 1 2 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 c 0 0 0 0 c 0 0 0 0
+0 0 0 - 0 0 0 0 0 0 - 0 0 0
+b 0 - 0 0 0 0 0 0 0 0 - 0 b
+x - 0 0 0 0 0 0 0 0 0 0 - x
+- x b 0 0 0 0 0 0 0 0 b x -
+
+Player 1 is group 0
+Player 2 is group 7
+
+timelimit 2.000000, depthlimit 1
+
+move 0: player 1 moved (7,8,0). time left: 1079 msecs
+move 1: player 2 moved (6,8,0). time left: 650 msecs
+move 2: player 1 moved (5,8,0). time left: 1734 msecs
+move 3: player 2 moved (8,6,0). time left: 106 msecs
+move 4: player 1 moved (9,5,0). time left: 2622 msecs
+move 5: player 2 moved (7,9,0). time left: 1089 msecs
+move 6: player 1 moved (5,6,0). time left: 2962 msecs
+move 7: player 2 moved (4,8,0). time left: 859 msecs
+move 8: player 1 moved (7,10,0). time left: 2249 msecs
+move 9: player 2 moved (10,4,0). time left: 1358 msecs
+move 10: player 1 moved (3,8,0). time left: 2863 msecs
+move 11: player 2 moved (4,6,0). time left: 107 msecs
+move 12: player 1 moved (11,3,0). time left: 3788 msecs
+move 13: player 2 moved (7,11,0). time left: 680 msecs
+move 14: player 1 moved (3,6,0). time left: 4068 msecs
+move 15: player 2 moved (12,2,0). time left: 1200 msecs
+move 16: player 1 moved (9,6,0). time left: 4766 msecs
+move 17: player 2 moved (4,5,0). time left: 90 msecs
+move 18: player 1 moved (7,12,0). time left: 3756 msecs
+move 19: player 2 moved (5,9,0). time left: 107 msecs
+move 20: player 1 moved (4,4,2). time left: 3612 msecs
+move 21: player 2 moved (9,4,1). time left: 108 msecs
+move 22: player 1 moved (6,9,0). time left: 2451 msecs
+move 23: player 2 moved (5,7,0). time left: 962 msecs
+move 24: player 1 moved (4,9,1). time left: 2584 msecs
+move 25: player 2 moved (7,13,0). time left: 147 msecs
+move 26: player 1 moved (8,11,0). time left: 3742 msecs
+move 27: player 2 moved (2,8,0). time left: 119 msecs
+move 28: player 1 moved (8,9,0). time left: 3663 msecs
+move 29: player 2 moved (5,10,0). time left: 120 msecs
+move 30: player 1 moved (1,8,0). time left: 3475 msecs
+move 31: player 2 moved (8,5,0). time left: 111 msecs
+move 32: player 1 moved (6,11,0). time left: 2363 msecs
+move 33: player 2 moved (8,10,0). time left: 117 msecs
+move 34: player 1 moved (9,9,1). time left: 3164 msecs
+move 35: player 2 moved (9,12,0). time left: 119 msecs
+move 36: player 1 moved (6,10,0). time left: 3347 msecs
+move 37: player 2 moved (3,9,0). time left: 125 msecs
+move 38: player 1 moved (5,5,0). time left: 3006 msecs
+move 39: player 2 moved (2,6,0). time left: 1088 msecs
+move 40: player 1 moved (10,13,0). time left: 1802 msecs
+move 41: player 2 moved (9,10,0). time left: 114 msecs
+move 42: player 1 moved (1,6,0). time left: 3153 msecs
+move 43: player 2 moved (4,10,0). time left: 119 msecs
+move 44: player 1 moved (9,11,0). time left: 2576 msecs
+move 45: player 2 moved (10,9,0). time left: 117 msecs
+move 46: player 1 moved (5,11,0). time left: 2313 msecs
+move 47: player 2 moved (0,8,0). time left: 107 msecs
+move 48: player 1 moved (9,8,0). time left: 3676 msecs
+move 49: player 2 moved (4,11,0). time left: 107 msecs
+move 50: player 1 moved (3,11,0). time left: 4894 msecs
+move 51: player 2 moved (2,12,0). time left: 109 msecs
+move 52: player 1 moved (3,7,0). time left: 5094 msecs
+move 53: player 2 moved (5,4,0). time left: 111 msecs
+move 54: player 1 moved (5,3,0). time left: 5092 msecs
+move 55: player 2 moved (6,4,0). time left: 119 msecs
+move 56: player 1 moved (8,7,0). time left: 5974 msecs
+move 57: player 2 moved (3,4,0). time left: 1037 msecs
+move 58: player 1 moved (7,5,0). time left: 5565 msecs
+move 59: player 2 moved (10,6,0). time left: 98 msecs
+move 60: player 1 moved (11,6,0). time left: 4620 msecs
+move 61: player 2 moved (6,5,0). time left: 120 msecs
+move 62: player 1 moved (2,4,0). time left: 4235 msecs
+move 63: player 2 moved (0,6,0). time left: 1183 msecs
+move 64: player 1 moved (11,10,0). time left: 4100 msecs
+move 65: player 2 moved (12,6,0). time left: 100 msecs
+move 66: player 1 moved (1,9,0). time left: 4211 msecs
+move 67: player 2 moved (12,11,0). time left: 822 msecs
+move 68: player 1 moved (13,6,0). time left: 3881 msecs
+move 69: player 2 moved (8,4,0). time left: 107 msecs
+move 70: player 1 moved (9,3,0). time left: 4629 msecs
+move 71: player 2 moved (3,5,0). time left: 109 msecs
+move 72: player 1 moved (8,13,0). time left: 5305 msecs
+move 73: player 2 moved (1,7,0). time left: 945 msecs
+move 74: player 1 moved (1,5,0). time left: 2996 msecs
+move 75: player 2 moved (2,10,0). time left: 109 msecs
+move 76: player 1 moved (4,7,0). time left: 4063 msecs
+move 77: player 2 moved (1,4,0). time left: 1026 msecs
+move 78: player 1 moved (0,4,0). time left: 5160 msecs
+move 79: player 2 moved (4,3,0). time left: 106 msecs
+move 80: player 1 moved (4,2,0). time left: 4613 msecs
+move 81: player 2 moved (10,11,0). time left: 105 msecs
+move 82: player 1 moved (1,10,0). time left: 5825 msecs
+move 83: player 2 moved (2,7,0). time left: 887 msecs
+move 84: player 1 moved (9,7,0). time left: 6484 msecs
+move 85: player 2 moved (2,3,0). time left: 105 msecs
+move 86: player 1 moved (4,12,0). time left: 6463 msecs
+move 87: player 2 moved (1,11,0). time left: 849 msecs
+move 88: player 1 moved (2,5,0). time left: 6532 msecs
+move 89: player 2 moved (7,4,0). time left: 679 msecs
+move 90: player 1 moved (11,4,0). time left: 6723 msecs
+move 91: player 2 moved (4,13,0). time left: 106 msecs
+move 92: player 1 moved (11,12,0). time left: 6734 msecs
+move 93: player 2 moved (9,2,0). time left: 963 msecs
+move 94: player 1 moved (9,1,0). time left: 7368 msecs
+move 95: player 2 moved (0,10,0). time left: 104 msecs
+move 96: player 1 moved (2,9,0). time left: 7697 msecs
+move 97: player 2 moved (0,3,0). time left: 104 msecs
+move 98: player 1 moved (0,2,21). time left: 2588 msecs
+move 99: player 2 moved (10,2,0). time left: 408 msecs
+move 100: player 1 moved (11,1,0). time left: 3838 msecs
+move 101: player 2 moved (8,0,0). time left: 106 msecs
+move 102: player 1 moved (8,11,0). time left: 4497 msecs
+move 103: player 2 moved (4,1,0). time left: 119 msecs
+move 104: player 1 moved (5,13,0). time left: 3898 msecs
+move 105: player 2 moved (1,3,0). time left: 1115 msecs
+move 106: player 1 moved (0,11,21). time left: 4038 msecs
+move 107: player 2 moved (10,0,0). time left: 121 msecs
+move 108: player 1 moved (9,0,0). time left: 5195 msecs
+move 109: player 2 moved (8,2,0). time left: 99 msecs
+move 110: player 1 moved (1,2,0). time left: 5917 msecs
+move 111: player 2 moved (9,13,0). time left: 109 msecs
+move 112: player 1 moved (11,0,21). time left: 7269 msecs
+move 113: player 2 moved (6,13,0). time left: 857 msecs
+move 114: player 1 moved (3,13,0). time left: 6724 msecs
+move 115: player 2 moved (0,9,0). time left: 105 msecs
+move 116: player 1 moved (4,0,0). time left: 6457 msecs
+move 117: player 2 moved (7,3,0). time left: 1032 msecs
+move 118: player 1 moved (0,10,0). time left: 6647 msecs
+move 119: player 2 moved (6,12,0). time left: 106 msecs
+move 120: player 1 moved (5,12,0). time left: 3905 msecs
+move 121: player 2 moved (8,8,0). time left: 114 msecs
+move 122: player 1 moved (9,5,0). time left: 1938 msecs
+move 123: player 2 moved (10,5,0). time left: 1112 msecs
+move 124: player 1 moved (8,12,0). time left: 3584 msecs
+move 125: player 2 moved (10,7,0). time left: 1553 msecs
+move 126: player 1 moved (11,7,0). time left: 4448 msecs
+move 127: player 2 moved (10,8,0). time left: 107 msecs
+move 128: player 1 moved (0,7,0). time left: 5278 msecs
+move 129: player 2 moved (6,2,0). time left: 1377 msecs
+move 130: player 1 moved (11,5,0). time left: 5578 msecs
+move 131: player 2 moved (10,12,0). time left: 109 msecs
+move 132: player 1 moved (11,13,21). time left: 6484 msecs
+move 133: player 2 moved (6,3,0). time left: 109 msecs
+move 134: player 1 moved (6,1,0). time left: 4035 msecs
+move 135: player 2 moved (12,5,0). time left: 1179 msecs
+move 136: player 1 moved (13,5,0). time left: 2507 msecs
+move 137: player 2 moved (3,12,0). time left: 1331 msecs
+move 138: player 1 moved (2,13,21). time left: 3739 msecs
+move 139: player 2 moved (12,8,0). time left: 1938 msecs
+move 140: player 1 moved (10,6,0). time left: 4811 msecs
+move 141: player 2 moved (5,1,0). time left: 101 msecs
+move 142: player 1 moved (13,9,0). time left: 4154 msecs
+move 143: player 2 moved (11,8,0). time left: 1194 msecs
+move 144: player 1 moved (12,7,0). time left: 4750 msecs
+move 145: player 2 moved (11,9,0). time left: 108 msecs
+move 146: player 1 moved (12,9,0). time left: 5644 msecs
+move 147: player 2 moved (12,10,0). time left: 1158 msecs
+move 148: player 1 moved (13,11,21). time left: 4577 msecs
+move 149: player 2 moved (12,4,0). time left: 126 msecs
+move 150: player 1 moved (13,5,0). time left: 5924 msecs
+move 151: player 2 moved (8,3,0). time left: 106 msecs
+move 152: player 1 moved (13,10,0). time left: 6812 msecs
+move 153: player 2 moved (0,5,0). time left: 109 msecs
+move 154: player 1 moved (0,5,0). time left: 7902 msecs
+move 155: player 2 moved (12,3,0). time left: 789 msecs
+move 156: player 1 moved (13,7,0). time left: 5968 msecs
+move 157: player 2 moved (13,8,0). time left: 1647 msecs
+move 158: player 1 moved (13,4,0). time left: 4823 msecs
+move 159: player 2 moved (13,3,0). time left: 1983 msecs
+move 160: player 1 moved (13,2,21). time left: 5039 msecs
+move 161: player 2 moved (6,0,0). time left: 2687 msecs
+move 162: player 1 moved (7,2,0). time left: 6402 msecs
+move 163: player 2 moved (8,1,0). time left: 2613 msecs
+move 164: player 1 moved (7,0,0). time left: 7687 msecs
+move 165: player 2 moved (3,2,0). time left: 4224 msecs
+move 166: player 1 moved (2,1,0). time left: 8647 msecs
+move 167: player 2 moved (3,1,0). time left: 6049 msecs
+move 168: player 1 moved (11,8,0). time left: 8328 msecs
+move 169: player 1 moved (7,1,0). time left: 10271 msecs
+move 170: player 2 moved (2,0,21). time left: 8018 msecs
+move 171: player 1 moved (5,2,0). time left: 12254 msecs
+move 172: player 2 moved (10,1,0). time left: 10004 msecs
+move 173: player 1 moved (5,0,0). time left: 14250 msecs
+move 174: player 2 moved (13,12,0). time left: 11771 msecs
+move 175: player 1 moved (3,0,0). time left: 16250 msecs
+reached terminal phase
+
+Scores:
+Player 1: 160 points
+Player 2: 13 points
+
+move 176: player 2 moved (1,0,0). time left: 13771 msecs
+move 177: player 1 moved (4,0,0). time left: 18250 msecs
+reached final phase
+
+Scores:
+Player 1: 145 points
+Player 2: 12 points
+
